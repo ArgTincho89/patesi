@@ -1,33 +1,33 @@
 # 🧪 Patesi
 
-**SDET AI Agent for [opencode](https://opencode.ai)** — QA engineer with ISTQB knowledge, test strategy, automation, and project learning.
+**Agente SDET de IA para [opencode](https://opencode.ai)** — Ingeniero QA con conocimiento ISTQB, estrategia de testing, automatización y aprendizaje por proyecto.
 
-Patesi is a modular, skill-based AI agent that brings professional Software Development Engineer in Test (SDET) capabilities to any project through [opencode](https://opencode.ai). It applies ISTQB-certified methodologies to help developers and QA engineers build better software.
+Patesi es un agente modular basado en skills que trae capacidades profesionales de Software Development Engineer in Test (SDET) a cualquier proyecto a través de [opencode](https://opencode.ai). Aplica metodologías certificadas por ISTQB para ayudar a desarrolladores e ingenieros QA a construir mejor software.
 
-## ✨ Features
+## ✨ Características
 
-| Skill | Description |
+| Skill | Descripción |
 |-------|-------------|
-| **ISTQB Knowledge** | Foundation + Advanced Core reference for testing terminology and techniques |
-| **Test Strategy** | Generates comprehensive test strategies from user stories |
-| **Risk Analysis** | Analyzes features for testing risks with weighted scoring |
-| **Test Cases** | Generates structured, traceable test cases |
-| **Test Classification** | Classifies tests into S/M/L/XL suites for CI/CD |
-| **Automation** | Generates Playwright + TypeScript frameworks |
-| **CI/CD** | Creates pipeline configs (GitHub Actions, GitLab CI, Jenkins) |
-| **MR Analysis** | Analyzes merge requests for test impact |
-| **Project Learning** | Stores project-specific QA patterns via Engram |
+| **Conocimiento ISTQB** | Referencia Foundation + Advanced Core para terminología y técnicas de testing |
+| **Estrategia de Testing** | Genera estrategias completas a partir de user stories |
+| **Análisis de Riesgos** | Analiza features buscando riesgos con scoring ponderado |
+| **Casos de Prueba** | Genera casos de prueba estructurados y trazables |
+| **Clasificación de Tests** | Clasifica tests en suites S/M/L/XL para CI/CD |
+| **Automatización** | Genera frameworks Playwright + TypeScript |
+| **CI/CD** | Crea configs de pipeline (GitHub Actions, GitLab CI, Jenkins) |
+| **Análisis de MRs** | Analiza merge requests buscando impacto en testing |
+| **Aprendizaje por Proyecto** | Almacena patrones QA específicos del proyecto con Engram |
 
-## 🚀 Quick Start
+## 🚀 Inicio Rápido
 
-### Prerequisites
+### Prerrequisitos
 
-- [opencode](https://opencode.ai) installed and configured
-- Node.js 20+ (for Playwright test execution)
+- [opencode](https://opencode.ai) instalado y configurado
+- Node.js 20+ (para ejecución de tests con Playwright)
 
-### Installation
+### Instalación
 
-#### Option 1: Install Script (Recommended)
+#### Opción 1: Script de Instalación (Recomendado)
 
 **Linux/macOS:**
 ```bash
@@ -43,11 +43,11 @@ cd patesi
 .\scripts\install.ps1
 ```
 
-#### Option 2: Manual Installation
+#### Opción 2: Instalación Manual
 
-1. Copy `agents/sdet.md` to `~/.config/opencode/agents/`
-2. Copy all `skills/sdet-*/` directories to `~/.config/opencode/skills/`
-3. Add the agent configuration to your `opencode.json`:
+1. Copiá `agents/sdet.md` a `~/.config/opencode/agents/`
+2. Copiá todos los directorios `skills/sdet-*/` a `~/.config/opencode/skills/`
+3. Agregá la configuración del agente a tu `opencode.json`:
 
 ```json
 {
@@ -66,117 +66,117 @@ cd patesi
 }
 ```
 
-4. Restart opencode
+4. Reiniciá opencode
 
-#### Option 3: Using `skills.paths` (No Copy)
+#### Opción 3: Usando `skills.paths` (Sin Copiar)
 
-Add the cloned repo to your opencode config:
+Agregá el repo clonado a tu config de opencode:
 
 ```json
 {
   "skills": {
-    "paths": ["/path/to/patesi/skills"]
+    "paths": ["/ruta/a/patesi/skills"]
   }
 }
 ```
 
-### Usage
+### Uso
 
-1. Start opencode in your project
-2. Switch to **Patesi** agent using the **Tab** key (or type `@patesi`)
-3. Ask QA-related questions:
+1. Iniciá opencode en tu proyecto
+2. Cambiá al agente **Patesi** usando la tecla **Tab** (o escribí `@patesi`)
+3. Hacé preguntas sobre QA:
 
 ```
-# Test Strategy
-"Create a test strategy for user authentication"
+# Estrategia de Testing
+"Creame una estrategia de testing para autenticación de usuarios"
 
-# Risk Analysis
-"Analyze risks for the payment processing feature"
+# Análisis de Riesgos
+"Analizá los riesgos del feature de procesamiento de pagos"
 
-# Test Cases
-"Generate test cases for password reset"
+# Casos de Prueba
+"Generame casos de prueba para reset de contraseña"
 
-# Automation
-"Generate a Playwright framework for the login page"
+# Automatización
+"Generame un framework de Playwright para la página de login"
 
 # CI/CD
-"Create a GitHub Actions workflow for my test suite"
+"Creame un workflow de GitHub Actions para mi suite de tests"
 
-# MR Analysis
-"Analyze this MR for potential breakage"
+# Análisis de MRs
+"Analizá este MR buscando posibles roturas"
 ```
 
-## 📁 Project Structure
+## 📁 Estructura del Proyecto
 
 ```
 patesi/
 ├── agents/
-│   └── sdet.md                    # Main agent prompt
+│   └── sdet.md                    # Prompt principal del agente
 ├── skills/
 │   ├── sdet-istqb/
-│   │   └── SKILL.md               # ISTQB knowledge reference
+│   │   └── SKILL.md               # Referencia de conocimiento ISTQB
 │   ├── sdet-test-strategy/
-│   │   └── SKILL.md               # Test strategy generator
+│   │   └── SKILL.md               # Generador de estrategia de testing
 │   ├── sdet-risk-analysis/
-│   │   └── SKILL.md               # Risk analysis engine
+│   │   └── SKILL.md               # Motor de análisis de riesgos
 │   ├── sdet-test-cases/
-│   │   └── SKILL.md               # Test case generator
+│   │   └── SKILL.md               # Generador de casos de prueba
 │   ├── sdet-test-classification/
-│   │   └── SKILL.md               # Test suite classifier
+│   │   └── SKILL.md               # Clasificador de suites de testing
 │   ├── sdet-automation/
-│   │   └── SKILL.md               # Playwright+TS framework
+│   │   └── SKILL.md               # Framework Playwright+TS
 │   ├── sdet-cicd/
-│   │   └── SKILL.md               # CI/CD pipeline generator
+│   │   └── SKILL.md               # Generador de pipelines CI/CD
 │   ├── sdet-mr-analysis/
-│   │   └── SKILL.md               # MR analyzer
+│   │   └── SKILL.md               # Analizador de MRs
 │   └── sdet-project-learning/
-│       └── SKILL.md               # Project pattern learning
+│       └── SKILL.md               # Aprendizaje de patrones del proyecto
 ├── scripts/
-│   ├── install.sh                 # Linux/macOS installer
-│   └── install.ps1                # Windows installer
+│   ├── install.sh                 # Instalador Linux/macOS
+│   └── install.ps1                # Instalador Windows
 ├── examples/
-│   └── opencode.json              # Example config
+│   └── opencode.json              # Configuración de ejemplo
 ├── istqb-syllabi/
-│   └── README.md                  # ISTQB syllabi download links
+│   └── README.md                  # Links de descarga de syllabi ISTQB
 ├── README.md
 ├── LICENSE
 └── .gitignore
 ```
 
-## 🔧 Configuration
+## 🔧 Configuración
 
-### Agent Permissions
+### Permisos del Agente
 
-Patesi requires these permissions:
+Patesi requiere estos permisos:
 
-| Permission | Value | Reason |
-|-----------|-------|--------|
-| `read` | allow | Must read code and specs |
-| `edit` | allow | Must create/edit test files |
-| `write` | allow | Must generate framework files |
-| `bash` | ask | Most commands need approval |
-| `skill` | allow | Must load skills on-demand |
+| Permiso | Valor | Razón |
+|---------|-------|-------|
+| `read` | allow | Necesita leer código y specs |
+| `edit` | allow | Necesita crear/editar archivos de test |
+| `write` | allow | Necesita generar frameworks |
+| `bash` | ask | La mayoría de comandos requieren aprobación |
+| `skill` | allow | Necesita cargar skills on-demand |
 
-### Model Recommendation
+### Modelo Recomendado
 
-Patesi works best with:
-- **Primary**: `anthropic/claude-sonnet-4-6` (best balance of quality and speed)
-- **Alternative**: `anthropic/claude-haiku-4-5` (faster, good for simple tasks)
+Patesi funciona mejor con:
+- **Primario**: `anthropic/claude-sonnet-4-6` (mejor balance calidad/velocidad)
+- **Alternativa**: `anthropic/claude-haiku-4-5` (más rápido, bueno para tareas simples)
 
-Set in your `opencode.json`:
+Configurá en tu `opencode.json`:
 ```json
 {
   "model": "anthropic/claude-sonnet-4-6"
 }
 ```
 
-## 🧠 Engram Integration (Optional)
+## 🧠 Engram Integration (Opcional)
 
-Patesi can learn project-specific QA patterns using [Engram](https://github.com/nicholasgriffintn/engram) persistent memory.
+Patesi puede aprender patrones QA específicos del proyecto usando [Engram](https://github.com/nicholasgriffintn/engram) de memoria persistente.
 
-### Setup
+### Configuración
 
-1. Add Engram MCP to your `opencode.json`:
+1. Agregá Engram MCP a tu `opencode.json`:
 
 ```json
 {
@@ -190,73 +190,85 @@ Patesi can learn project-specific QA patterns using [Engram](https://github.com/
 }
 ```
 
-2. Use Patesi's project learning skill:
+2. Usá la skill de aprendizaje del proyecto:
 
 ```
-"Learn from this project's test suite"
-"Remember that we use fixtures, not page objects"
-"What patterns does this project use?"
+"Aprendé de la suite de tests de este proyecto"
+"Recordá que usamos fixtures, no page objects"
+"Qué patrones usa este proyecto?"
 ```
 
-### Without Engram
+### Sin Engram
 
-Patesi works perfectly without Engram. All skills are independent and don't require memory. You just won't have cross-session pattern recall.
+Patesi funciona perfectamente sin Engram. Todas las skills son independientes y no requieren memoria. Simplemente no tenés recall de patrones entre sesiones.
 
-## 🌍 Multi-Project Support
+## 🌍 Soporte Multi-Proyecto
 
-### Global Installation (Default)
+### Instalación Global (Por Defecto)
 
-Installed to `~/.config/opencode/` — available in all projects.
+Instalado en `~/.config/opencode/` — disponible en todos los proyectos.
 
-### Per-Project Overrides
+### Overrides por Proyecto
 
-Override skills for specific projects by creating `.opencode/skills/sdet-{name}/SKILL.md` in your project root. Project skills take precedence over global skills.
+Especificá skills para proyectos específicos creando `.opencode/skills/sdet-{name}/SKILL.md` en la raíz de tu proyecto. Los skills del proyecto tienen prioridad sobre los globales.
 
-### Cross-Machine Setup
+### Configuración entre Máquinas
 
-Patesi is just markdown files — portable across machines:
+Patesi son solo archivos markdown — portátil entre máquinas:
 
-1. Clone this repo on each machine
-2. Run the install script, or
-3. Use `skills.paths` to point to the repo location
+1. Cloná este repo en cada máquina
+2. Ejecutá el script de instalación, o
+3. Usá `skills.paths` para apuntar a la ubicación del repo
 
-## 🤝 Contributing
+## 🏢 Protocolo de Calidad Empresarial
 
-Contributions welcome! See the [CONTRIBUTING.md](CONTRIBUTING.md) guide.
+Patesi está diseñado para respetar y aplicar el protocolo de calidad de tu empresa cuando se le provee. El protocoloempresarial tiene precedencia sobre las recomendaciones generales.
 
-### Adding a New Skill
+Cuando tengás un protocolo de calidad:
+1. Patesi lo aplica a cada decisión de testing
+2. Lo referencia explícitamente en sus respuestas
+3. Señala conflictos entre ISTQB y el protocolo
+4. Nunca salta requisitos del protocolo silenciosamente
 
-1. Create `skills/sdet-{name}/SKILL.md`
-2. Follow the frontmatter format (name, description with triggers, license, metadata)
-3. Include trigger keywords in the description
-4. Add example inputs/outputs
-5. Submit a PR
+**Próximamente**: Soporte para cargar protocolos de calidad empresarial.
 
-### Improving ISTQB Knowledge
+## 🤝 Contribuciones
 
-The `sdet-istqb` skill contains condensed knowledge. To expand:
+¡Contribuciones bienvenidas! Ver la guía [CONTRIBUTING.md](CONTRIBUTING.md).
 
-1. Add new sections to `skills/sdet-istqb/SKILL.md`
-2. Keep the skill under 4K tokens for context efficiency
-3. Reference the ISTQB syllabus version
+### Agregar una Nueva Skill
 
-## 📄 License
+1. Creá `skills/sdet-{name}/SKILL.md`
+2. Seguí el formato de frontmatter (name, description con triggers, license, metadata)
+3. Incluí keywords de trigger en la descripción
+4. Agregá ejemplos de inputs/outputs
+5. Mandá un PR
 
-Apache License 2.0 — see [LICENSE](LICENSE) for details.
+### Mejorar el Conocimiento ISTQB
 
-## 🙏 Acknowledgments
+La skill `sdet-istqb` contiene conocimiento condensado. Para expandirlo:
 
-- [ISTQB](https://www.istqb.org/) for the testing methodology
-- [opencode](https://opencode.ai) for the AI agent platform
-- [Playwright](https://playwright.dev/) for the testing framework
-- The open-source community for sharing AI agent skills
+1. Agregá nuevas secciones a `skills/sdet-istqb/SKILL.md`
+2. Mantené la skill bajo 4K tokens para eficiencia de contexto
+3. Referenciá la versión del syllabus ISTQB
 
-## 📚 Resources
+## 📄 Licencia
 
-- [ISTQB Syllabi](https://www.istqb.org/certifications/) — Official certification syllabi
-- [Playwright Documentation](https://playwright.dev/docs/intro) — Testing framework docs
-- [opencode Documentation](https://opencode.ai/docs) — Agent platform docs
-- [GitHub Actions](https://docs.github.com/en/actions) — CI/CD documentation
+Apache License 2.0 — ver [LICENSE](LICENSE) para detalles.
+
+## 🙏 Agradecimientos
+
+- [ISTQB](https://www.istqb.org/) por la metodología de testing
+- [opencode](https://opencode.ai) por la plataforma de agentes de IA
+- [Playwright](https://playwright.dev/) por el framework de testing
+- La comunidad open-source por compartir skills de agentes de IA
+
+## 📚 Recursos
+
+- [Syllabi ISTQB](https://www.istqb.org/certifications/) — Syllabi oficiales de certificación
+- [Documentación de Playwright](https://playwright.dev/docs/intro) — Docs del framework de testing
+- [Documentación de opencode](https://opencode.ai/docs) — Docs de la plataforma de agentes
+- [GitHub Actions](https://docs.github.com/en/actions) — Documentación de CI/CD
 
 ---
 

@@ -53,7 +53,7 @@ cd patesi
 {
   "$schema": "https://opencode.ai/config.json",
   "agent": {
-    "sdet": {
+    "patesi": {
       "description": "Patesi — SDET AI Agent for test strategy, ISTQB knowledge, case generation, automation, and quality analysis",
       "mode": "primary",
       "prompt": "{file:./agents/sdet.md}",
@@ -83,7 +83,7 @@ Add the cloned repo to your opencode config:
 ### Usage
 
 1. Start opencode in your project
-2. Switch to the **Patesi** agent using the **Tab** key
+2. Switch to **Patesi** agent using the **Tab** key (or type `@patesi`)
 3. Ask QA-related questions:
 
 ```

@@ -45,7 +45,7 @@ cd patesi
 
 #### Opción 2: Instalación Manual
 
-1. Copiá `agents/sdet.md` a `~/.config/opencode/agents/`
+1. Copiá `agents/patesi.md` a `~/.config/opencode/agents/`
 2. Copiá todos los directorios `skills/sdet-*/` a `~/.config/opencode/skills/`
 3. Agregá la configuración del agente a tu `opencode.json`:
 
@@ -56,7 +56,7 @@ cd patesi
     "patesi": {
       "description": "Patesi — SDET AI Agent for test strategy, ISTQB knowledge, case generation, automation, and quality analysis",
       "mode": "primary",
-      "prompt": "{file:./agents/sdet.md}",
+      "prompt": "{file:./agents/patesi.md}",
       "tools": {
         "edit": true,
         "write": true

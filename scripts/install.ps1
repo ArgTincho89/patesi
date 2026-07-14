@@ -20,7 +20,7 @@ New-Item -ItemType Directory -Force -Path "$OpenCodeDir\skills" | Out-Null
 
 # Copy agent
 Write-Host "🤖 Installing agent..." -ForegroundColor Yellow
-Copy-Item -Path "$RepoDir\agents\sdet.md" -Destination "$OpenCodeDir\agents\sdet.md" -Force
+Copy-Item -Path "$RepoDir\agents\patesi.md" -Destination "$OpenCodeDir\agents\patesi.md" -Force
 Write-Host "   ✅ agents/sdet.md" -ForegroundColor Green
 
 # Copy skills

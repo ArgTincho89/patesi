@@ -30,8 +30,8 @@ mkdir -p "$OPENCODE_DIR/skills"
 
 # Copy agent
 echo "🤖 Installing agent..."
-cp "$REPO_DIR/agents/sdet.md" "$OPENCODE_DIR/agents/sdet.md"
-echo "   ✅ agents/sdet.md"
+cp "$REPO_DIR/agents/patesi.md" "$OPENCODE_DIR/agents/patesi.md"
+echo "   ✅ agents/patesi.md"
 
 # Copy skills
 echo "📚 Installing skills..."

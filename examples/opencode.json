@@ -1,0 +1,14 @@
+{
+  "$schema": "https://opencode.ai/config.json",
+  "agent": {
+    "sdet": {
+      "description": "Patesi — SDET AI Agent for test strategy, ISTQB knowledge, case generation, automation, and quality analysis",
+      "mode": "primary",
+      "prompt": "{file:./agents/sdet.md}",
+      "tools": {
+        "edit": true,
+        "write": true
+      }
+    }
+  }
+}

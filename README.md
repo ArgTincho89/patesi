@@ -25,6 +25,24 @@ Patesi es un agente modular basado en skills que trae capacidades profesionales 
 - [opencode](https://opencode.ai) instalado y configurado
 - Node.js 20+ (para ejecución de tests con Playwright)
 
+### Actualización
+
+Cuando haya nuevos cambios en el repo, actualizá con:
+
+**Windows:**
+```powershell
+cd patesi
+.\scripts\update.ps1
+```
+
+**Linux/macOS:**
+```bash
+cd patesi
+bash scripts/update.sh
+```
+
+Después reiniciá opencode.
+
 ### Instalación
 
 #### Opción 1: Script de Instalación (Recomendado)
@@ -133,9 +151,12 @@ patesi/
 │       └── SKILL.md               # Aprendizaje de patrones del proyecto
 ├── scripts/
 │   ├── install.sh                 # Instalador Linux/macOS
-│   └── install.ps1                # Instalador Windows
+│   ├── install.ps1                # Instalador Windows
+│   ├── update.sh                  # Actualizador Linux/macOS
+│   └── update.ps1                 # Actualizador Windows
 ├── examples/
 │   └── opencode.json              # Configuración de ejemplo
+├── CHANGELOG.md                   # Historial de cambios
 ├── istqb-syllabi/
 │   └── README.md                  # Links de descarga de syllabi ISTQB
 ├── README.md

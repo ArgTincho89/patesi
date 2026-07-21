@@ -1,8 +1,8 @@
 # 🧪 Patesi
 
-**Agente SDET de IA para [opencode](https://opencode.ai)** — Ingeniero QA con conocimiento ISTQB, estrategia de testing, automatización y aprendizaje por proyecto.
+**Agente SDET de IA universal** — Ingeniero QA con conocimiento ISTQB, estrategia de testing, automatización y aprendizaje por proyecto. Compatible con GitHub Copilot, Cursor, opencode y cualquier asistente de IA.
 
-Patesi es un agente modular basado en skills que trae capacidades profesionales de Software Development Engineer in Test (SDET) a cualquier proyecto a través de [opencode](https://opencode.ai). Aplica metodologías certificadas por ISTQB para ayudar a desarrolladores e ingenieros QA a construir mejor software.
+Patesi trae capacidades profesionales de Software Development Engineer in Test (SDET) a cualquier proyecto. Aplica metodologías certificadas por ISTQB para ayudar a desarrolladores e ingenieros QA a construir mejor software.
 
 ## ✨ Características
 
@@ -22,30 +22,55 @@ Patesi es un agente modular basado en skills que trae capacidades profesionales 
 
 ### Prerrequisitos
 
-- [opencode](https://opencode.ai) instalado y configurado
-- Node.js 20+ (para ejecución de tests con Playwright)
+- Cualquier IDE con IA o asistente de IA: GitHub Copilot, Cursor, opencode, Claude, ChatGPT, JetBrains AI, etc.
+- Node.js 20+ (solo necesario para ejecutar tests con Playwright, opcional)
 
-### Actualización
+### Paso 1: Clonar el repo
 
-Cuando haya nuevos cambios en el repo, actualizá con:
-
-**Windows:**
-```powershell
-cd patesi
-.\scripts\update.ps1
-```
-
-**Linux/macOS:**
 ```bash
+git clone https://github.com/ArgTincho89/patesi.git
 cd patesi
-bash scripts/update.sh
 ```
 
-Después reiniciá opencode.
+### Paso 2: Configurar tu contexto de proyecto
 
-### Instalación
+Editá la sección **Project Context** en `patesi.md` con los datos de tu proyecto (nombre, stack, CI/CD, convenciones de testing, protocolo de calidad, etc.). Cuanto más completes, más relevante será el output de Patesi.
 
-#### Opción 1: Script de Instalación (Recomendado)
+### Paso 3: Activar en tu IDE
+
+| IDE / Herramienta | Cómo activar |
+|-------------------|-------------|
+| **GitHub Copilot** (VS Code, GitHub.com) | `.github/copilot-instructions.md` se carga automáticamente. Para el contexto completo, adjuntá `patesi.md` con `#file:patesi.md` en el chat. |
+| **Cursor** | `.cursorrules` se carga automáticamente. Usá `@patesi.md` en el chat para el conocimiento completo. |
+| **opencode** | Seguí las instrucciones de la sección [opencode](#opencode). |
+| **Claude / ChatGPT / otro** | Pegá el contenido de `patesi.md` como system prompt o adjuntalo como archivo. |
+| **JetBrains AI** | Adjuntá `patesi.md` como contexto en la sesión de chat. |
+
+### Paso 4: Empezar a usar
+
+```
+# Estrategia de Testing
+"Creame una estrategia de testing para autenticación de usuarios"
+
+# Análisis de Riesgos
+"Analizá los riesgos del feature de procesamiento de pagos"
+
+# Casos de Prueba
+"Generame casos de prueba para reset de contraseña"
+
+# Automatización
+"Generame un framework de Playwright para la página de login"
+
+# CI/CD
+"Creame un workflow de GitHub Actions para mi suite de tests"
+
+# Análisis de MRs
+"Analizá este MR buscando posibles roturas"
+```
+
+---
+
+### opencode
 
 **Linux/macOS:**
 ```bash
@@ -61,7 +86,19 @@ cd patesi
 .\scripts\install.ps1
 ```
 
-#### Opción 2: Instalación Manual
+#### Instalación para opencode (Script — Recomendado)
+
+**Linux/macOS:**
+```bash
+bash scripts/install.sh
+```
+
+**Windows:**
+```powershell
+.\scripts\install.ps1
+```
+
+#### Instalación Manual para opencode
 
 1. Copiá `agents/patesi.md` a `~/.config/opencode/agents/`
 2. Copiá todos los directorios `skills/sdet-*/` a `~/.config/opencode/skills/`
@@ -84,81 +121,46 @@ cd patesi
 }
 ```
 
-4. Reiniciá opencode
+4. Reiniciá opencode.
+5. Cambiá al agente **Patesi** usando la tecla **Tab** (o escribí `@patesi`).
 
-#### Opción 3: Usando `skills.paths` (Sin Copiar)
+#### Actualización de opencode
 
-Agregá el repo clonado a tu config de opencode:
+```powershell
+# Windows
+.\scripts\update.ps1
 
-```json
-{
-  "skills": {
-    "paths": ["/ruta/a/patesi/skills"]
-  }
-}
-```
-
-### Uso
-
-1. Iniciá opencode en tu proyecto
-2. Cambiá al agente **Patesi** usando la tecla **Tab** (o escribí `@patesi`)
-3. Hacé preguntas sobre QA:
-
-```
-# Estrategia de Testing
-"Creame una estrategia de testing para autenticación de usuarios"
-
-# Análisis de Riesgos
-"Analizá los riesgos del feature de procesamiento de pagos"
-
-# Casos de Prueba
-"Generame casos de prueba para reset de contraseña"
-
-# Automatización
-"Generame un framework de Playwright para la página de login"
-
-# CI/CD
-"Creame un workflow de GitHub Actions para mi suite de tests"
-
-# Análisis de MRs
-"Analizá este MR buscando posibles roturas"
+# Linux/macOS
+bash scripts/update.sh
 ```
 
 ## 📁 Estructura del Proyecto
 
 ```
 patesi/
+├── patesi.md                          # ⭐ Agente universal (todo en uno, para cualquier IA/IDE)
+├── .github/
+│   └── copilot-instructions.md        # Carga automática en GitHub Copilot
+├── .cursorrules                        # Carga automática en Cursor
 ├── agents/
-│   └── sdet.md                    # Prompt principal del agente
+│   └── patesi.md                      # Prompt del agente para opencode (con frontmatter)
 ├── skills/
-│   ├── sdet-istqb/
-│   │   └── SKILL.md               # Referencia de conocimiento ISTQB
-│   ├── sdet-test-strategy/
-│   │   └── SKILL.md               # Generador de estrategia de testing
-│   ├── sdet-risk-analysis/
-│   │   └── SKILL.md               # Motor de análisis de riesgos
-│   ├── sdet-test-cases/
-│   │   └── SKILL.md               # Generador de casos de prueba
-│   ├── sdet-test-classification/
-│   │   └── SKILL.md               # Clasificador de suites de testing
-│   ├── sdet-automation/
-│   │   └── SKILL.md               # Framework Playwright+TS
-│   ├── sdet-cicd/
-│   │   └── SKILL.md               # Generador de pipelines CI/CD
-│   ├── sdet-mr-analysis/
-│   │   └── SKILL.md               # Analizador de MRs
-│   └── sdet-project-learning/
-│       └── SKILL.md               # Aprendizaje de patrones del proyecto
+│   ├── sdet-istqb/SKILL.md            # Referencia de conocimiento ISTQB
+│   ├── sdet-test-strategy/SKILL.md    # Generador de estrategia de testing
+│   ├── sdet-risk-analysis/SKILL.md    # Motor de análisis de riesgos
+│   ├── sdet-test-cases/SKILL.md       # Generador de casos de prueba
+│   ├── sdet-test-classification/SKILL.md  # Clasificador de suites S/M/L/XL
+│   ├── sdet-automation/SKILL.md       # Framework Playwright + TypeScript
+│   ├── sdet-cicd/SKILL.md             # Generador de pipelines CI/CD
+│   ├── sdet-mr-analysis/SKILL.md      # Analizador de MRs
+│   └── sdet-project-learning/SKILL.md # Aprendizaje de patrones del proyecto
 ├── scripts/
-│   ├── install.sh                 # Instalador Linux/macOS
-│   ├── install.ps1                # Instalador Windows
-│   ├── update.sh                  # Actualizador Linux/macOS
-│   └── update.ps1                 # Actualizador Windows
+│   ├── install.sh / install.ps1       # Instalador para opencode
+│   └── update.sh / update.ps1         # Actualizador para opencode
 ├── examples/
-│   └── opencode.json              # Configuración de ejemplo
-├── CHANGELOG.md                   # Historial de cambios
-├── istqb-syllabi/
-│   └── README.md                  # Links de descarga de syllabi ISTQB
+│   └── opencode.json                  # Configuración de ejemplo para opencode
+├── CHANGELOG.md
+├── istqb-syllabi/README.md
 ├── README.md
 ├── LICENSE
 └── .gitignore
@@ -166,9 +168,7 @@ patesi/
 
 ## 🔧 Configuración
 
-### Permisos del Agente
-
-Patesi requiere estos permisos:
+### Permisos del Agente (opencode)
 
 | Permiso | Valor | Razón |
 |---------|-------|-------|
@@ -191,13 +191,13 @@ Configurá en tu `opencode.json`:
 }
 ```
 
-## 🧠 Engram Integration (Opcional)
+## 🧠 Memoria de Proyecto (Opcional)
 
-Patesi puede aprender patrones QA específicos del proyecto usando [Engram](https://github.com/nicholasgriffintn/engram) de memoria persistente.
+Patesi puede aprender patrones QA específicos del proyecto. Hay dos formas:
 
-### Configuración
+**1. Session context (siempre disponible)**: Editá la sección "Project Context" de `patesi.md` con las convenciones de tu proyecto antes de empezar a chatear.
 
-1. Agregá Engram MCP a tu `opencode.json`:
+**2. Memoria persistente con Engram (solo opencode)**: Si tenés Engram MCP configurado, Patesi guarda y recupera patrones entre sesiones automáticamente.
 
 ```json
 {
@@ -211,35 +211,11 @@ Patesi puede aprender patrones QA específicos del proyecto usando [Engram](http
 }
 ```
 
-2. Usá la skill de aprendizaje del proyecto:
-
+Usá la skill de aprendizaje:
 ```
 "Aprendé de la suite de tests de este proyecto"
 "Recordá que usamos fixtures, no page objects"
-"Qué patrones usa este proyecto?"
 ```
-
-### Sin Engram
-
-Patesi funciona perfectamente sin Engram. Todas las skills son independientes y no requieren memoria. Simplemente no tenés recall de patrones entre sesiones.
-
-## 🌍 Soporte Multi-Proyecto
-
-### Instalación Global (Por Defecto)
-
-Instalado en `~/.config/opencode/` — disponible en todos los proyectos.
-
-### Overrides por Proyecto
-
-Especificá skills para proyectos específicos creando `.opencode/skills/sdet-{name}/SKILL.md` en la raíz de tu proyecto. Los skills del proyecto tienen prioridad sobre los globales.
-
-### Configuración entre Máquinas
-
-Patesi son solo archivos markdown — portátil entre máquinas:
-
-1. Cloná este repo en cada máquina
-2. Ejecutá el script de instalación, o
-3. Usá `skills.paths` para apuntar a la ubicación del repo
 
 ## 🏢 Protocolo de Calidad Empresarial
 

@@ -22,8 +22,8 @@ Patesi es un agente modular basado en skills que trae capacidades profesionales 
 
 ### Prerrequisitos
 
-- Un IDE con soporte de IA: [GitHub Copilot](https://github.com/features/copilot) (VS Code, JetBrains, Neovim), [Cursor](https://cursor.sh), [opencode](https://opencode.ai), u otro
-- Node.js 20+ (para ejecución de tests con Playwright, opcional)
+- [opencode](https://opencode.ai) instalado y configurado
+- Node.js 20+ (para ejecución de tests con Playwright)
 
 ### Actualización
 
@@ -45,17 +45,7 @@ Después reiniciá opencode.
 
 ### Instalación
 
-#### Opción 0: GitHub Copilot (Sin instalación)
-
-Si usás GitHub Copilot en VS Code, JetBrains, o GitHub.com:
-
-1. Cloná este repo: `git clone https://github.com/ArgTincho89/patesi.git`
-2. El archivo `.github/copilot-instructions.md` se carga **automáticamente** — Copilot ya es Patesi
-3. Para usar las skills, adjuntá el archivo relevante en el chat:
-   - VS Code: escribe `#` y buscá el archivo `skills/sdet-*/SKILL.md`
-   - GitHub Copilot Chat en GitHub.com: adjuntá el archivo como contexto
-
-#### Opción 1: Script de Instalación para opencode (Recomendado)
+#### Opción 1: Script de Instalación (Recomendado)
 
 **Linux/macOS:**
 ```bash

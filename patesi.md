@@ -317,6 +317,8 @@ OUTPUT: Delivery Target → Básico / Integrado / Continuo
 
 **Recommendation rule:** Continuo when high deploy frequency OR NAQ Alto. Básico is the minimum. Integrado is the portfolio target.
 
+> **Alias note (diagram vs. text):** The SQEM toolchain diagram uses "Traditional / Integrated / Continuous" as labels. These are exact synonyms of "Básico / Integrado / Continuo" used in the text. Always use the text names (Básico/Integrado/Continuo) as the canonical terms.
+
 ---
 
 ### Núcleo Común NO NEGOCIABLE (§5.4) — applies to EVERY Seidor project
@@ -365,6 +367,65 @@ QG0 → QG1 → QG2 → QG3 → QG4 → QG5 → QG6 → QG7
 **QG-Exprés (Hotfix/Emergencia §6.4.2):**
 - Ex-ante (before deploy): peer review + directed smoke + rollback tested + Go/No-Go recorded
 - Ex-post (24-48h after): complete omitted gate criteria + root cause analysis
+
+**Gate decision rules — 4 homogeneous outcomes (Governance Model):**
+
+Every control evaluated at any gate translates to exactly one of these four decisions, making the strategy auditable and comparable across projects:
+
+| Decision | Condition | Consequence |
+|----------|-----------|-------------|
+| **PASS** | Complete, current, traceable evidence within the applicable NAQ threshold | Advances if remaining critical criteria are also PASS |
+| **WARNING** | Partial evidence, incomplete control, minor deviation, or criterion met with documented residual risk | Conditional advance — requires owner, closure date, and risk acceptance |
+| **FAIL** | Absent or unverifiable evidence, out-of-threshold, or blocker criterion breach | Does NOT advance — formal exception required (§8); if non-excepcionable, HARD BLOCKS |
+| **N/A** | Criterion not applicable by tipología, NAQ, or scope — with explicit justification | Excluded from scoring, recorded |
+
+**Non-excepcionable criteria (hard blocks — require Dirección/Sponsor + QA Manager to override):**
+- Open blocking/critical defect
+- Serious security/data/compliance breach
+- Minimum test evidence unavailable
+- Mandatory rollback not defined
+- High risk without mitigation or formal acceptance
+
+**Deliverables required per gate:**
+
+| Gate | Mandatory deliverables |
+|------|----------------------|
+| **QG0** | Ficha NAQ · Plan de Calidad · Matriz de riesgos · RACI · Definición de toolchain y entornos |
+| **QG1** | Backlog/ERS · Criterios de aceptación · NFRs · Matriz trazabilidad requisito↔prueba inicial |
+| **QG2** | Documento de arquitectura · ADRs · Riesgos técnicos · Estrategia de pruebas · Criterios NF · Acta de revisión de diseño |
+| **QG3** | Pipeline CI (build reproducible) · Análisis estático (QG SonarQube) · Informe de cobertura · PR/code review |
+| **QG4** | Informe de ejecución del ciclo · Defect report · Resultados de regresión+integración · Resultados NF · Evidencias de entorno |
+| **QG5** | Casos UAT y resultados · Defectos residuales aceptados · Sign-off del cliente/PO |
+| **QG6** | Acta Go/No-Go · Plan de despliegue+runbook · Plan de rollback · Smoke pre/post · Aprobación seguridad/ops+observabilidad |
+| **QG7** | Informe final · KPIs finales · Lecciones aprendidas · Transferencia RUN/AMS · Plan/backlog de acciones |
+
+**Umbrales por NAQ — QG4 (Pruebas de sistema):**
+
+| Control | NAQ Bajo | NAQ Medio | NAQ Alto |
+|---------|----------|-----------|----------|
+| Functional/API-UI | Smoke | Obligatorio (API/UI) | Completo + E2E flujos críticos automatizado |
+| Integration tests | Parcial según alcance | Obligatorios | Cobertura completa |
+| Regresión | Smoke | Parcial | Completa (100% automatizada en áreas críticas) |
+| Performance | No obligatorio | Prueba básica | Carga + estrés + soak + escalabilidad |
+| Accesibilidad WCAG | Recomendado si web interna | WCAG si canal público | WCAG auditada (canal público/ENS) |
+
+**Umbrales por NAQ — QG6 (Go-Live/Readiness):**
+
+| Control | NAQ Bajo | NAQ Medio | NAQ Alto |
+|---------|----------|-----------|----------|
+| Seguridad (producción) | SCA (dependencias) | SAST + dependencias | SAST+DAST+secrets (+pentest+modelado en misión crítica) |
+| Performance (cierre) | No obligatorio | Prueba básica | Carga + estrés + soak + escalabilidad |
+| Accesibilidad (cierre) | Recomendado si web interna | WCAG si canal público | WCAG auditada (canal público/ENS) |
+| Rollback | Recomendado/plan básico | Plan obligatorio | Plan obligatorio y **ensayado** |
+| Observabilidad | Básica (logs) | Estándar (métricas+logs) | Dashboards+alertas+trazas |
+| Disaster Recovery | — | Según riesgo | **Validado** (ensayo de recuperación) |
+| Go-Live Review | Autoservicio/ligero | QA Lead | QA+Negocio (Comité/CAB en misión crítica) |
+| Documentación | Básica | Actualizada | Completa y auditada |
+
+**SonarQube QG scope rule (Governance Model, §7.2):**
+> The scope (Overall vs New code) is determined by **tipología**, not by NAQ.
+> - **New projects** (nuevo desarrollo, transformación/migración): evaluate QG on the **Overall** codebase.
+> - **Legacy/AMS projects** (evolutivo, correctivo, hotfix, paquetizado when working on existing system): evaluate QG on **New code** only. The Overall coverage threshold is reached progressively — it must always be **greater than the baseline photo recorded at QG0/PLAN**.
 
 ---
 
@@ -461,6 +522,42 @@ QG0 → QG1 → QG2 → QG3 → QG4 → QG5 → QG6 → QG7
 | Technical debt (Sonar rating) | ≥C (≤20% ratio) | ≥B (≤10% ratio) | A (≤5% ratio) |
 | DDE (Defect Detection Effectiveness) | ≥88% | ≥92% | ≥95% |
 | DER (Defect Escape Rate = 100%–DDE) | ≤12% | ≤8% | ≤5% |
+
+---
+
+### Dashboards and Reporting — 4 Levels (§7.3)
+
+> Source: sequential reading of SQEM document — dashboard diagram appears within §7.3 (Indicadores y Umbrales), not in §8.
+
+| Level | Type | Audience | Frequency | Content |
+|-------|------|----------|-----------|---------|
+| **Semáforo de Calidad** | Quantitative | Dev team / QA / PO | Daily / Weekly | Traffic-light per ISO/IEC 25010 characteristic (Fiabilidad, Mantenibilidad, Seguridad…) at application/program/service level |
+| **Barómetro de Calidad** | Qualitative | QA Lead / Architect / Ops / PO | Weekly / Biweekly | Health across 7 dimensions (see below) scored 0–100 |
+| **Cuadro de mando de portfolio** | Executive | Comité de Calidad de portfolio | Monthly | Consolidated KPIs: IQ aggregate, NAQ distribution, critical defects, automation % |
+| **Reporting de proyecto** | Project-level | PM + QA Lead + Tech Lead | Weekly / Biweekly | Quality progress, open defects by severity, upcoming gate milestones, Go/No-Go recommendation |
+
+**Barómetro de Calidad — 7 dimensions and scoring scale:**
+
+| Dimension | Meaning |
+|-----------|---------|
+| Estrategia de testing | Coverage and robustness of the test strategy |
+| Riesgos de calidad | Identified quality risks and mitigation status |
+| No conformidades | Gate failures, exceptions, and deviation trends |
+| Observabilidad | Monitoring, alerts, and traceability in production |
+| Readiness de release | Release preparation completeness |
+| OPS & Operación | Operational health and incident patterns |
+| Costes de no calidad | Cost of defects, rework, escapes to production |
+
+**Scoring scale (all Barómetro dimensions):**
+
+| Score | Status | Action |
+|-------|--------|--------|
+| 80–100 | 🟢 Óptimo | Maintain |
+| 60–79 | 🟡 Aceptable | Monitor and improve |
+| 40–59 | 🟠 En riesgo | Corrective action required |
+| 0–39 | 🔴 Crítico | Escalate immediately |
+
+**Portfolio IQ (Índice de Calidad):** Aggregate 0–100 score calculated per ISO/IEC 25010 characteristic. Example benchmarks from the SQEM dashboard diagram: IQ 78/100, 62% projects green, NAQ avg 2.4/4, 12 critical defects open, 65% automation coverage.
 
 ---
 

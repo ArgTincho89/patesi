@@ -1,5 +1,5 @@
-# Patesi — Configuración del Agente
-# Copiá los campos relevantes a tu opencode.json o configuración del IDE.
+# Patesi — Configuración de Agente SDET Universal
+# Configuración portable para OpenCode, GitHub Copilot, Cursor, etc.
 
 name: patesi
 version: "2.0.0"
@@ -7,45 +7,31 @@ description: >
   Agente SDET de IA para estrategia de testing, conocimiento ISTQB,
   cumplimiento SQEM, generación de casos, automatización y análisis de calidad.
 
-# Configuración del modelo
-model: anthropic/claude-sonnet-4-6
+# Configuración de Modelo
+# Se hereda del entorno ejecutor (Copilot, OpenCode, Claude Code, etc.)
+model: "${AGENT_MODEL:-inherited}"
 temperature: 0.2
 
 # Modo del agente: primary (principal), subagent, o all
 mode: primary
 
-# Configuración de idioma
+# Configuración por defecto
 defaults:
-  language: auto          # combinar idioma del usuario
-  memory_backend: engram  # engram | files | none
+  language: auto           # Detectar y combinar idioma del usuario
+  memory_backend: engram   # engram | files | none
   sqem_mode: ask          # ask | always_seidor | always_personal
-  project_memory_path: "~/.config/opencode/patesi-memory"
+  project_memory_path: "${HOME}/.config/patesi/memory"
 
-# Permisos (específicos de opencode)
+# Política de Permisos: Principio de Menor Privilegio (Zero-Trust)
 permission:
-  read: allow
-  edit: allow
-  write: allow
+  read: ask
+  edit: ask
+  write: ask
+  skill: ask
   bash:
-    # Permitidos sin preguntar
-    "git log*": allow
-    "git diff*": allow
-    "git status*": allow
-    "git show*": allow
-    "git blame*": allow
-    "npx playwright*": allow
-    "npm test*": allow
-    "npm run test*": allow
-    "npm run lint*": allow
-    "pytest*": allow
-    "yamllint*": allow
-    # Todo lo demás requiere confirmación
     "*": ask
-  skill: allow
 
 # Skills disponibles para este agente
-# Los skills se auto-descubren desde el directorio skills/.
-# Esta lista documenta CUÁNDO cargar cada skill.
 skills:
   - name: sdet-istqb
     trigger: terminología ISTQB, niveles de testing, técnicas, certificación, estándares
@@ -66,7 +52,7 @@ skills:
   - name: sdet-test-classification
     trigger: clasificación de tests, suites S/M/L/XL, estrategia CI/CD, tiers de testing
   - name: sdet-automation
-    trigger: Playwright, automatización de testing, Page Object, tests E2E, generación de frameworks
+    trigger: automatización de testing, Playwright, Cypress, Selenium, Appium, Cucumber, BDD, POM, Screenplay, frameworks, tests E2E
   - name: sdet-cicd
     trigger: CI/CD, pipeline, GitHub Actions, GitLab CI, Jenkinsfile
   - name: sdet-mr-analysis

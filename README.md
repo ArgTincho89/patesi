@@ -98,13 +98,9 @@ De NAQ se deriva automáticamente:
 patesi/
 │
 ├── agent.md                         WHO soy (identidad, personalidad, principios)
-├── system.md                        CÓMO me comporto (reglas, protocolos, workflows)
+├── system.md                        CÓMO me comporto (reglas, protocolos, planning,
+│                                    generación, auto-revisión, workflow QA)
 ├── config.yaml                      CONFIGURACIÓN (permisos, skills, defaults)
-│
-├── prompts/                         REGLAS DE GENERACIÓN
-│   ├── planning.md                  Cómo clasificar tareas y planificar output
-│   ├── execution.md                 Cómo generar por tipo de output
-│   └── review.md                    Auto-revisión antes de responder
 │
 ├── skills/                          13 SKILLS (auto-descubiertos, bajo demanda)
 │   ├── sdet-istqb/                  Referencia ISTQB Foundation + Advanced
@@ -121,20 +117,11 @@ patesi/
 │   ├── sdet-sqem-controls/          Controles por gate × NAQ + SonarQube
 │   └── sdet-sqem-ia/                Controles IA/ML/GenAI (Anexo IA)
 │
-├── knowledge/                       REFERENCIAS RÁPIDAS
-│   ├── istqb-references.md          ISTQB condensado (técnicas, métricas, procesos)
-│   └── sqem-quick-reference.md      SQEM cheat sheet (NAQ, gates, controles)
-│
 ├── memory/                          MEMORIA POR PROYECTO
 │   └── _template/
 │       ├── context.yaml             Contexto del proyecto (NAQ, stack, convenciones)
 │       ├── patterns.md              Patrones aprendidos
 │       └── decisions.md             Decisiones de arquitectura
-│
-├── workflows/                       FLUJOS DE TRABAJO
-│   ├── session-start.md             Protocolo de inicio de sesión
-│   ├── new-project.md               Assessment de nuevos proyectos
-│   └── quality-gate.md              Evaluación de puertas de calidad
 │
 ├── tools/
 │   └── README.md                    Documentación de herramientas disponibles
@@ -146,11 +133,9 @@ patesi/
 ├── examples/
 │   └── opencode.json                Ejemplo de configuración
 │
-├── scripts/
-│   ├── install.sh / install.ps1     Instalador para opencode
-│   └── update.sh / update.ps1       Actualizador
-│
-└── patesi.md                        Agente universal legacy (deprecated)
+└── scripts/
+    ├── install.sh / install.ps1     Instalador para opencode
+    └── update.sh / update.ps1       Actualizador
 ```
 
 ### Cómo se compone el System Prompt
@@ -168,7 +153,7 @@ En opencode, el system prompt se arma combinando dos archivos con `{file:...}`:
 ```
 
 - **`agent.md`** define QUIÉN es Patesi: nombre, rol, personalidad, tono, principios, awareness de happy/unhappy/corner
-- **`system.md`** define CÓMO funciona: protocolo de sesión, jerarquía de frameworks, reglas de riesgo, formato de respuesta, protocolo de skills, memoria de proyecto, workflow QA
+- **`system.md`** define CÓMO funciona: protocolo de sesión, jerarquía de frameworks, reglas de riesgo, flujo de planificación, estándares de formato, reglas de generación, auto-revisión, protocolo de skills, memoria de proyecto, workflow QA
 
 Los **skills** se cargan bajo demanda — nunca todos juntos. Cuando tu solicitud coincide con el trigger de un skill, Patesi lo carga y lo aplica.
 
@@ -299,12 +284,11 @@ Copia el agente y los 13 skills a `~/.config/opencode/`. Reiniciá opencode y ca
 ```json
 {
   "$schema": "https://opencode.ai/config.json",
-  "model": "anthropic/claude-sonnet-4-6",
   "agent": {
     "patesi": {
-      "description": "Patesi — SDET AI Agent",
+      "description": "Patesi — Agente SDET de IA",
       "mode": "primary",
-      "prompt": "{file:./agents/agent.md}\n\n---\n\n{file:./agents/system.md}",
+      "prompt": "{file:./agents/patesi.md}\n\n---\n\n{file:./agents/system.md}",
       "tools": { "edit": true, "write": true }
     }
   }
@@ -436,8 +420,8 @@ metadata:
 
 ### Mejorar el conocimiento
 
-- **ISTQB**: Editá `skills/sdet-istqb/SKILL.md` y `knowledge/istqb-references.md`
-- **SQEM**: Editá el skill SQEM correspondiente y `knowledge/sqem-quick-reference.md`
+- **ISTQB**: Editá `skills/sdet-istqb/SKILL.md`
+- **SQEM**: Editá el skill SQEM correspondiente (`sdet-sqem-classification`, `sdet-sqem-gates`, `sdet-sqem-controls`, `sdet-sqem-ia`)
 - Mantené cada skill bajo 4K tokens para eficiencia de contexto
 
 ---

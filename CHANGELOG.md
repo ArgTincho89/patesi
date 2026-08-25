@@ -4,31 +4,30 @@ All notable changes to Patesi will be documented in this file.
 
 Format based on [Keep a Changelog](https://keepachangelog.com/).
 
+## [2.0.1] - 2026-08-25
+
+### Fixed
+- **Broken installer**: Scripts now reference `agent.md` + `system.md` from repo root (not deleted `agents/patesi.md`)
+- **Orphaned content**: Merged `prompts/`, `workflows/`, and `knowledge/` into `system.md` as single source of truth; removed redundant directories
+- **NAQ duplication**: NAQ formula/gates/controls no longer duplicated across 5 files; `system.md` references skills for full details
+- **Skill registry**: Replaced absolute Windows paths with relative paths
+- **config.yaml**: Removed stale Cursor reference
+- **examples/opencode.json**: Aligned with actual `agent.md` + `system.md` composition
+
 ## [2.0.0] - 2026-08-25
 
 ### Added
 
 #### Architecture
 - **Agent restructure**: Separated monolithic `patesi.md` into modular architecture
-  - `agent.md` — Agent identity, personality, core principles (81 lines)
-  - `system.md` — Complete behavioral spec: session protocol, framework hierarchy, risk orientation (259 lines)
-  - `config.yaml` — Agent configuration, permissions, skill registry (75 lines)
-- **Prompts directory**: Separated prompt engineering concerns
-  - `prompts/planning.md` — Task classification and output planning
-  - `prompts/execution.md` — Generation rules per output type
-  - `prompts/review.md` — Self-review checklist before responding
+  - `agent.md` — Agent identity, personality, core principles
+  - `system.md` — Complete behavioral spec: session protocol, framework hierarchy, risk orientation, planning flow, generation rules, auto-review checklist, QA workflow
+  - `config.yaml` — Agent configuration, permissions, skill registry
 - **Tools documentation**: `tools/README.md` with complete tool reference
-- **Workflows**: Documented QA workflows
-  - `workflows/session-start.md` — Session start protocol with elicitation flow
-  - `workflows/new-project.md` — New project assessment workflow
-  - `workflows/quality-gate.md` — Quality gate evaluation workflow
 - **Memory templates**: Project memory structure
   - `memory/_template/context.yaml` — Project context template
   - `memory/_template/patterns.md` — Pattern storage template
   - `memory/_template/decisions.md` — Decision logging template
-- **Knowledge base**: Quick references
-  - `knowledge/istqb-references.md` — ISTQB Foundation + Advanced Core condensed reference
-  - `knowledge/sqem-quick-reference.md` — SQEM quick reference card
 - **Adapters**: IDE-specific integration files
   - `adapters/opencode/patesi.md` — opencode adapter with `{file:}` composition
   - `adapters/copilot/copilot-instructions.md` — GitHub Copilot adapter
@@ -53,7 +52,11 @@ Format based on [Keep a Changelog](https://keepachangelog.com/).
 
 ### Removed
 - **Cursor support** (`.cursorrules` deleted)
-- `agents/patesi.md` (replaced by `adapters/opencode/patesi.md`)
+- `agents/patesi.md` (replaced by `agent.md` + `system.md` at repo root)
+- `patesi.md` monolith (replaced by `agent.md` + `system.md`)
+- `prompts/` directory (merged into `system.md`)
+- `workflows/` directory (merged into `system.md`)
+- `knowledge/` directory (redundant with skills)
 - Old `.github/copilot-instructions.md` (replaced by `adapters/copilot/copilot-instructions.md`)
 - All Shagaluf references (personal project removed from agent scope)
 

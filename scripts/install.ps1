@@ -18,10 +18,12 @@ Write-Host "📂 Creating directories..." -ForegroundColor Yellow
 New-Item -ItemType Directory -Force -Path "$OpenCodeDir\agents" | Out-Null
 New-Item -ItemType Directory -Force -Path "$OpenCodeDir\skills" | Out-Null
 
-# Copy agent
+# Copy agent (v2.0: agent.md + system.md from repo root)
 Write-Host "🤖 Installing agent..." -ForegroundColor Yellow
-Copy-Item -Path "$RepoDir\agents\patesi.md" -Destination "$OpenCodeDir\agents\patesi.md" -Force
-Write-Host "   ✅ agents/sdet.md" -ForegroundColor Green
+Copy-Item -Path "$RepoDir\agent.md" -Destination "$OpenCodeDir\agents\patesi.md" -Force
+Copy-Item -Path "$RepoDir\system.md" -Destination "$OpenCodeDir\agents\system.md" -Force
+Write-Host "   ✅ agents/patesi.md (from agent.md)" -ForegroundColor Green
+Write-Host "   ✅ agents/system.md" -ForegroundColor Green
 
 # Copy skills
 Write-Host "📚 Installing skills..." -ForegroundColor Yellow
@@ -37,8 +39,17 @@ Write-Host ""
 Write-Host "🎉 Patesi installed successfully!" -ForegroundColor Green
 Write-Host ""
 Write-Host "Next steps:" -ForegroundColor Cyan
-Write-Host "  1. Add the agent to your opencode.json (see examples/opencode.json)"
-Write-Host "  2. Restart opencode"
-Write-Host "  3. Switch to the SDET agent using Tab key"
+Write-Host '  1. Add the agent to your opencode.json:' -ForegroundColor Cyan
+Write-Host '     {' -ForegroundColor Gray
+Write-Host '       "agent": {' -ForegroundColor Gray
+Write-Host '         "patesi": {' -ForegroundColor Gray
+Write-Host '           "description": "Patesi — Agente SDET de IA",' -ForegroundColor Gray
+Write-Host '           "mode": "primary",' -ForegroundColor Gray
+Write-Host '           "prompt": "{file:./agents/patesi.md}\n\n---\n\n{file:./agents/system.md}",' -ForegroundColor Gray
+Write-Host '           "tools": { "edit": true, "write": true }' -ForegroundColor Gray
+Write-Host '         }' -ForegroundColor Gray
+Write-Host '       }' -ForegroundColor Gray
+Write-Host '     }' -ForegroundColor Gray
 Write-Host ""
-Write-Host "For more information, see README.md" -ForegroundColor Gray
+Write-Host "  2. Restart opencode" -ForegroundColor Cyan
+Write-Host "  3. Switch to the SDET agent using Tab key" -ForegroundColor Cyan

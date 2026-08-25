@@ -23,10 +23,12 @@ echo "Pulling latest changes..."
 cd "$REPO_DIR"
 git pull origin main
 
-# Copy agent
+# Copy agent (v2.0: agent.md + system.md from repo root)
 echo "Copying agent..."
-cp "$REPO_DIR/agents/patesi.md" "$OPENCODE_DIR/agents/patesi.md"
-echo "   OK agents/patesi.md"
+cp "$REPO_DIR/agent.md" "$OPENCODE_DIR/agents/patesi.md"
+cp "$REPO_DIR/system.md" "$OPENCODE_DIR/agents/system.md"
+echo "   OK agents/patesi.md (from agent.md)"
+echo "   OK agents/system.md"
 
 # Copy skills
 echo "Copying skills..."

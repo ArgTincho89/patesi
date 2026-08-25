@@ -26,10 +26,12 @@ if ($LASTEXITCODE -ne 0) {
     exit 1
 }
 
-# Copy agent
+# Copy agent (v2.0: agent.md + system.md from repo root)
 Write-Host "Copying agent..." -ForegroundColor Yellow
-Copy-Item -Path "$RepoDir\agents\patesi.md" -Destination "$OpenCodeDir\agents\patesi.md" -Force
-Write-Host "   OK agents/patesi.md" -ForegroundColor Green
+Copy-Item -Path "$RepoDir\agent.md" -Destination "$OpenCodeDir\agents\patesi.md" -Force
+Copy-Item -Path "$RepoDir\system.md" -Destination "$OpenCodeDir\agents\system.md" -Force
+Write-Host "   OK agents/patesi.md (from agent.md)" -ForegroundColor Green
+Write-Host "   OK agents/system.md" -ForegroundColor Green
 
 # Copy skills
 Write-Host "Copying skills..." -ForegroundColor Yellow

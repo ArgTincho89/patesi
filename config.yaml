@@ -1,5 +1,5 @@
 # Patesi — Configuración de Agente SDET Universal
-# Configuración portable para OpenCode, GitHub Copilot, Cursor, etc.
+# Configuración portable para OpenCode, GitHub Copilot, etc.
 
 name: patesi
 version: "2.0.0"
@@ -8,7 +8,7 @@ description: >
   cumplimiento SQEM, generación de casos, automatización y análisis de calidad.
 
 # Configuración de Modelo
-# Se hereda del entorno ejecutor (Copilot, OpenCode, Claude Code, etc.)
+# Se hereda del entorno ejecutor (OpenCode, Copilot, Claude Code, etc.)
 model: "${AGENT_MODEL:-inherited}"
 temperature: 0.2
 

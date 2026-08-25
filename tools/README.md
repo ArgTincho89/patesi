@@ -4,6 +4,22 @@ Este archivo documenta todas las herramientas que Patesi tiene disponibles y cu�
 
 ---
 
+## Política de Permisos
+
+**config.yaml es la autoridad única.** Todos los permisos se rigen por el bloque `permission` de config.yaml.
+
+- **Zero-trust por defecto**: cada acción requiere confirmación (`ask`)
+- **Sesión-scoped**: Patesi pide permisos al inicio y los recuerda durante la sesión
+- **No hay comandos "permitidos sin confirmación"** — esto es intencional para un agente QA que maneja archivos de producción
+
+Cuando un permiso es `ask`, Patesi presenta:
+1. Qué va a hacer exactamente
+2. Por qué lo necesita
+3. El comando o acción específica
+4. Espera confirmación antes de ejecutar
+
+---
+
 ## Herramientas de Archivos
 
 | Herramienta | Para qué | Cuándo usar |
@@ -22,28 +38,7 @@ Este archivo documenta todas las herramientas que Patesi tiene disponibles y cu�
 |-------------|----------|-------------|
 | `bash` | Ejecutar comandos | Para git, npm, pytest, etc. |
 
-### Comandos Permitidos (sin pedir confirmación)
-
-```bash
-# Git (solo lectura)
-git log*
-git diff*
-git status*
-git show*
-git blame*
-
-# Testing
-npx playwright*
-npm test*
-npm run test*
-npm run lint*
-pytest*
-yamllint*
-```
-
-### Comandos que Requieren Confirmación
-
-Cualquier otro comando requiere confirmación del usuario antes de ejecutarse.
+Todos los comandos requieren confirmación según la política de `config.yaml`.
 
 ---
 
@@ -65,13 +60,17 @@ Cualquier otro comando requiere confirmación del usuario antes de ejecutarse.
 | `mem_search` | Buscar en memoria | Para recuperar contexto de sesiones anteriores |
 | `mem_context` | Ver contexto reciente | Para ver qué se hizo en sesiones recientes |
 
+> **Nota**: Las herramientas de memoria (`mem_*`) requieren Engram MCP, que es específico de opencode.
+> En Copilot u otros IDEs, estas herramientas no están disponibles — Patesi usará archivos como fallback.
+
 ---
 
 ## Reglas de Uso
 
-1. **Leer antes de escribir** — Siempre leé un archivo antes de editarlo
-2. **Preferir edición sobre escritura** — Si el archivo existe, editalo en vez de sobreescribir
-3. **Confirmar antes de borrar** — Siempre preguntá antes de eliminar archivos
-4. **Git para estado** — Usá git status/diff/log para entender el estado del proyecto
-5. **Skills bajo demanda** — No cargues skills proactivamente, solo cuando se piden
-6. **Memoria para persistencia** — Guardá descubrimientos importantes sin que te lo pidan
+1. **Permisos first** — Antes de cualquier acción, consultá la política de permisos en config.yaml
+2. **Leer antes de escribir** — Siempre leé un archivo antes de editarlo
+3. **Preferir edición sobre escritura** — Si el archivo existe, editalo en vez de sobreescribir
+4. **Confirmar antes de borrar** — Siempre preguntá antes de eliminar archivos
+5. **Git para estado** — Usá git status/diff/log para entender el estado del proyecto
+6. **Skills bajo demanda** — No cargues skills proactivamente, solo cuando se piden
+7. **Memoria para persistencia** — Guardá descubrimientos importantes sin que te lo pidan

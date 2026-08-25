@@ -133,9 +133,17 @@ patesi/
 ├── examples/
 │   └── opencode.json                Ejemplo de configuración
 │
-└── scripts/
-    ├── install.sh / install.ps1     Instalador para opencode
-    └── update.sh / update.ps1       Actualizador
+├── scripts/
+│   ├── install.sh / install.ps1     Instalador para opencode
+│   ├── update.sh / update.ps1       Actualizador
+│   ├── generate-registry.sh / .ps1  Generador de skill registry (single source)
+│   └── build-copilot-adapter.sh/.ps1 Regenerador de adaptador Copilot
+│
+├── tests/
+│   └── skill-eval-set.md            Eval set para validar triggers de skills
+│
+└── .atl/
+    └── skill-registry.md            Registry auto-generado (no editar manualmente)
 ```
 
 ### Cómo se compone el System Prompt
@@ -173,15 +181,27 @@ Patesi carga skills cuando tu solicitud coincide con los triggers:
 | "Generame casos de prueba" | `sdet-test-cases` |
 | "Clasificá estos tests en S/M/L/XL" | `sdet-test-classification` |
 | "Generame un framework Playwright" | `sdet-automation` |
+| "Generame tests Cypress" | `sdet-automation-cypress` |
+| "Automatizá con Selenium + Java" | `sdet-automation-selenium` + `sdet-lang-java` |
+| "Testeá la app móvil con Appium" | `sdet-automation-appium` |
+| "Creame tests Robot Framework" | `sdet-automation-robot` |
+| "¿Cómo uso pytest en Python?" | `sdet-lang-python` |
+| "Patrones de testing en Java" | `sdet-lang-java` |
+| "Jest vs Vitest, ¿cuál uso?" | `sdet-lang-javascript` |
+| "Escribí escenarios Gherkin" | `sdet-methodology-gherkin` |
+| "Creame step definitions Cucumber" | `sdet-methodology-cucumber` |
+| "Configurá Maven para tests" | `sdet-build-maven` |
 | "Creame un pipeline de GitHub Actions" | `sdet-cicd` |
 | "Analizá este MR" | `sdet-mr-analysis` |
-| "Aprendé de este proyecto" | `sdet-project-learning` |
+| "Aprendé de este proyecto" | `sdet-project-learning` * |
 | "Clasificá este proyecto Seidor" | `sdet-sqem-classification` |
 | "¿Estamos listos para QG4?" | `sdet-sqem-gates` |
 | "¿Qué controles necesito para NAQ Alto?" | `sdet-sqem-controls` |
 | "Testeá este modelo de IA" | `sdet-sqem-ia` |
 
-**Skills simultáneos**: Puede cargar varios skills a la vez cuando la situación lo requiere (ej: clasificación + gates para una evaluación completa de Seidor).
+\* Requiere Engram MCP (específico de opencode). En Copilot, degradará gracefully.
+
+**Skills simultáneos**: Puede cargar varios skills a la vez cuando la situación lo requiere (ej: `sdet-automation-selenium` + `sdet-lang-java` + `sdet-methodology-cucumber` para un proyecto Selenium/Java/Cucumber).
 
 ---
 
@@ -415,14 +435,28 @@ metadata:
 ```
 
 3. Incluí keywords de trigger en la descripción
-4. Actualizá `.atl/skill-registry.md` y `config.yaml`
-5. Mandá un PR
+4. Ejecutá `.\scripts\generate-registry.ps1` para regenerar `.atl/skill-registry.md`
+5. Actualizá `config.yaml` con el nuevo skill (o copiá la sección que genera el script)
+6. Mandá un PR
+
+> **Importante**: No edités `.atl/skill-registry.md` manualmente — se regenera desde los frontmatter.
 
 ### Mejorar el conocimiento
 
 - **ISTQB**: Editá `skills/sdet-istqb/SKILL.md`
 - **SQEM**: Editá el skill SQEM correspondiente (`sdet-sqem-classification`, `sdet-sqem-gates`, `sdet-sqem-controls`, `sdet-sqem-ia`)
+- **Automatización**: Editá el skill del framework correspondiente
 - Mantené cada skill bajo 4K tokens para eficiencia de contexto
+
+### Regenerar artefactos derivados
+
+```bash
+# Regenerar skill registry (desde frontmatter de SKILL.md)
+.\scripts\generate-registry.ps1
+
+# Regenerar adaptador de Copilot (desde agent.md + system.md)
+.\scripts\build-copilot-adapter.ps1
+```
 
 ---
 

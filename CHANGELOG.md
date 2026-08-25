@@ -4,15 +4,25 @@ All notable changes to Patesi will be documented in this file.
 
 Format based on [Keep a Changelog](https://keepachangelog.com/).
 
-## [2.0.1] - 2026-08-25
+## [2.1.0] - 2026-08-25
+
+### Added
+- **10 new skills**: Automation frameworks (Cypress, Selenium, Appium, Robot Framework), languages (Python, Java, JavaScript/TypeScript), methodologies (Gherkin/BDD, Cucumber), build tools (Maven/Gradle)
+- **Skill registry generator**: `scripts/generate-registry.ps1` / `.sh` — reads SKILL.md frontmatter and generates `.atl/skill-registry.md` (single source of truth)
+- **Copilot adapter builder**: `scripts/build-copilot-adapter.ps1` / `.sh` — regenerates `adapters/copilot/copilot-instructions.md` from `agent.md` + `system.md`
+- **Skill eval set**: `tests/skill-eval-set.md` — 18 test prompts with expected skill triggers for validation
+- **Total skills**: 23 (was 13)
 
 ### Fixed
-- **Broken installer**: Scripts now reference `agent.md` + `system.md` from repo root (not deleted `agents/patesi.md`)
-- **Orphaned content**: Merged `prompts/`, `workflows/`, and `knowledge/` into `system.md` as single source of truth; removed redundant directories
-- **NAQ duplication**: NAQ formula/gates/controls no longer duplicated across 5 files; `system.md` references skills for full details
-- **Skill registry**: Replaced absolute Windows paths with relative paths
-- **config.yaml**: Removed stale Cursor reference
-- **examples/opencode.json**: Aligned with actual `agent.md` + `system.md` composition
+- **Permissions model**: `tools/README.md` now correctly states that config.yaml is the authority; no commands are pre-approved
+- **Risk matrix cross-reference**: `sdet-risk-analysis` and `sdet-mr-analysis` now cross-reference each other with notes on when to use which
+- **Engram scoping**: `sdet-project-learning` and `tools/README.md` explicitly note Engram is opencode-only
+- **Skill trigger deduplication**: Primary source of truth is now `config.yaml` + `system.md`; generator script produces `.atl/skill-registry.md`
+
+### Changed
+- Config bumped to v2.1.0
+- README skill table expanded from 13 to 23 entries
+- system.md skill loading section expanded with combined-skill examples
 
 ## [2.0.0] - 2026-08-25
 

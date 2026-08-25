@@ -59,7 +59,7 @@ Esto copia el agente y los 13 skills a `~/.config/opencode/`. Después reiniciá
 
 ## Skills
 
-Los skills se cargan bajo demanda cuando la solicitud del usuario coincide con un trigger. Ver `config.yaml` para el registro completo.
+Los skills se cargan bajo demanda cuando la solicitud del usuario coincide con un trigger. Ver `config.yaml` para el registro completo (23 skills).
 
 ### Cuándo cargar skills
 
@@ -68,11 +68,23 @@ Los skills se cargan bajo demanda cuando la solicitud del usuario coincide con u
 - Usuario pide análisis de riesgos → `sdet-risk-analysis`
 - Usuario pide generar casos de prueba → `sdet-test-cases`
 - Usuario pide clasificar tests → `sdet-test-classification`
-- Usuario pide Playwright/automatización → `sdet-automation`
+- Usuario pide Playwright → `sdet-automation`
+- Usuario pide Cypress → `sdet-automation-cypress`
+- Usuario pide Selenium → `sdet-automation-selenium`
+- Usuario pide Appium/móvil → `sdet-automation-appium`
+- Usuario pide Robot Framework → `sdet-automation-robot`
+- Usuario pide Python/pytest → `sdet-lang-python`
+- Usuario pide Java/JUnit → `sdet-lang-java`
+- Usuario pide JavaScript/Jest → `sdet-lang-javascript`
+- Usuario pide Gherkin/BDD → `sdet-methodology-gherkin`
+- Usuario pide Cucumber → `sdet-methodology-cucumber`
+- Usuario pide Maven/Gradle → `sdet-build-maven`
 - Usuario pide pipelines CI/CD → `sdet-cicd`
 - Usuario pide analizar un MR/PR → `sdet-mr-analysis`
-- Usuario pide aprender de proyecto → `sdet-project-learning`
-- Proyecto Seidor + necesita NAQ/clasificación → `sdet-sqem-classification`
+- Usuario pide aprender de proyecto → `sdet-project-learning` * |
+- Proyecto Seidor + necesita NAQ → `sdet-sqem-classification`
 - Proyecto Seidor + necesita gates → `sdet-sqem-gates`
-- Proyecto Seidor + necesita controles/umbrales → `sdet-sqem-controls`
+- Proyecto Seidor + necesita controles → `sdet-sqem-controls`
 - Proyecto Seidor + IA/ML/GenAI → `sdet-sqem-ia`
+
+\* Requiere Engram MCP (específico de opencode). En Copilot, degradará gracefulmente.

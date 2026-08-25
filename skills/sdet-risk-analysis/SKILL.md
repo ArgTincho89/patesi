@@ -28,6 +28,10 @@ Score each factor from 1 (lowest) to 5 (highest):
 
 ## Risk Score Calculation
 
+> **Nota**: Esta matriz es para análisis estratégico de features/user stories.
+> Para análisis de MRs/PRs específicos (scope limitado al cambio), usá `sdet-mr-analysis`
+> que usa una matriz simplificada de 4 factores con promedio simple.
+
 ```
 Score = (Business × 0.30) + (Complexity × 0.25) + (Change × 0.20) + (Gap × 0.15) + (Dependency × 0.10)
 ```

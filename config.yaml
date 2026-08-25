@@ -2,7 +2,7 @@
 # Configuración portable para OpenCode, GitHub Copilot, etc.
 
 name: patesi
-version: "2.0.0"
+version: "2.1.0"
 description: >
   Agente SDET de IA para estrategia de testing, conocimiento ISTQB,
   cumplimiento SQEM, generación de casos, automatización y análisis de calidad.
@@ -23,6 +23,8 @@ defaults:
   project_memory_path: "${HOME}/.config/patesi/memory"
 
 # Política de Permisos: Principio de Menor Privilegio (Zero-Trust)
+# config.yaml es la AUTORIDAD ÚNICA. tools/README.md y adaptadores deben decir lo mismo.
+# Patesi pide permisos al inicio de sesión y los recuerda durante la sesión.
 permission:
   read: ask
   edit: ask
@@ -32,9 +34,57 @@ permission:
     "*": ask
 
 # Skills disponibles para este agente
+# IMPORTANTE: Este bloque se genera desde los frontmatter de skills/sdet-*/SKILL.md
+# Para regenerar: .\scripts\generate-registry.ps1
 skills:
+  # --- QA Core ---
   - name: sdet-istqb
     trigger: terminología ISTQB, niveles de testing, técnicas, certificación, estándares
+  - name: sdet-test-strategy
+    trigger: estrategia de testing, plan de testing, estrategia de calidad, approach de testing
+  - name: sdet-test-cases
+    trigger: casos de prueba, escenarios de testing, diseño de tests, especificaciones
+  - name: sdet-test-classification
+    trigger: clasificación de tests, suites S/M/L/XL, estrategia CI/CD, tiers de testing
+  - name: sdet-risk-analysis
+    trigger: análisis de riesgos, testing basado en riesgos, riesgo de user story, priorización
+  - name: sdet-mr-analysis
+    trigger: análisis de MR, análisis de PR, review de código para testing, impacto en tests
+  - name: sdet-cicd
+    trigger: CI/CD, pipeline, GitHub Actions, GitLab CI, Jenkinsfile
+  - name: sdet-project-learning
+    trigger: aprender del proyecto, recordar patrones, guardar convenciones QA
+    note: "Requiere Engram MCP — específico de opencode. En Copilot degradará gracefully."
+
+  # --- Automatización ---
+  - name: sdet-automation
+    trigger: automatización de testing, Playwright, Page Object Model, E2E tests
+  - name: sdet-automation-cypress
+    trigger: Cypress, tests Cypress, framework Cypress, E2E Cypress
+  - name: sdet-automation-selenium
+    trigger: Selenium, WebDriver, tests Selenium, automatización Selenium
+  - name: sdet-automation-appium
+    trigger: Appium, tests móviles, automatización móvil, iOS, Android
+  - name: sdet-automation-robot
+    trigger: Robot Framework, tests RF, keyword-driven, .robot files
+
+  # --- Lenguajes ---
+  - name: sdet-lang-python
+    trigger: Python testing, pytest, patrones Python, automatización Python
+  - name: sdet-lang-java
+    trigger: Java testing, JUnit, TestNG, patrones Java, automatización Java
+  - name: sdet-lang-javascript
+    trigger: JavaScript testing, TypeScript testing, Jest, Vitest, Node.js testing
+
+  # --- Metodologías y Build ---
+  - name: sdet-methodology-gherkin
+    trigger: Gherkin, BDD, feature files, Given/When/Then, behavior-driven development
+  - name: sdet-methodology-cucumber
+    trigger: Cucumber, Cucumber-JVM, step definitions, BDD automation
+  - name: sdet-build-maven
+    trigger: Maven, Gradle, pom.xml, build.gradle, dependencias de testing
+
+  # --- SQEM (Seidor) ---
   - name: sdet-sqem-classification
     trigger: clasificación de proyecto Seidor, cálculo NAQ, tipología, delivery target
   - name: sdet-sqem-gates
@@ -43,19 +93,3 @@ skills:
     trigger: controles operativos Seidor, umbrales de cobertura, perfiles SonarQube, indicadores
   - name: sdet-sqem-ia
     trigger: proyectos IA/ML/GenAI, calidad de datos, golden dataset, red-teaming, EU AI Act
-  - name: sdet-risk-analysis
-    trigger: análisis de riesgos, testing basado en riesgos, riesgo de user story, priorización
-  - name: sdet-test-strategy
-    trigger: estrategia de testing, plan de testing, estrategia de calidad, approach de testing
-  - name: sdet-test-cases
-    trigger: casos de prueba, escenarios de testing, diseño de tests, especificaciones
-  - name: sdet-test-classification
-    trigger: clasificación de tests, suites S/M/L/XL, estrategia CI/CD, tiers de testing
-  - name: sdet-automation
-    trigger: automatización de testing, Playwright, Cypress, Selenium, Appium, Cucumber, BDD, POM, Screenplay, frameworks, tests E2E
-  - name: sdet-cicd
-    trigger: CI/CD, pipeline, GitHub Actions, GitLab CI, Jenkinsfile
-  - name: sdet-mr-analysis
-    trigger: análisis de MR, análisis de PR, review de código para testing, impacto en tests
-  - name: sdet-project-learning
-    trigger: aprender del proyecto, recordar patrones, guardar convenciones QA

@@ -95,6 +95,10 @@ The analysis MUST produce:
 
 ## Risk Level Determination
 
+> **Nota**: Esta matriz es para análisis de MRs/PRs específicos (scope limitado al cambio).
+> Para análisis de features/user stories a nivel estratégico, usá `sdet-risk-analysis`
+> que usa una matriz de 5 factores con pesos (30/25/20/15/10).
+
 | Factor | Low (1) | Medium (3) | High (5) |
 |--------|---------|------------|----------|
 | Files changed | 1-3 | 4-10 | 10+ |

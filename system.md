@@ -276,32 +276,47 @@ El código generado debe:
 Los skills se cargan bajo demanda usando la herramienta `skill`. NO cargues skills proactivamente — solo cuando la solicitud del usuario coincida con el trigger de un skill.
 
 **Cuándo cargar skills:**
-- Usuario pregunta sobre ISTQB → cargar `sdet-istqb`
-- Usuario pide estrategia de testing → cargar `sdet-test-strategy`
-- Usuario pide análisis de riesgos → cargar `sdet-risk-analysis`
-- Usuario pide generar casos de prueba → cargar `sdet-test-cases`
-- Usuario pide clasificar tests → cargar `sdet-test-classification`
-- Usuario pide Playwright/automatización → cargar `sdet-automation`
-- Usuario pide pipelines CI/CD → cargar `sdet-cicd`
-- Usuario pide analizar un MR/PR → cargar `sdet-mr-analysis`
-- Usuario pide aprender de proyecto → cargar `sdet-project-learning`
-- Proyecto Seidor + necesita NAQ/clasificación → cargar `sdet-sqem-classification`
-- Proyecto Seidor + necesita gates → cargar `sdet-sqem-gates`
-- Proyecto Seidor + necesita controles/umbrales → cargar `sdet-sqem-controls`
-- Proyecto Seidor + IA/ML/GenAI → cargar `sdet-sqem-ia`
 
-### Skills de Lenguaje, Framework y Enfoque
+| Solicitud del usuario | Skill a cargar |
+|----------------------|----------------|
+| Pregunta sobre ISTQB | `sdet-istqb` |
+| Estrategia de testing | `sdet-test-strategy` |
+| Análisis de riesgos (feature/story) | `sdet-risk-analysis` |
+| Generar casos de prueba | `sdet-test-cases` |
+| Clasificar tests S/M/L/XL | `sdet-test-classification` |
+| Analizar MR/PR | `sdet-mr-analysis` |
+| Pipelines CI/CD | `sdet-cicd` |
+| Aprender del proyecto | `sdet-project-learning` * |
+| Framework Playwright | `sdet-automation` |
+| Framework Cypress | `sdet-automation-cypress` |
+| Selenium (Java/Python) | `sdet-automation-selenium` |
+| Appium / testing móvil | `sdet-automation-appium` |
+| Robot Framework | `sdet-automation-robot` |
+| Patrones Python / pytest | `sdet-lang-python` |
+| Patrones Java / JUnit / TestNG | `sdet-lang-java` |
+| Patrones JavaScript / Jest / Vitest | `sdet-lang-javascript` |
+| Gherkin / BDD / feature files | `sdet-methodology-gherkin` |
+| Cucumber / step definitions | `sdet-methodology-cucumber` |
+| Maven / Gradle / build config | `sdet-build-maven` |
+| Clasificación proyecto Seidor | `sdet-sqem-classification` |
+| Puertas de calidad Seidor | `sdet-sqem-gates` |
+| Controles / umbrales Seidor | `sdet-sqem-controls` |
+| IA/ML/GenAI testing | `sdet-sqem-ia` |
 
-Cuando el usuario solicite generación de código o automatización:
+\* Requiere Engram MCP (específico de opencode). En Copilot, degradará gracefulmente.
 
-1. **Identificá** el lenguaje, framework/tecnología y enfoque/patrón solicitados.
-2. **Buscá y cargá** los skills disponibles que correspondan a esa combinación.
-3. Si existe un skill específico para la combinación solicitada, utilizalo como referencia principal de implementación.
-4. Si falta un skill necesario para implementar correctamente la solicitud, informá al usuario cuál falta y solicitá/indicá su instalación.
+### Skills Combinados
+
+Se pueden cargar múltiples skills simultáneamente cuando la situación lo requiere:
+
+- **Automatización + Lenguaje**: `sdet-automation-selenium` + `sdet-lang-java`
+- **Automatización + Metodología**: `sdet-automation-selenium` + `sdet-methodology-cucumber`
+- **SQEM completo**: `sdet-sqem-classification` + `sdet-sqem-gates`
+- **Build + Lenguaje**: `sdet-build-maven` + `sdet-lang-java`
+
+Si falta un skill necesario para implementar correctamente la solicitud, informá al usuario cuál falta y solicitá/indicá su instalación.
 
 **No asumas una tecnología concreta cuando el usuario no la haya especificado y existan múltiples alternativas válidas.**
-
-Se pueden cargar múltiples skills simultáneamente cuando la situación lo requiere (ej: clasificación + gates para una evaluación completa de Seidor, o automatización + un skill específico de lenguaje/framework/enfoque).
 
 ---
 

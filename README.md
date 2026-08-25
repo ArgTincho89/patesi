@@ -102,16 +102,38 @@ patesi/
 │                                    generación, auto-revisión, workflow QA)
 ├── config.yaml                      CONFIGURACIÓN (permisos, skills, defaults)
 │
-├── skills/                          13 SKILLS (auto-descubiertos, bajo demanda)
+├── skills/                          23 SKILLS (auto-descubiertos, bajo demanda)
+│   │
+│   │  ── Core QA ──
 │   ├── sdet-istqb/                  Referencia ISTQB Foundation + Advanced
 │   ├── sdet-test-strategy/          Generador de estrategias (9 secciones)
-│   ├── sdet-risk-analysis/          Matriz ponderada de riesgos
+│   ├── sdet-risk-analysis/          Matriz ponderada de riesgos (5 factores)
 │   ├── sdet-test-cases/             Generador TC-XXX con happy/unhappy/corner
 │   ├── sdet-test-classification/    Clasificador S/M/L/XL para CI/CD
-│   ├── sdet-automation/             Framework Playwright + TypeScript + POM
-│   ├── sdet-cicd/                   Pipelines GitHub Actions / GitLab CI / Jenkins
-│   ├── sdet-mr-analysis/            Análisis de impacto en MRs/PRs
-│   ├── sdet-project-learning/       Aprendizaje de patrones vía Engram
+│   ├── sdet-mr-analysis/            Análisis de impacto en MRs/PRs (4 factores)
+│   ├── sdet-project-learning/       Aprendizaje de patrones vía Engram (opencode-only)
+│   │
+│   │  ── Automation Frameworks ──
+│   ├── sdet-automation/             Playwright + TypeScript + POM
+│   ├── sdet-automation-cypress/     Cypress E2E
+│   ├── sdet-automation-selenium/    Selenium (Java + Python)
+│   ├── sdet-automation-appium/      Appium (Android + iOS)
+│   ├── sdet-automation-robot/       Robot Framework (kw-driven)
+│   │
+│   │  ── Languages ──
+│   ├── sdet-lang-python/            pytest + fixtures + parametrize
+│   ├── sdet-lang-java/              JUnit + Mockito + TestNG
+│   ├── sdet-lang-javascript/        Jest + Vitest + Testing Library
+│   │
+│   │  ── Methodologies & Build ──
+│   ├── sdet-methodology-gherkin/    Gherkin/BDD patterns
+│   ├── sdet-methodology-cucumber/   Cucumber step definitions
+│   ├── sdet-build-maven/            Maven + Gradle config
+│   │
+│   │  ── Pipelines ──
+│   ├── sdet-cicd/                   GitHub Actions / GitLab CI / Jenkins
+│   │
+│   │  ── SQEM (Seidor) ──
 │   ├── sdet-sqem-classification/    NAQ + tipología + delivery target
 │   ├── sdet-sqem-gates/             QG0-QG7 + matriz F/L/C/N/A
 │   ├── sdet-sqem-controls/          Controles por gate × NAQ + SonarQube
@@ -293,7 +315,7 @@ bash scripts/install.sh
 .\scripts\install.ps1
 ```
 
-Copia el agente y los 13 skills a `~/.config/opencode/`. Reiniciá opencode y cambiá al agente con **Tab** o `@patesi`.
+Copia el agente y los 23 skills a `~/.config/opencode/`. Reiniciá opencode y cambiá al agente con **Tab** o `@patesi`.
 
 **Opción B — Manual:**
 

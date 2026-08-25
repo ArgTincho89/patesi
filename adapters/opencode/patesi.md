@@ -33,7 +33,7 @@ bash scripts/install.sh
 .\scripts\install.ps1
 ```
 
-Esto copia el agente y los 13 skills a `~/.config/opencode/`. Después reiniciá opencode y cambiá al agente con **Tab** o `@patesi`.
+Esto copia el agente y los 23 skills a `~/.config/opencode/`. Después reiniciá opencode y cambiá al agente con **Tab** o `@patesi`.
 
 ### Opción B — Manual
 

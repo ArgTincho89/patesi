@@ -28,36 +28,67 @@ _""¿Este es un proyecto de la empresa Seidor, un proyecto personal, o un proyec
 
 **Si no está declarado**: Preguntá explícitamente. Nunca asumas.
 
-### Paso 3: Clasificación NAQ (Solo Proyectos Seidor)
+### Paso 3: Clasificación SQEM (Solo Proyectos Seidor)
 
-Colectá los 5 factores NAQ (cada uno con puntaje 0-4):
+Solo necesitás **dos datos** del usuario:
 
-| Factor | Pregunta |
-|--------|----------|
-| **Criticidad de negocio** | ¿Cuál es el impacto de negocio si esto falla? (0=sin impacto, 4=ops críticas de negocio) |
-| **Visibilidad / uso** | ¿Qué tan visible es para los usuarios finales? (0=herramienta interna, 4=pública, millones de usuarios) |
-| **Interoperabilidad** | ¿Cuántos sistemas externos se integran? (0=independiente, 4=integraciones mayores) |
-| **Sensibilidad de datos** | ¿Qué tan sensibles son los datos que maneja? (0=datos públicos, 4=PII/financieros/salud) |
-| **Complejidad** | ¿Qué tan complejo es técnicamente? (0=CRUD simple, 4=algoritmos complejos/novedosos) |
+**Pregunta 1 — Nivel NAQ:**
+_""¿Cuál es el NAQ de este proyecto? Bajo, Medio o Alto."_
 
-Después preguntá por la **tipología principal** (y cualquier componente secundario).
+Si el usuario no lo sabe, hacé estas preguntas para ayudarlo a determinarlo:
+- ¿Cuál es el impacto si esto falla? (bajo/medio/alto)
+- ¿Maneja datos sensibles (PII, financiero, salud)? (sí/no)
+- ¿Es visible para millones de usuarios? (sí/no)
+- ¿Se integra con muchos sistemas externos? (pocos/muchos)
+- ¿Es técnicamente complejo? (simple/complejo)
 
-**Calculá NAQ:**
+Con esas respuestas, determiná el NAQ usando la fórmula:
 ```
-NAQ = (Criticidad x 8 + Visibilidad x 4 + Interop x 4 + Sensibilidad x 4 + Complejidad x 2) / (suma de pesos activos)
+NAQ = (Criticidad×8 + Visibilidad×4 + Interop×4 + Sensibilidad×4 + Complejidad×2) / pesos activos
+  < 1.5  → Bajo
+1.5 - 3  → Medio
+  ≥ 3    → Alto
 ```
 
-**Aplicá reglas de override:**
-- Criticidad=4 O Sensibilidad=4 → NAQ Alto (forzado)
-- Criticidad>=3 Y Sensibilidad>=3 → mínimo NAQ Medio
-- Impacto en seguridad de personas / breach legal serio → NAQ Alto
+**Overrides obligatorios:**
+- Criticidad=4 O Sensibilidad=4 → **NAQ Alto forzado**
+- Criticidad≥3 Y Sensibilidad≥3 → **mínimo NAQ Medio**
 
-**Derivá automáticamente:**
-- Delivery Target (Básico / Integrado / Continuo)
-- Puertas de calidad aplicables (F/L/C/N/A por tipología)
-- Controles obligatorios por NAQ
-- Entregables mínimos
-- Umbrales de indicadores
+**Pregunta 2 — Tipología:**
+_""¿Qué tipo de proyecto es?"_
+
+Las 15 tipologías disponibles:
+1. Desarrollo Nuevo
+2. Mantenimiento Evolutivo (AMS)
+3. Mantenimiento Correctivo (AMS)
+4. Hotfix / Emergencia
+5. Transformación / Migración
+6. Integraciones / APIs / Datos
+7. Producto Digital / Canal Usuario
+8. Embalado (SAP/Salesforce/...)
+9. Producto Mercado (COTS/SaaS)
+10. IA / ML / GenAI
+11. Data & Analytics / BI
+12. Infra / DevOps / Cloud
+13. RPA / Automatización
+14. Ciberseguridad
+15. Consultoría
+
+Si el usuario no la conoce, preguntá: _""¿Es un desarrollo nuevo, mantenimiento, integración, migración, o algo otro?"_
+
+**Una vez tenés NAQ + Tipología, TODO lo demás se deriva automáticamente:**
+
+| Qué se deriva | De dónde |
+|---------------|----------|
+| Delivery Target (Básico/Integrado/Continuo) | NAQ |
+| Puertas de calidad (QG0-QG7, F/L/C/N/A) | NAQ + Tipología |
+| Controles obligatorios y umbrales | NAQ |
+| Entregables mínimos | NAQ |
+| Indicadores y métricas | NAQ |
+| Cobertura de código requerida | NAQ |
+| Perfiles SonarQube | NAQ |
+
+**Cargá `sdet-sqem-gates` y `sdet-sqem-controls`** para obtener las tablas exactas de mapeo.
 
 ### Paso 4: Persistir Contexto
 

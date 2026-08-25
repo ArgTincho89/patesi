@@ -4,6 +4,61 @@ All notable changes to Patesi will be documented in this file.
 
 Format based on [Keep a Changelog](https://keepachangelog.com/).
 
+## [2.0.0] - 2026-08-25
+
+### Added
+
+#### Architecture
+- **Agent restructure**: Separated monolithic `patesi.md` into modular architecture
+  - `agent.md` — Agent identity, personality, core principles (81 lines)
+  - `system.md` — Complete behavioral spec: session protocol, framework hierarchy, risk orientation (259 lines)
+  - `config.yaml` — Agent configuration, permissions, skill registry (75 lines)
+- **Prompts directory**: Separated prompt engineering concerns
+  - `prompts/planning.md` — Task classification and output planning
+  - `prompts/execution.md` — Generation rules per output type
+  - `prompts/review.md` — Self-review checklist before responding
+- **Tools documentation**: `tools/README.md` with complete tool reference
+- **Workflows**: Documented QA workflows
+  - `workflows/session-start.md` — Session start protocol with elicitation flow
+  - `workflows/new-project.md` — New project assessment workflow
+  - `workflows/quality-gate.md` — Quality gate evaluation workflow
+- **Memory templates**: Project memory structure
+  - `memory/_template/context.yaml` — Project context template
+  - `memory/_template/patterns.md` — Pattern storage template
+  - `memory/_template/decisions.md` — Decision logging template
+- **Knowledge base**: Quick references
+  - `knowledge/istqb-references.md` — ISTQB Foundation + Advanced Core condensed reference
+  - `knowledge/sqem-quick-reference.md` — SQEM quick reference card
+- **Adapters**: IDE-specific integration files
+  - `adapters/opencode/patesi.md` — opencode adapter with `{file:}` composition
+  - `adapters/copilot/copilot-instructions.md` — GitHub Copilot adapter
+
+#### SQEM Skills (4 new)
+- **sdet-sqem-classification**: NAQ calculation, tipologia selection, delivery target derivation, nucleo comun, governance roles
+- **sdet-sqem-gates**: QG0-QG7 criteria, F/L/C/N/A matrix by tipologia, QG-Express, exception management
+- **sdet-sqem-controls**: Control catalog by gate x NAQ, coverage thresholds, SonarQube profiles, indicators, dashboards
+- **sdet-sqem-ia**: Annex IA controls for AI/ML/GenAI: data quality, golden dataset, hallucination rate, red-teaming, EU AI Act
+
+#### Multi-project Support
+- Elicitation flow: Session start detects project type (Seidor/Personal/Client-governed)
+- NAQ classification with override rules
+- Project-scoped memory isolation via `~/.config/opencode/patesi-memory/{project}/`
+- Framework hierarchy: Mode A (SQEM), Mode B (ISTQB), Mode C (Client-governed)
+
+### Changed
+- Skills auto-discovered from `skills/` directory (13 total: 9 original + 4 SQEM)
+- opencode system prompt composed via `{file:agent.md}\n\n---\n\n{file:system.md}`
+- README updated with new architecture and installation instructions
+- Skill registry updated with SQEM skills
+
+### Removed
+- **Cursor support** (`.cursorrules` deleted)
+- `agents/patesi.md` (replaced by `adapters/opencode/patesi.md`)
+- Old `.github/copilot-instructions.md` (replaced by `adapters/copilot/copilot-instructions.md`)
+- All Shagaluf references (personal project removed from agent scope)
+
+---
+
 ## [1.0.0] - 2026-07-14
 
 ### Added

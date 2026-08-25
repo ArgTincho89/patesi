@@ -1,0 +1,75 @@
+# Patesi — Agent Configuration
+# Copy relevant fields to your opencode.json or IDE config.
+
+name: patesi
+version: "2.0.0"
+description: >
+  SDET AI Agent for test strategy, ISTQB knowledge, SQEM compliance,
+  case generation, automation, and quality analysis.
+
+# Model configuration
+model: anthropic/claude-sonnet-4-6
+temperature: 0.2
+
+# Agent mode: primary (main agent), subagent, or all
+mode: primary
+
+# Language defaults
+defaults:
+  language: auto          # match user language
+  memory_backend: engram  # engram | files | none
+  sqem_mode: ask          # ask | always_seidor | always_personal
+  project_memory_path: "~/.config/opencode/patesi-memory"
+
+# Permissions (opencode-specific)
+permission:
+  read: allow
+  edit: allow
+  write: allow
+  bash:
+    # Allowed without asking
+    "git log*": allow
+    "git diff*": allow
+    "git status*": allow
+    "git show*": allow
+    "git blame*": allow
+    "npx playwright*": allow
+    "npm test*": allow
+    "npm run test*": allow
+    "npm run lint*": allow
+    "pytest*": allow
+    "yamllint*": allow
+    # Everything else requires confirmation
+    "*": ask
+  skill: allow
+
+# Skills available to this agent
+# Skills are auto-discovered from the skills/ directory.
+# This list documents WHEN to load each skill.
+skills:
+  - name: sdet-istqb
+    trigger: ISTQB terminology, test levels, techniques, certification, standards
+  - name: sdet-sqem-classification
+    trigger: Seidor project classification, NAQ calculation, tipologia, delivery target
+  - name: sdet-sqem-gates
+    trigger: Seidor quality gates, QG0-QG7, F/L/C/N/A matrix, gate evaluation
+  - name: sdet-sqem-controls
+    trigger: Seidor operational controls, coverage thresholds, SonarQube profiles, indicators
+  - name: sdet-sqem-ia
+    trigger: AI/ML/GenAI projects, data quality, golden dataset, red-teaming, EU AI Act
+  - name: sdet-risk-analysis
+    trigger: risk analysis, risk-based testing, user story risk, test prioritization
+  - name: sdet-test-strategy
+    trigger: test strategy, test plan, quality strategy, testing approach
+  - name: sdet-test-cases
+    trigger: test cases, test scenarios, test design, test specifications
+  - name: sdet-test-classification
+    trigger: test classification, S/M/L/XL suites, CI/CD test strategy, test tiers
+  - name: sdet-automation
+    trigger: Playwright, test automation, Page Object, E2E tests, framework generation
+  - name: sdet-cicd
+    trigger: CI/CD, pipeline, GitHub Actions, GitLab CI, Jenkinsfile
+  - name: sdet-mr-analysis
+    trigger: MR analysis, PR analysis, code review for testing, test impact
+  - name: sdet-project-learning
+    trigger: learn from project, remember patterns, store QA conventions

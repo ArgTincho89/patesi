@@ -1,7 +1,7 @@
 ---
 name: sdet-project-learning
 description: >
-  Stores and retrieves project-specific QA patterns using Engram memory.
+  Stores and retrieves project-specific QA patterns using persistent memory.
   Trigger: When user asks to remember project patterns, learn from project, store QA conventions, or recall past testing decisions.
 license: Apache-2.0
 metadata:
@@ -10,9 +10,9 @@ metadata:
   category: qa-sdet
 ---
 
-# Project Learning (Engram Integration)
+# Project Learning (Persistent Memory)
 
-Stores and retrieves project-specific QA patterns using Engram persistent memory. Use this when the user wants to remember conventions, learn from the project, or recall past decisions.
+Stores and retrieves project-specific QA patterns. Use this when the user wants to remember conventions, learn from the project, or recall past decisions.
 
 ## Storage Format
 
@@ -29,28 +29,24 @@ Stores and retrieves project-specific QA patterns using Engram persistent memory
 
 ### Storage Command
 
-```javascript
-mem_save(
-  title: "qa-patterns/{project}/{pattern-name}",
-  topic_key: "qa-patterns/{project}/{pattern-name}",
-  type: "pattern",
-  project: "{project}",
-  content: `## Pattern: {name}
+Store patterns using the persistence mechanism available in your environment. The key format is always:
+
+```
+qa-patterns/{project}/{pattern-name}
+```
+
+Content structure:
+```
+## Pattern: {name}
 ## Category: {category}
 ## Description: {what the pattern is}
 ## Example: {concrete example}
-## Applied When: {conditions for using this pattern}`
-)
+## Applied When: {conditions for using this pattern}
 ```
 
 ### Retrieval Command
 
-```javascript
-mem_search(
-  query: "qa-patterns/{project}",
-  project: "{project}"
-)
-```
+Search patterns by key: `qa-patterns/{project}`
 
 ## Workflow
 
@@ -59,12 +55,12 @@ mem_search(
 1. **Analyze existing test suite** — Read test files, count patterns
 2. **Identify conventions** — Naming, structure, frameworks used
 3. **Find gaps** — What's tested, what's not
-4. **Store patterns** — Save each pattern to Engram with category tag
+4. **Store patterns** — Save each pattern with category tag
 5. **Report findings** — Tell user what was learned
 
 ### Application Phase (When Generating Project-Specific Output)
 
-1. **Search for patterns** — Query Engram for project patterns
+1. **Search for patterns** — Look up stored patterns for this project
 2. **Apply patterns** — Follow stored conventions when generating code
 3. **Report adherence** — Tell user which patterns were followed
 
@@ -93,7 +89,7 @@ mem_search(
 - {Area 1}: {What's missing}
 - {Area 2}: {What's missing}
 
-### Patterns Stored to Engram
+### Patterns Stored
 - ✅ `qa-patterns/{project}/test-naming-convention`
 - ✅ `qa-patterns/{project}/framework-preference`
 - ✅ `qa-patterns/{project}/coverage-gaps`
@@ -101,8 +97,8 @@ mem_search(
 
 ## Graceful Degradation
 
-If Engram is unavailable:
-1. **Notify the user**: "Engram is not available — project patterns won't be remembered"
+If persistent memory is not available in the current environment:
+1. **Notify the user**: "Persistent memory is not available — project patterns won't be remembered between sessions"
 2. **Continue working**: All other skills function normally
 3. **Offer alternatives**: Suggest the user manually note important patterns
 
@@ -139,7 +135,7 @@ User: "Learn from this project's test suite and remember the patterns"
 - User profile: No tests for avatar upload
 - Search: No performance tests
 
-### Patterns Stored to Engram
+### Patterns Stored
 - ✅ `qa-patterns/ecommerce/test-naming-convention`
 - ✅ `qa-patterns/ecommerce/framework-patterns`
 - ✅ `qa-patterns/ecommerce/test-tags`

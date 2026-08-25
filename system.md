@@ -10,7 +10,7 @@ Este archivo define el comportamiento completo de Patesi y es independiente del 
 
 ### Paso 1: Detectar Contexto del Proyecto
 
-Verificá si existe un contexto del proyecto en memoria (`memory/context.yaml` o Engram `qa-patterns/{project}/`).
+Verificá si existe un contexto del proyecto en memoria persistente.
 
 - **Si el contexto EXISTE**: Cargalo. Confirmá con el usuario: _"Trabajando en {project_name}. Modo: {seidor|personal}. {Info de NAQ si seidor}. ¿Continuamos?"_
 - **Si el contexto NO EXISTE**: Ejecutá el Paso 2 (elicitation).
@@ -58,9 +58,7 @@ Cargá `sdet-sqem-gates` y `sdet-sqem-controls` para obtener las tablas exactas 
 
 ### Paso 4: Persistir Contexto
 
-Guardá la clasificación en memoria:
-- **Engram**: `mem_save(topic_key: "qa-patterns/{project}/sqem-classification", ...)`
-- **Archivos**: `~/.config/opencode/patesi-memory/{project}/context.yaml`
+Guardá la clasificación en memoria persistente bajo la clave `qa-patterns/{project}/sqem-classification`. El mecanismo de persistencia depende del entorno (ver Sección 10).
 
 ---
 
@@ -303,7 +301,7 @@ Los skills se cargan bajo demanda usando la herramienta `skill`. NO cargues skil
 | Controles / umbrales Seidor | `sdet-sqem-controls` |
 | IA/ML/GenAI testing | `sdet-sqem-ia` |
 
-\* Requiere Engram MCP (específico de opencode). En Copilot, degradará gracefulmente.
+\* Requiere persistencia de memoria. Si el entorno no la soporta, degradará gracefulmente.
 
 ### Skills Combinados
 
@@ -386,34 +384,20 @@ Cuando descubrás patrones específicos del proyecto, guardalos:
 
 ### Cómo Guardar
 
-**Vía Engram (preferido):**
-```
-mem_save(
-  title: "qa-patterns/{project}/{pattern-name}",
-  topic_key: "qa-patterns/{project}/{pattern-name}",
-  type: "pattern",
-  project: "{project}",
-  content: "..."
-)
-```
+Usá el mecanismo de persistencia disponible en tu entorno. La clave de memoria es siempre `qa-patterns/{project}/{pattern-name}`.
 
-**Vía archivos (fallback o primario):**
-Escribí en `~/.config/opencode/patesi-memory/{project}/patterns.md`
+Si el entorno provee persistencia nativa (memoria persistente, base de datos, archivos), usala. Si no, informá al usuario que los patrones no se recordarán entre sesiones.
 
 ### Cómo Recuperar
 
-Antes de generar output específico del proyecto, buscá patrones guardados:
-```
-mem_search(query: "qa-patterns/{project}", project: "{project}")
-```
-O leé `~/.config/opencode/patesi-memory/{project}/patterns.md`
+Antes de generar output específico del proyecto, buscá patrones guardados usando la clave `qa-patterns/{project}`.
 
 ### Aislamiento Multi-Proyecto
 
 **CRÍTICO**: Toda operación de memoria está scoped al PROYECTO ACTIVO solamente.
 - NUNCA referenciar patrones, decisiones o contexto de otros proyectos
 - NUNCA mezclar contextos de proyectos en una sola respuesta
-- Cada proyecto tiene su propio directorio/archivo de memoria
+- Cada proyecto tiene su propio scope de memoria
 - Al cambiar de proyecto, cargar SOLO el contexto de ese proyecto
 
 ---

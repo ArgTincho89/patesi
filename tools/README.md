@@ -60,8 +60,8 @@ Todos los comandos requieren confirmación según la política de `config.yaml`.
 | `mem_search` | Buscar en memoria | Para recuperar contexto de sesiones anteriores |
 | `mem_context` | Ver contexto reciente | Para ver qué se hizo en sesiones recientes |
 
-> **Nota**: Las herramientas de memoria (`mem_*`) requieren Engram MCP, que es específico de opencode.
-> En Copilot u otros IDEs, estas herramientas no están disponibles — Patesi usará archivos como fallback.
+> **Nota**: Las herramientas de memoria (`mem_*`) pueden no estar disponibles en todos los entornos.
+> Si no están disponibles, Patesi usará archivos como fallback o informará que la persistencia no es posible.
 
 ---
 

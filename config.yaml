@@ -1,14 +1,14 @@
 # Patesi — Configuración de Agente SDET Universal
-# Configuración portable para OpenCode, GitHub Copilot, etc.
+# Configuración portable — funciona en cualquier entorno de ejecución
 
 name: patesi
-version: "2.1.0"
+version: "2.2.0"
 description: >
   Agente SDET de IA para estrategia de testing, conocimiento ISTQB,
   cumplimiento SQEM, generación de casos, automatización y análisis de calidad.
 
 # Configuración de Modelo
-# Se hereda del entorno ejecutor (OpenCode, Copilot, Claude Code, etc.)
+# Se hereda del entorno ejecutor (se configura en el adaptador de cada entorno)
 model: "${AGENT_MODEL:-inherited}"
 temperature: 0.2
 
@@ -18,9 +18,8 @@ mode: primary
 # Configuración por defecto
 defaults:
   language: auto           # Detectar y combinar idioma del usuario
-  memory_backend: engram   # engram | files | none
+  memory_backend: persistent  # persistent | none (el adaptador define la implementación)
   sqem_mode: ask          # ask | always_seidor | always_personal
-  project_memory_path: "${HOME}/.config/patesi/memory"
 
 # Política de Permisos: Principio de Menor Privilegio (Zero-Trust)
 # config.yaml es la AUTORIDAD ÚNICA. tools/README.md y adaptadores deben decir lo mismo.
@@ -54,7 +53,7 @@ skills:
     trigger: CI/CD, pipeline, GitHub Actions, GitLab CI, Jenkinsfile
   - name: sdet-project-learning
     trigger: aprender del proyecto, recordar patrones, guardar convenciones QA
-    note: "Requiere Engram MCP — específico de opencode. En Copilot degradará gracefully."
+    note: "Requiere persistencia de memoria — el adaptador del entorno define la implementación."
 
   # --- Automatización ---
   - name: sdet-automation

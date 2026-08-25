@@ -111,7 +111,7 @@ patesi/
 │   ├── sdet-test-cases/             Generador TC-XXX con happy/unhappy/corner
 │   ├── sdet-test-classification/    Clasificador S/M/L/XL para CI/CD
 │   ├── sdet-mr-analysis/            Análisis de impacto en MRs/PRs (4 factores)
-│   ├── sdet-project-learning/       Aprendizaje de patrones vía Engram (opencode-only)
+│   ├── sdet-project-learning/       Aprendizaje de patrones (persistencia según entorno)
 │   │
 │   │  ── Automation Frameworks ──
 │   ├── sdet-automation/             Playwright + TypeScript + POM
@@ -221,7 +221,7 @@ Patesi carga skills cuando tu solicitud coincide con los triggers:
 | "¿Qué controles necesito para NAQ Alto?" | `sdet-sqem-controls` |
 | "Testeá este modelo de IA" | `sdet-sqem-ia` |
 
-\* Requiere Engram MCP (específico de opencode). En Copilot, degradará gracefully.
+\* Requiere persistencia de memoria. Si el entorno no la soporta, degradará gracefully.
 
 **Skills simultáneos**: Puede cargar varios skills a la vez cuando la situación lo requiere (ej: `sdet-automation-selenium` + `sdet-lang-java` + `sdet-methodology-cucumber` para un proyecto Selenium/Java/Cucumber).
 

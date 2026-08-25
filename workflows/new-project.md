@@ -1,62 +1,139 @@
-# Workflow: New Project
+# Patesi — Flujo de Nuevo Proyecto
 
-This workflow defines how Patesi handles a brand new project from scratch.
-
----
-
-## Triggers
-
-- User says "I have a new project" or "Let us start working on {project}"
-- No existing context found for the project
+Este workflow define cómo Patesi assessment un proyecto nuevo.
 
 ---
 
-## Flow
+## Flujo
 
 ```
-START (new project)
-  │
-  ├─► Session Start workflow (mandatory)
-  │     └─► Elicitation + Classification
-  │
-  ├─► Initial Project Analysis
-  │     │
-  │     ├─► Ask about tech stack, test frameworks, CI/CD
-  │     ├─► Ask about testing maturity
-  │     ├─► Ask about known risk areas
-  │     ├─► Ask about team setup (QA team, dev ownership)
-  │     └─► Ask about conventions (file patterns, tags, naming)
-  │
-  ├─► Generate Initial Assessment
-  │     │
-  │     ├─► Mode A (Seidor):
-  │     │     ├─► Derive full SQEM envelope from NAQ + tipologia
-  │     │     ├─► List applicable gates (F/L/C/N/A)
-  │     │     ├─► List mandatory controls
-  │     │     ├─► List minimum deliverables
-  │     │     └─► List indicator thresholds
-  │     │
-  │     └─► Mode B (Personal):
-  │           ├─► Assess current testing maturity
-  │           ├─► Identify coverage gaps
-  │           ├─► Recommend testing approach
-  │           └─► Prioritize improvements
-  │
-  ├─► Store Project Context
-  │     ├─► Save context.yaml
-  │     ├─► Save initial patterns (if any discovered)
-  │     └─► Save initial decisions
-  │
-  └─► Present Summary
-        └─► "Project {name} initialized. Mode: {mode}. {key findings}. Ready to work."
+┌─────────────────────────────────────┐
+│  NUEVO PROYECTO                     │
+└──────────────┬──────────────────────┘
+               │
+               ▼
+┌─────────────────────────────────────┐
+│  1. Ejecutar inicio de sesión       │
+│     (ver workflows/session-start)   │
+└──────────────┬──────────────────────┘
+               │
+               ▼
+┌─────────────────────────────────────┐
+│  2. Análisis inicial del proyecto    │
+│     - Stack tecnológico             │
+│     - Frameworks de testing         │
+│     - Área de riesgo conocida       │
+│     - Madurez de testing            │
+└──────────────┬──────────────────────┘
+               │
+               ▼
+┌─────────────────────────────────────┐
+│  3. Generar assessment inicial       │
+│     - Fortalezas actuales           │
+│     - Gaps identificados            │
+│     - Recomendaciones priorizadas   │
+└──────────────┬──────────────────────┘
+               │
+               ▼
+┌─────────────────────────────────────┐
+│  4. Guardar contexto en memoria     │
+└──────────────┬──────────────────────┘
+               │
+               ▼
+┌─────────────────────────────────────┐
+│  5. Presentar resumen al usuario    │
+│     y preguntar por dónde empezar   │
+└─────────────────────────────────────┘
 ```
 
 ---
 
-## Rules
+## Análisis Inicial
 
-1. ALWAYS run Session Start first
-2. Collect ALL metadata in one session — do not spread elicitation across multiple conversations
-3. Be thorough in the initial assessment — this sets the foundation for all future work
-4. Save everything — the user should not need to re-explain their project
-5. Present a clear summary before starting actual QA work
+### Stack Tecnológico
+
+Preguntar o detectar:
+- Lenguaje de programación
+- Framework de backend
+- Framework de frontend
+- Base de datos
+- Infraestructura (cloud, on-prem)
+
+### Frameworks de Testing en Uso
+
+Preguntar o detectar:
+- Framework de unit tests (Jest, JUnit, pytest, etc.)
+- Framework de E2E (Playwright, Cypress, Selenium)
+- Framework de API testing (REST Assured, Supertest, etc.)
+- Herramientas de CI/CD (GitHub Actions, GitLab CI, Jenkins)
+
+### Área de Riesgo Conocida
+
+Preguntar o detectar:
+- Módulos con historial de bugs
+- Componentes con alta complejidad
+- Integraciones con sistemas externos
+- Datos sensibles
+
+### Madurez de Testing
+
+Evaluar:
+- **Básica**: Tests manuales, sin automatización
+- **Intermedia**: Unit tests, CI básico
+- **Avanzada**: E2E automatizado, CI/CD completo
+- **Experta**: Quality gates, métricas, dashboards
+
+---
+
+## Assessment Inicial
+
+### Fortalezas Actuales
+
+Listar lo que ya está bien:
+- Tests que existen y funcionan
+- Procesos que están establecidos
+- Herramientas que ya se usan
+
+### Gaps Identificados
+
+Listar lo que falta:
+- Tipos de testing no cubiertos
+- Áreas sin tests
+- Procesos no establecidos
+- Herramientas no utilizadas
+
+### Recomendaciones Priorizadas
+
+Para cada gap:
+- **Prioridad**: P1/P2/P3
+- **Impacto**: Qué se gana al implementar
+- **Esfuerzo**: Cuánto trabajo requiere
+- **Quick win**: ¿Es factible de hacer rápido?
+
+---
+
+## Output
+
+Presentar al usuario:
+
+```
+## Assessment del Proyecto: {nombre}
+
+### Stack Detectado
+- Backend: {tecnología}
+- Frontend: {tecnología}
+- DB: {tecnología}
+- CI/CD: {herramienta}
+
+### Estado Actual de Testing
+- Madurez: {Básica/Intermedia/Avanzada/Experta}
+- Fortalezas: {lista}
+- Gaps: {lista}
+
+### Recomendaciones (ordenadas por prioridad)
+1. {recomendación P1}
+2. {recomendación P2}
+3. {recomendación P3}
+
+¿Por dónde querés empezar?
+```

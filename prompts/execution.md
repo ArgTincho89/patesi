@@ -1,69 +1,198 @@
-# Execution Prompt
+# Patesi — Reglas de Ejecución
 
-Use this prompt when Patesi is generating output (strategies, test cases, risk analyses, code, etc.).
+Este archivo define las reglas específicas para generar cada tipo de output.
 
 ---
 
-## Execution Rules
+## Generación de Estrategia de Testing
 
-### Before Generating
+### Estructura (9 secciones obligatorias)
 
-1. Confirm the quality framework (SQEM or ISTQB)
-2. Load relevant skills if not already loaded
-3. Check for stored project patterns (memory)
-4. Determine the output format required
+1. **Alcance** — Qué se testeá, qué no, por qué
+2. **Niveles de testing** — Unit, integration, system, acceptance — cuáles aplican
+3. **Tipos de testing** — Functional, NF, security, performance, accessibility — cuáles aplican
+4. **Riesgos** — Top riesgos y cómo se abordan
+5. **Criterios de salida** — Qué define "listo para producción"
+6. **Entorno** — Requerimientos de entorno de testing
+7. **Automatización** — Qué se automatiza, qué no, por qué
+8. **Roles** — Quién hace qué
+9. **Mitigaciones** — Qué hacer si algo sale mal
 
-### While Generating
+### Validación SQEM (Modo A)
 
-#### For Test Strategies
-1. Follow the 9-section template from `sdet-test-strategy`
-2. In Mode A: validate against SQEM before presenting
-3. Include risk-based prioritization in every section
-4. Back every recommendation with ISTQB/SQEM reference
+Antes de presentar, validá contra SQEM:
+- ¿El alcance cubre los controles requeridos por NAQ?
+- ¿Los niveles de testing son apropiados para la tipología?
+- ¿Los criterios de salida cumplen con las puertas de calidad?
+- ¿Faltan entregables obligatorios?
 
-#### For Risk Analysis
-1. Use the weighted risk matrix (Business 30%, Complexity 25%, Change 20%, Gap 15%, Dependency 10%)
-2. In Mode A: NAQ governs the envelope, risk matrix prioritizes within it
-3. Calculate the score explicitly
-4. Provide actionable recommendations based on risk level
+---
 
-#### For Test Cases
-1. Follow TC-XXX format with all required fields
-2. Organize by happy/unhappy/corner (mandatory)
-3. Include priority (P1-P4), preconditions, steps, expected results
-4. Mark automation candidates with rationale
-5. Include traceability to requirements when available
+## Generación de Análisis de Riesgos
 
-#### For Test Classification
-1. Classify into S/M/L/XL suites
-2. Include execution time estimates
-3. Map to CI/CD pipeline stages
-4. Provide classification heuristics
+### Matriz Ponderada (5 factores)
 
-#### For Automation Code
-1. Generate Playwright + TypeScript with Page Object Model
-2. Follow the framework structure from `sdet-automation`
-3. Use accessible locators (getByRole, getByLabel, getByText)
-4. Include fixtures for test isolation
-5. Generate config, package.json, and tsconfig
+| Factor | Peso |
+|--------|------|
+| Impacto de negocio | 30% |
+| Complejidad técnica | 25% |
+| Frecuencia de cambio | 20% |
+| Brecha de conocimiento | 15% |
+| Dependencias | 10% |
 
-#### For CI/CD Pipelines
-1. Support GitHub Actions (primary), GitLab CI, Jenkins
-2. Include conditional test execution (S on commit, M on PR, L on release)
-3. Include artifact collection on failure
-4. Include timeout configuration
+### Output
 
-#### For MR Analysis
-1. Analyze changed files and their impact
-2. Identify affected test files
-3. Calculate risk level
-4. Recommend must-run, should-run, and consider-running tests
-5. Identify missing coverage
+Para cada riesgo:
+- **Descripción**: Qué podría fallar
+- **Impacto**: Consecuencia de negocio
+- **Probabilidad**: Qué tan probable es
+- **Puntaje**: Cálculo ponderado (0-100)
+- **Prioridad**: P1 (crítico) / P2 (alto) / P3 (medio) / P4 (bajo)
+- **Mitigación**: Qué hacer para reducir el riesgo
+- **Tests recomendados**: Qué testear para cubrir este riesgo
 
-### After Generating
+---
 
-1. Review the output for completeness
-2. Verify all sections are present
-3. Check that ISTQB/SQEM references are included
-4. Ensure coverage analysis is present (for deliverables)
-5. Confirm no project context has leaked from other projects
+## Generación de Casos de Prueba
+
+### Formato TC-XXX
+
+```
+TC-XXX: [Título del caso]
+- Precondiciones: [Qué debe ser verdad antes]
+- Steps: [Pasos numerados]
+- Expected result: [Resultado esperado]
+- Priority: [P1/P2/P3/P4]
+- Automation candidate: [Sí/No + justificación]
+```
+
+### Organización (OBLIGATORIA)
+
+Siempre presentar por tres categorías:
+1. **Happy path** — Flujo principal de éxito
+2. **Unhappy path** — Inputs inválidos, fallos, errores
+3. **Corner cases** — Boundary values, concurrencia, edge cases
+
+### Priorización
+
+| Prioridad | Cuándo |
+|-----------|--------|
+| **P1** | Crítico para negocio, happy path principal |
+| **P2** | Importante, unhappy path principal |
+| **P3** | Normal, edge cases importantes |
+| **P4** | Bajo, edge cases raros |
+
+---
+
+## Generación de Clasificación de Tests (S/M/L/XL)
+
+### Criterios
+
+| Tamaño | Complejidad | Tiempo estimado | Dependencias |
+|--------|-------------|----------------|--------------|
+| **S** | Baja | <30 min | Ninguna |
+| **M** | Media | 30-120 min | 1-2 |
+| **L** | Alta | 2-8 hours | 3-5 |
+| **XL** | Muy alta | >8 hours | >5 |
+
+### Suite de Ejecución
+
+| Suite | Cuándo correr | Ejecución |
+|-------|---------------|-----------|
+| **S** | Cada commit | Automática |
+| **M** | Cada PR | Automática |
+| **L** | Cada merge a main | Semi-automática |
+| **XL** | Pre-release | Manual + automatizada |
+
+---
+
+## Generación de Framework Playwright
+
+### Estructura
+
+```
+tests/
+├── pages/           # Page Objects
+│   ├── BasePage.ts
+│   └── [PageName].ts
+├── fixtures/        # Fixtures y test data
+│   └── test-fixtures.ts
+├── specs/           # Test cases
+│   └── [feature].spec.ts
+└── utils/           # Helpers
+    └── test-utils.ts
+```
+
+### Reglas
+
+- TypeScript estricto (no `any`)
+- Page Object Model para UI tests
+- Fixtures para test data
+- Assertions con expect() nativo
+- Tags para prioridad y tipo
+
+---
+
+## Generación de CI/CD
+
+### Estructura por Pipeline
+
+```yaml
+name: [Nombre del pipeline]
+on: [Trigger]
+jobs:
+  [job-name]:
+    steps:
+      - Checkout
+      - Setup
+      - Install
+      - Lint
+      - Unit tests
+      - Integration tests
+      - E2E tests (si aplica)
+      - Report
+```
+
+### Reglas
+
+- GitHub Actions como default (más común)
+- GitLab CI como alternativa
+- Jenkins cuando el usuario lo pida
+- Incluir caching de dependencias
+- Incluir reportes de cobertura
+- Incluir notifications
+
+---
+
+## Generación de Análisis de MR
+
+### Estructura
+
+1. **Resumen** — Qué cambió este MR
+2. **Archivos afectados** — Lista con impacto
+3. **Tests impactados** — Qué tests se ven afectados
+4. **Riesgos** — Qué podría romperse
+5. **Recomendaciones** — Qué tests agregar/ejecutar
+6. **Checklist** — Steps para verificar antes de merge
+
+---
+
+## Generación SQEM
+
+### Clasificación NAQ
+
+1. Colectar 5 factores (0-4 cada uno)
+2. Calcular NAQ con fórmula
+3. Aplicar overrides
+4. Derivar delivery target
+5. Listar gates aplicables
+6. Listar controles obligatorios
+
+### Evaluación de Gates
+
+1. Identificar gate actual
+2. Listar criterios del gate
+3. Evaluar cada criterio (PASS/WARNING/FAIL/N/A)
+4. Identificar gaps
+5. Recomendar acciones
+6. Dar veredicto final

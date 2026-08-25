@@ -1,88 +1,122 @@
-# Workflow: Session Start
+# Patesi — Protocolo de Inicio de Sesión
 
-This workflow defines what happens when Patesi begins a new session or conversation.
-
----
-
-## Triggers
-
-- User starts a new conversation
-- User switches to a different project
-- User says "let us work on {project}" or similar
+Este workflow define cómo Patesi inicia cada sesión de trabajo.
 
 ---
 
-## Flow
+## Flujo
 
 ```
-START
-  │
-  ├─► Check for existing project context
-  │     ├─► memory/{project}/context.yaml exists?
-  │     │     ├─ YES → Load context → Confirm with user → READY
-  │     │     └─ NO  → Continue to elicitation
-  │     │
-  │     └─► Engram qa-patterns/{project}/ exists?
-  │           ├─ YES → Load context → Confirm with user → READY
-  │           └─ NO  → Continue to elicitation
-  │
-  ├─► Elicitation (if no context found)
-  │     │
-  │     ├─► Ask: "Is this a Seidor project, personal, or client-governed?"
-  │     │     ├─ Seidor    → NAQ Classification
-  │     │     ├─ Personal  → ISTQB mode → Save context → READY
-  │     │     └─ Client    → Client mode → Save context → READY
-  │     │
-  │     └─► NAQ Classification (Seidor only)
-  │           │
-  │           ├─► Ask 5 NAQ factors (0-4 each)
-  │           ├─► Ask primary tipologia (+ secondary if any)
-  │           ├─► Calculate NAQ score
-  │           ├─► Apply override rules
-  │           ├─► Derive: delivery target, gates, controls, thresholds
-  │           └─► Save context → READY
-  │
-  └─► READY
-        └─► Begin QA work
-```
-
----
-
-## Context File Format
-
-```yaml
-# ~/.config/opencode/patesi-memory/{project}/context.yaml
-project_id: string       # URL-safe identifier
-name: string             # Human-readable project name
-mode: seidor | personal | client
-last_session: date       # ISO 8601
-
-# Seidor-specific fields (null if personal/client)
-naq: bajo | medio | alto
-naq_score: float         # Calculated NAQ value
-naq_factors:
-  criticidad: int        # 0-4
-  visibilidad: int       # 0-4
-  interoperabilidad: int # 0-4
-  sensibilidad: int      # 0-4
-  complejidad: int       # 0-4
-tipologia: string        # Primary tipologia
-tipologia_secundaria: string  # Secondary (if any)
-delivery_target: basico | integrado | continuo
-
-# Project metadata
-tech_stack: string
-test_frameworks: string
-ci_cd_platform: string
+┌─────────────────────────────────────┐
+│  INICIO DE SESIÓN                   │
+└──────────────┬──────────────────────┘
+               │
+               ▼
+┌─────────────────────────────────────┐
+│  1. ¿Existe contexto del proyecto?  │
+└──────────────┬──────────────────────┘
+               │
+       ┌───────┴───────┐
+       │               │
+       ▼               ▼
+   ┌───────┐      ┌─────────┐
+   │  SÍ   │      │   NO    │
+   └───┬───┘      └────┬────┘
+       │               │
+       ▼               ▼
+┌──────────────┐ ┌─────────────────────┐
+│ Cargar       │ │ 2. Preguntar tipo   │
+│ contexto     │ │    de proyecto      │
+└──────┬───────┘ └──────────┬──────────┘
+       │                    │
+       │            ┌───────┴───────┐
+       │            │               │
+       │            ▼               ▼
+       │     ┌────────────┐  ┌────────────┐
+       │     │  Seidor    │  │  Personal  │
+       │     └─────┬──────┘  └─────┬──────┘
+       │           │               │
+       │           ▼               │
+       │  ┌────────────────────┐   │
+       │  │ 3. Clasificar NAQ  │   │
+       │  └─────────┬──────────┘   │
+       │            │              │
+       │            ▼              │
+       │  ┌────────────────────┐   │
+       │  │ Derivar delivery   │   │
+       │  │ target + controls  │   │
+       │  └─────────┬──────────┘   │
+       │            │              │
+       ▼            ▼              ▼
+┌─────────────────────────────────────┐
+│  4. Persistir contexto en memoria   │
+└──────────────┬──────────────────────┘
+               │
+               ▼
+┌─────────────────────────────────────┐
+│  5. READY — Listo para trabajar     │
+└─────────────────────────────────────┘
 ```
 
 ---
 
-## Rules
+## Detalle de Cada Paso
 
-1. NEVER skip the elicitation for a new project
-2. NEVER assume the project type — always ask
-3. NEVER mix contexts from different projects
-4. ALWAYS persist the classification after elicitation
-5. If Engram is unavailable, use file-based memory
-6. If both are unavailable, warn the user and proceed without persistence
+### Paso 1: Detectar Contexto
+
+Buscar en:
+- `memory/context.yaml` (archivo local)
+- Engram: `mem_search(query: "qa-patterns/{project}", project: "{project}")`
+
+Si existe → cargar y confirmar con usuario.
+Si no existe → continuar al paso 2.
+
+### Paso 2: Preguntar Tipo de Proyecto
+
+Pregunta: _"¿Este es un proyecto de la empresa Seidor, un proyecto personal, o un proyecto gobernado por cliente?"_
+
+- **Seidor** → Paso 3 (Clasificación NAQ)
+- **Personal** → ISTQB como framework primario, saltar al paso 4
+- **Cliente** → Framework del cliente + SQEM como suficiencia, saltar al paso 4
+
+### Paso 3: Clasificación NAQ (Solo Seidor)
+
+Colectar los 5 factores:
+
+| Factor | Pregunta |
+|--------|----------|
+| Criticidad de negocio | Impacto si falla (0-4) |
+| Visibilidad / uso | Visible para usuarios (0-4) |
+| Interoperabilidad | Sistemas externos (0-4) |
+| Sensibilidad de datos | Sensibilidad (0-4) |
+| Complejidad | Complejidad técnica (0-4) |
+
+Calcular NAQ:
+```
+NAQ = (Criticidad×8 + Visibilidad×4 + Interop×4 + Sensibilidad×4 + Complejidad×2) / pesos activos
+```
+
+Aplicar overrides:
+- Criticidad=4 O Sensibilidad=4 → **NAQ Alto forzado**
+- Criticidad≥3 Y Sensibilidad≥3 → **mínimo NAQ Medio**
+
+Derivar:
+- Delivery Target (Básico / Integrado / Continuo)
+- Gates aplicables (QG0-QG7 con F/L/C/N/A)
+- Controles obligatorios
+- Entregables mínimos
+
+### Paso 4: Persistir Contexto
+
+Guardar en:
+- **Engram**: `mem_save(topic_key: "qa-patterns/{project}/context", ...)`
+- **Archivos**: `~/.config/opencode/patesi-memory/{project}/context.yaml`
+
+---
+
+## Multi-Proyecto
+
+**CRÍTICO**: Cada proyecto tiene su propio contexto. Al cambiar de proyecto:
+1. Guardá el contexto actual
+2. Cargá el contexto del nuevo proyecto
+3. NUNCA mezcles contextos entre proyectos

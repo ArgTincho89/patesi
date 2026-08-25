@@ -1,92 +1,133 @@
-# Workflow: Quality Gate Evaluation
+# Patesi — Flujo de Quality Gate
 
-This workflow defines how Patesi evaluates quality gates for Seidor projects.
-
----
-
-## Triggers
-
-- User asks "Are we ready for production?"
-- User asks "Evaluate the quality gate"
-- User asks "Can we pass QG{N}?"
-- Reaching a gate milestone in the project
+Este workflow define cómo Patesi evalúa una puerta de calidad.
 
 ---
 
-## Flow (Mode A — Seidor)
+## Flujo
 
 ```
-START (gate evaluation)
-  │
-  ├─► Identify which gate (QG0-QG7)
-  │
-  ├─► Load SQEM gate requirements
-  │     ├─► sdet-sqem-gates (gate criteria)
-  │     └─► sdet-sqem-controls (control requirements)
-  │
-  ├─► For each control in the gate:
-  │     │
-  │     ├─► Check: Is the control applicable? (tipologia matrix)
-  │     │     ├─ N/A → Record as N/A with justification
-  │     │     └─ Applicable → Continue
-  │     │
-  │     ├─► Check: Is there evidence?
-  │     │     ├─ NO → Mark as FAIL
-  │     │     └─ YES → Continue
-  │     │
-  │     ├─► Check: Does evidence meet NAQ threshold?
-  │     │     ├─ NO → Mark as FAIL (or WARNING with mitigation plan)
-  │     │     └─ YES → Mark as PASS
-  │     │
-  │     └─► Record decision with evidence reference
-  │
-  ├─► Compile gate assessment
-  │     │
-  │     ├─► Count: PASS / WARNING / FAIL / N/A
-  │     ├─► Check: Any non-excepcionable FAIL? → HARD BLOCK
-  │     ├─► Check: 0 blocking/critical defects? (nucleo comun)
-  │     └─► Check: Go/No-Go decision recorded?
-  │
-  ├─► Generate Gate Report
-  │     │
-  │     ├─► Gate assessment table (control | status | evidence | owner)
-  │     ├─► Blocking issues (if any)
-  │     ├─► Recommendations
-  │     └─► Go/No-Go recommendation
-  │
-  └─► Present to user
-        └─► "QG{N} Assessment: {PASS/WARNING/FAIL}. {summary}. {recommendation}."
+┌─────────────────────────────────────┐
+│  EVALUACIÓN DE GATE                 │
+└──────────────┬──────────────────────┘
+               │
+               ▼
+┌─────────────────────────────────────┐
+│  1. Identificar gate actual         │
+│     (QG0-QG7)                      │
+└──────────────┬──────────────────────┘
+               │
+               ▼
+┌─────────────────────────────────────┐
+│  2. Cargar requisitos del gate      │
+│     (skills sdet-sqem-gates)        │
+└──────────────┬──────────────────────┘
+               │
+               ▼
+┌─────────────────────────────────────┐
+│  3. Evaluar cada criterio           │
+│     PASS / WARNING / FAIL / N/A     │
+└──────────────┬──────────────────────┘
+               │
+               ▼
+┌─────────────────────────────────────┐
+│  4. Identificar gaps                │
+└──────────────┬──────────────────────┘
+               │
+               ▼
+┌─────────────────────────────────────┐
+│  5. Recomendar acciones             │
+└──────────────┬──────────────────────┘
+               │
+               ▼
+┌─────────────────────────────────────┐
+│  6. Dar veredicto final             │
+│     PASS / WARNING / FAIL           │
+└─────────────────────────────────────┘
 ```
 
 ---
 
-## Gate Decision Rules
+## Detalle de Cada Paso
 
-| Decision | Condition | Action |
-|----------|-----------|--------|
-| **PASS** | All controls evidence within NAQ threshold | Advance to next gate |
-| **WARNING** | Partial evidence, minor deviation | Conditional advance with mitigation plan |
-| **FAIL** | Absent evidence or blocker breach | Does NOT advance. Formal exception required. |
-| **N/A** | Not applicable by tipologia/NAQ | Excluded from scoring, recorded |
+### Paso 1: Identificar Gate
+
+Preguntar al usuario o detectar del contexto:
+- ¿En qué gate estamos? (QG0-QG7)
+- ¿Cuál es la tipología del proyecto?
+- ¿Cuál es el NAQ?
+
+### Paso 2: Cargar Requisitos
+
+Cargar `sdet-sqem-gates` para obtener:
+- Criterios del gate específico
+- Matriz F/L/C/N/A para la tipología
+- Entregables obligatorios
+- Criterios no excepables
+
+### Paso 3: Evaluar Criterios
+
+Para cada criterio del gate:
+
+| Resultado | Significado |
+|-----------|-------------|
+| **PASS** | Evidencia completa, actual, trazable dentro del umbral NAQ |
+| **WARNING** | Evidencia parcial, control incompleto, desviación menor |
+| **FAIL** | Evidencia ausente/inválida, fuera de umbral, bloqueador |
+| **N/A** | No aplica por tipología/NAQ/alcance |
+
+### Paso 4: Identificar Gaps
+
+Listar:
+- Criterios que fallaron
+- Entregables faltantes
+- Controles no ejecutados
+- Evidencia incompleta
+
+### Paso 5: Recomendar Acciones
+
+Para cada gap:
+- **Acción específica**: Qué hacer
+- **Responsable**: Quién debe hacerlo
+- **Plazo**: Cuándo debe estar listo
+- **Bloqueador**: ¿Bloquea el gate?
+
+### Paso 6: Veredicto Final
+
+| Veredicto | Condición |
+|-----------|-----------|
+| **PASS** | Todos los criterios PASS, sin gaps bloqueadores |
+| **WARNING** | Algunos WARNING pero sin FAIL, con plan de cierre |
+| **FAIL** | Al menos un criterio FAIL, requiere excepción formal |
 
 ---
 
-## Non-Excepable Criteria (Hard Block)
+## Criterios No Excepables (Hard Blocks)
 
-These always block production, regardless of exceptions:
-- Open blocking/critical defect
-- Serious security/data/compliance breach
-- Minimum test evidence unavailable
-- Mandatory rollback not defined (NAQ Alto)
-- High risk without mitigation or formal acceptance
+Estos criterios requieren Direction/Sponsor + QA Manager para override:
+- Defecto bloqueante/crítico abierto
+- Brecha seria de seguridad/datos/compliance
+- Evidencia de testing mínima no disponible
+- Rollback obligatorio no definido
+- Riesgo alto sin mitigación o aceptación formal
 
 ---
 
-## Rules
+## Excepciones Formales
 
-1. ALWAYS reference the specific SQEM section for each control evaluation
-2. NEVER mark a FAIL as PASS — integrity is non-negotiable
-3. ALWAYS include evidence references (file paths, test reports, screenshots)
-4. ALWAYS check nucleo comun (9 items) regardless of gate
-5. If the user wants to proceed with a FAIL, require formal exception (SQEM section 8)
-6. Generate the report in a format suitable for archival
+Cuando el gate FALLA pero se necesita avanzar:
+
+1. Identificar la excepción requerida
+2. Determinar nivel de aprobador según severidad × NAQ
+3. Documentar: criterio roto, riesgo, mitigación, aprobador
+4. Registrar la excepción formalmente
+5. Establecer fecha de cierre
+
+### Escalamiento por Severidad × NAQ
+
+| Severidad | NAQ | Aprobador mínimo |
+|-----------|-----|-----------------|
+| Menor (deferred) | Cualquiera | PM + QA Lead |
+| Medio | Bajo/Medio | PM + Cliente/PO |
+| Medio | Alto | QA Manager + Delivery |
+| Alto (bloqueador, seguridad, datos, compliance) | Cualquiera | **Direction/Sponsor + QA Manager** |

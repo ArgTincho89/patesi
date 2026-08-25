@@ -1,12 +1,12 @@
-# Patesi — opencode Adapter
+# Patesi — Adaptador para opencode
 
-Use this adapter to compose the system prompt for opencode.
+Usá este adaptador para componer el system prompt en opencode.
 
 ```json
 {
   "agent": {
     "patesi": {
-      "description": "Patesi — SDET AI Agent",
+      "description": "Patesi — Agente SDET de IA",
       "mode": "primary",
       "prompt": "{file:./agent.md}\n\n---\n\n{file:./system.md}",
       "tools": { "edit": true, "write": true }
@@ -15,15 +15,15 @@ Use this adapter to compose the system prompt for opencode.
 }
 ```
 
-## What this adapter does
+## Qué hace este adaptador
 
-1. Loads `agent.md` (identity, personality, core principles)
-2. Loads `system.md` (behavioral rules, session protocol, framework hierarchy)
-3. Skills are auto-discovered from `skills/` directory and loaded on-demand via the `skill` tool
+1. Carga `agent.md` (identidad, personalidad, principios core)
+2. Carga `system.md` (reglas de comportamiento, protocolo de sesión, jerarquía de frameworks)
+3. Los skills se auto-descubren desde `skills/` y se cargan bajo demanda vía la herramienta `skill`
 
-## Installation
+## Instalación
 
-### Option A — Script (recommended)
+### Opción A — Script (recomendado)
 
 ```bash
 # Linux/macOS
@@ -33,20 +33,20 @@ bash scripts/install.sh
 .\scripts\install.ps1
 ```
 
-This copies the agent and all 13 skills to `~/.config/opencode/`. Then restart opencode and switch to patesi with **Tab** or `@patesi`.
+Esto copia el agente y los 13 skills a `~/.config/opencode/`. Después reiniciá opencode y cambiá al agente con **Tab** o `@patesi`.
 
-### Option B — Manual
+### Opción B — Manual
 
-1. Copy `agent.md` to `~/.config/opencode/agents/patesi.md`
-2. Copy `system.md` to `~/.config/opencode/agents/system.md` (same directory)
-3. Copy all `skills/sdet-*/` directories to `~/.config/opencode/skills/`
-4. Add to your `opencode.json`:
+1. Copiá `agent.md` a `~/.config/opencode/agents/patesi.md`
+2. Copiá `system.md` al mismo directorio (`~/.config/opencode/agents/system.md`)
+3. Copiá los directorios `skills/sdet-*/` a `~/.config/opencode/skills/`
+4. Agregá a tu `opencode.json`:
 
 ```json
 {
   "agent": {
     "patesi": {
-      "description": "Patesi — SDET AI Agent",
+      "description": "Patesi — Agente SDET de IA",
       "mode": "primary",
       "prompt": "{file:./agents/patesi.md}\n\n---\n\n{file:./agents/system.md}",
       "tools": { "edit": true, "write": true }
@@ -55,24 +55,24 @@ This copies the agent and all 13 skills to `~/.config/opencode/`. Then restart o
 }
 ```
 
-5. Restart opencode.
+5. Reiniciá opencode.
 
 ## Skills
 
-Skills are loaded on-demand when the user's request matches a skill trigger. See `config.yaml` for the full skill registry.
+Los skills se cargan bajo demanda cuando la solicitud del usuario coincide con un trigger. Ver `config.yaml` para el registro completo.
 
-### When to load skills
+### Cuándo cargar skills
 
-- User asks about ISTQB → `sdet-istqb`
-- User asks about test strategy → `sdet-test-strategy`
-- User asks for risk analysis → `sdet-risk-analysis`
-- User asks to generate test cases → `sdet-test-cases`
-- User asks to classify tests → `sdet-test-classification`
-- User asks for Playwright/automation → `sdet-automation`
-- User asks for CI/CD pipelines → `sdet-cicd`
-- User asks to analyze an MR/PR → `sdet-mr-analysis`
-- User asks to learn from project → `sdet-project-learning`
-- Seidor project + need NAQ/classification → `sdet-sqem-classification`
-- Seidor project + need gates → `sdet-sqem-gates`
-- Seidor project + need controls/thresholds → `sdet-sqem-controls`
-- Seidor project + AI/ML/GenAI → `sdet-sqem-ia`
+- Usuario pregunta sobre ISTQB → `sdet-istqb`
+- Usuario pide estrategia de testing → `sdet-test-strategy`
+- Usuario pide análisis de riesgos → `sdet-risk-analysis`
+- Usuario pide generar casos de prueba → `sdet-test-cases`
+- Usuario pide clasificar tests → `sdet-test-classification`
+- Usuario pide Playwright/automatización → `sdet-automation`
+- Usuario pide pipelines CI/CD → `sdet-cicd`
+- Usuario pide analizar un MR/PR → `sdet-mr-analysis`
+- Usuario pide aprender de proyecto → `sdet-project-learning`
+- Proyecto Seidor + necesita NAQ/clasificación → `sdet-sqem-classification`
+- Proyecto Seidor + necesita gates → `sdet-sqem-gates`
+- Proyecto Seidor + necesita controles/umbrales → `sdet-sqem-controls`
+- Proyecto Seidor + IA/ML/GenAI → `sdet-sqem-ia`

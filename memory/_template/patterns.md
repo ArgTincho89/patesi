@@ -1,53 +1,50 @@
-# Project Patterns Template
+# Patrones del Proyecto
 
-Patesi stores discovered patterns here. Each pattern includes category, description, example, and conditions for application.
+Registrá acá los patrones que Patesi aprende del proyecto.
+Se organizan por categoría para fácil referencia.
 
 ---
 
-## Test Naming Conventions
+## Convenciones de Nombres
 
-<!-- Example:
-- Pattern: Tests use `describe('Feature')` with `it('should X')`
-- Example: `describe('Checkout')` / `it('should calculate total correctly')`
-- Applied when: generating new test files
--->
+<!-- Ejemplo: Usamos `.spec.ts` no `.test.ts` -->
+<!-- Ejemplo: Tests en `src/__tests__/`, no en `__tests__/` raíz -->
 
-## Framework Preferences
+---
 
-<!-- Example:
-- Pattern: Project uses Playwright with fixtures, not page objects
-- Example: Custom fixture in `tests/fixtures/base.ts`
-- Applied when: generating test automation code
--->
+## Preferencias de Framework
 
-## Coverage Gaps
+<!-- Ejemplo: Fixtures, no page objects -->
+<!-- Ejemplo: API-first testing, no UI-first -->
+<!-- Ejemplo: Jest para unit, Playwright para E2E -->
 
-<!-- Example:
-- Module: Payment — No integration tests with Stripe
-- Module: User profile — No tests for avatar upload
-- Applied when: recommending test priorities
--->
+---
 
-## CI/CD Patterns
+## Gaps de Cobertura
 
-<!-- Example:
-- Pattern: PR checks run S+M class, nightly runs L class
-- Platform: GitHub Actions
-- Applied when: generating or reviewing pipeline configs
--->
+<!-- Ejemplo: Módulo de pagos no tiene tests unitarios -->
+<!-- Ejemplo: API de notificaciones no tiene integration tests -->
 
-## Bug Patterns
+---
 
-<!-- Example:
-- Module: Auth — Frequent regression in token refresh
-- Frequency: Every 3rd sprint
-- Applied when: analyzing risk for auth-related changes
--->
+## Patrones CI/CD
 
-## Conventions
+<!-- Ejemplo: Unit tests corren en cada commit -->
+<!-- Ejemplo: E2E tests solo corren en PRs a main -->
+<!-- Ejemplo: Linting falla el build si hay warnings -->
 
-<!-- Example:
-- Pattern: All test files end with `.spec.ts`, not `.test.ts`
-- Pattern: Tests tagged with `@smoke`, `@functional`, `@regression`
-- Applied when: generating new test files or classifying tests
--->
+---
+
+## Patrones de Bugs
+
+<!-- Ejemplo: Módulo de pagos tiene bugs con timezone -->
+<!-- Ejemplo: API de autenticación falla con tokens expirados -->
+<!-- Ejemplo: Frontend tiene race conditions en formularios -->
+
+---
+
+## Otras Convenciones
+
+<!-- Ejemplo: Commits en inglés, no español -->
+<!-- Ejemplo: PR titles siguen convención conventional commits -->
+<!-- Ejemplo: Branches usan formato feature/NOMBRE -->

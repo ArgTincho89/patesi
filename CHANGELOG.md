@@ -9,7 +9,18 @@ Format based on [Keep a Changelog](https://keepachangelog.com/).
 ### Changed
 - Environment-agnostic core: `agent.md`, `system.md`, and `config.yaml` are now tool-agnostic, shared across opencode/Copilot/Cursor adapters
 - Trigger language standardization across all skills (consistent frontmatter descriptions)
-- Registry generator rewrite: `scripts/generate-registry.ps1` / `.sh` now produces `.atl/skill-registry.md` from SKILL.md frontmatter
+- Registry generator rewrite: `scripts/generate-registry.ps1` / `.sh` now writes directly into `config.yaml` and `system.md` between markers (no more `skills-block.yaml` intermediate)
+- Copilot adapter builder rewritten: line-by-line concatenation instead of here-strings (fixes PS5.1 Unicode corruption); added date stamp
+
+### Fixed
+- Copilot adapter encoding: replaced here-string (`@"..."`) with line-by-line string building to prevent PS5.1 Unicode corruption; added UTF-8 BOM to all PS1 scripts
+- Memory template YAML syntax: `fixture preferredStyle` → `fixture_preferred_style`
+- Generator now writes directly into `config.yaml` (between `# SKILLS_BLOCK_START/END` markers) and `system.md` §8 (between `<!-- SKILL_TABLE_START/END -->` markers) — no manual copy-paste needed
+- `--check` mode now validates 3 outputs: `.atl/skill-registry.md`, `config.yaml` skills block, and `system.md` §8 table
+
+### Added
+- Token validation script: `scripts/check-skill-tokens.ps1` / `.sh` — estimates token count per skill and flags those exceeding 4K budget
+- UTF-8 BOM on all PS1 scripts (required for PS5.1 to read accented string literals correctly)
 
 ## [2.1.0] - 2026-08-25
 

@@ -51,6 +51,6 @@ riesgos:
 convenciones:
   naming_tests: ""              # .spec.ts, .test.ts, etc.
   estructura_tests: ""          # describe/it, nested, etc.
-  fixture preferredStyle: ""    # fixtures, page objects, etc.
+  fixture_preferred_style: ""   # fixtures, page objects, etc.
   cobertura_minima: ""          # Porcentaje mínimo requerido
   notas: ""                     # Cualquier otra convención

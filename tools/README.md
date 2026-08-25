@@ -67,17 +67,19 @@ Todos los comandos requieren confirmación según la política de `config.yaml`.
 
 ## Generador de Skill Registry
 
-El script `scripts/generate-registry.ps1` (o `.sh` en Linux/macOS) lee los frontmatter de cada `skills/sdet-*/SKILL.md` y genera **3 outputs**:
+El script `scripts/generate-registry.ps1` (o `.sh` en Linux/macOS) lee los frontmatter de cada `skills/sdet-*/SKILL.md` y genera **3 outputs directamente en sus archivos finales**:
 
 | Output | Path | Qué genera |
 |--------|------|------------|
 | Skill registry | `.atl/skill-registry.md` | Documento legible con todos los skills y triggers |
-| Skills block | `skills-block.yaml` | Bloque YAML para `config.yaml` (copia pegar) |
-| Copilot triggers | `adapters/copilot/copilot-instructions.md` | Tabla de triggers para el adaptador de Copilot |
+| Config skills block | `config.yaml` (entre markers) | Bloque `skills:` actualizado in-place |
+| System.md table | `system.md` §8 (entre markers) | Tabla solicitud→skill actualizada in-place |
+
+> **No hay archivo intermedio** `skills-block.yaml`. El generador escribe directamente en `config.yaml` y `system.md` entre markers `# SKILLS_BLOCK_START/END` y `<!-- SKILL_TABLE_START/END -->`.
 
 ### Verificación de Frescura (`--check`)
 
-Usá `--check` para verificar si los artefactos están actualizados con los frontmatter actuales. Sale con código **1** si están stale, **0** si están frescos.
+Usá `--check` para verificar si los 3 outputs están actualizados. Sale con código **1** si están stale, **0** si están frescos.
 
 ```powershell
 .\scripts\generate-registry.ps1 --check
@@ -85,6 +87,15 @@ Usá `--check` para verificar si los artefactos están actualizados con los fron
 
 ```bash
 ./scripts/generate-registry.sh --check
+```
+
+### Validación de Tokens
+
+Usá `check-skill-tokens.ps1` para verificar que cada skill esté bajo el budget de tokens:
+
+```powershell
+.\scripts\check-skill-tokens.ps1           # mostrar estimaciones
+.\scripts\check-skill-tokens.ps1 --check   # fallar si alguno excede 4K
 ```
 
 ### Pre-commit Hook

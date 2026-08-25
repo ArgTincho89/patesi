@@ -2,7 +2,7 @@
 name: sdet-risk-analysis
 description: >
   Analyzes user stories, features, and code changes for testing risks using a weighted risk matrix.
-  Trigger: When user asks for risk analysis, risk-based testing, user story risk assessment, or test prioritization.
+  Trigger: análisis de riesgos, testing basado en riesgos, riesgo de user story, priorización
 license: Apache-2.0
 metadata:
   author: patesi
@@ -144,11 +144,4 @@ BLOCK MERGE: No payment code merges without corresponding tests.
 | P3 | Security audit | PCI compliance |
 ```
 
-## Trigger Keywords
 
-Load this skill when the user says any of:
-- "risk analysis", "risk assessment", "risk-based"
-- "what's risky", "where should I focus testing"
-- "prioritize testing", "test prioritization"
-- "analyze this user story", "analyze this feature"
-- "qué riesgos tiene", "análisis de riesgos"

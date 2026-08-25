@@ -2,7 +2,7 @@
 name: sdet-build-maven
 description: >
   Maven and Gradle build tool patterns for test automation projects.
-  Trigger: When user asks about Maven, Gradle, pom.xml, build.gradle, dependency management for testing, or Java/Python build setup.
+  Trigger: Maven, Gradle, pom.xml, build.gradle, dependencias de testing
 license: Apache-2.0
 metadata:
   author: patesi
@@ -345,7 +345,7 @@ tasks.jacocoTestReport {
 ```toml
 [build-system]
 requires = ["setuptools>=68.0", "wheel"]
-build-backend = "setuptools.backends._legacy:_Backend"
+build-backend = "setuptools.build_meta"
 
 [project]
 name = "test-automation"
@@ -476,11 +476,4 @@ jobs:
           DB_PORT: 5432
 ```
 
-## Trigger Keywords
 
-Load this skill when the user says any of:
-- "Maven", "pom.xml", "Gradle", "build.gradle", "build tool"
-- "Surefire", "Failsafe", "test plugin", "dependency management"
-- "Java build", "test project setup", "multi-module"
-- "Maven profile", "Gradle task", "mvn test", "gradlew"
-- "configurar Maven", "pom.xml para tests", "build de testing"

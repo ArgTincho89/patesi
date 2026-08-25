@@ -2,7 +2,7 @@
 name: sdet-sqem-gates
 description: >
   SQEM quality gates: QG0-QG7 criteria, F/L/C/N/A matrix by tipologia, QG-Express for hotfixes, gate merge rules, exception management.
-  Trigger: When user asks about quality gates, gate evaluation, QG criteria, F/L/C/N/A matrix, or gate exceptions in a Seidor project.
+  Trigger: puertas de calidad Seidor, QG0-QG7, matriz F/L/C/N/A, evaluación de gates
 license: Apache-2.0
 metadata:
   author: patesi
@@ -111,11 +111,4 @@ QG0 → QG1 → QG2 → QG3 → QG4 → QG5 → QG6 → QG7
 
 ---
 
-## Trigger Keywords
 
-- "quality gates", "QG0" through "QG7"
-- "gate evaluation", "gate assessment"
-- "F/L/C/N/A", "formal/lightweight/conditional"
-- "QG-Express", "hotfix gate"
-- "gate exception", "formal exception"
-- "puertas de calidad", "evaluar gate"

@@ -2,7 +2,7 @@
 name: sdet-automation-cypress
 description: >
   Generates Cypress test automation frameworks with JavaScript/TypeScript.
-  Trigger: When user asks to generate Cypress tests, create Cypress automation framework, or set up Cypress E2E testing.
+  Trigger: Cypress, tests Cypress, framework Cypress, E2E Cypress
 license: Apache-2.0
 metadata:
   author: patesi
@@ -270,10 +270,4 @@ describe('Login', () => {
 });
 ```
 
-## Trigger Keywords
 
-Load this skill when the user says any of:
-- "Cypress", "Cypress tests", "Cypress E2E", "Cypress automation"
-- "generate Cypress framework", "Cypress Page Object"
-- "automate with Cypress", "Cypress custom commands"
-- "pruebas con Cypress", "automatizar con Cypress", "framework de Cypress"

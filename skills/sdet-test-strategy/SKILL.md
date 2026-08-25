@@ -2,7 +2,7 @@
 name: sdet-test-strategy
 description: >
   Generates test strategies and test plans from user stories, requirements, or project context.
-  Trigger: When user asks to create a test strategy, test plan, quality strategy, or testing approach.
+  Trigger: estrategia de testing, plan de testing, estrategia de calidad, approach de testing
 license: Apache-2.0
 metadata:
   author: patesi

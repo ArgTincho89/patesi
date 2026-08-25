@@ -2,7 +2,7 @@
 name: sdet-test-cases
 description: >
   Generates structured test cases with proper format, priority, and traceability.
-  Trigger: When user asks to generate test cases, create test scenarios, design test cases, or write test specifications.
+  Trigger: casos de prueba, escenarios de testing, diseño de tests, especificaciones
 license: Apache-2.0
 metadata:
   author: patesi
@@ -316,10 +316,4 @@ Acceptance criteria:
 6. Email and name fields retain their values (user doesn't need to re-enter)
 ```
 
-## Trigger Keywords
 
-Load this skill when the user says any of:
-- "generate test cases", "create test cases", "write test cases"
-- "test scenarios", "test design", "test specifications"
-- "design tests for", "tests for this feature"
-- "casos de prueba", "diseñar tests", "generar tests"

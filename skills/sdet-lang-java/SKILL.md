@@ -2,7 +2,7 @@
 name: sdet-lang-java
 description: >
   Java testing patterns and conventions for SDET work.
-  Trigger: When user asks about Java testing, TestNG/JUnit patterns, Maven/Gradle test setup, or Java QA automation.
+  Trigger: Java testing, JUnit, TestNG, patrones Java, automatización Java
 license: Apache-2.0
 metadata:
   author: patesi
@@ -363,10 +363,4 @@ class UserApiTest {
 }
 ```
 
-## Trigger Keywords
 
-Load this skill when the user says any of:
-- "JUnit", "TestNG", "Java test", "Java QA", "AssertJ", "Hamcrest"
-- "Mockito", "Java mocking", "parameterized test Java"
-- "RestAssured", "API test Java"
-- "tests en Java", "JUnit 5", "TestNG", "test automation Java"

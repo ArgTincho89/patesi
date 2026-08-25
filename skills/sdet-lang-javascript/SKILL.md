@@ -2,7 +2,7 @@
 name: sdet-lang-javascript
 description: >
   JavaScript/TypeScript testing patterns for SDET work.
-  Trigger: When user asks about JS/TS testing, Jest/Vitest patterns, Node.js test setup, or JavaScript QA automation.
+  Trigger: JavaScript testing, TypeScript testing, Jest, Vitest, Node.js testing
 license: Apache-2.0
 metadata:
   author: patesi
@@ -204,7 +204,7 @@ describe('Async operations', () => {
 
   it('should handle timeout', async () => {
     await expect(
-      withTimeout慢(slowOperation(), 1000)
+      withTimeout(slowOperation(), 1000)
     ).rejects.toThrow('Operation timed out');
   });
 
@@ -344,10 +344,4 @@ describe('LoginForm', () => {
 | `faker` | Test data generation |
 | `zod` | Schema validation in tests |
 
-## Trigger Keywords
 
-Load this skill when the user says any of:
-- "Jest", "Vitest", "JavaScript test", "TypeScript test", "Node test"
-- "unit test JS", "mocking JS", "async test", "supertest"
-- "testing library", "component test", "JS QA"
-- "tests en JavaScript", "tests en TypeScript", "automatizar JS"

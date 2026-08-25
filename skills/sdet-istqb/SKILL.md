@@ -2,7 +2,7 @@
 name: sdet-istqb
 description: >
   ISTQB Foundation and Advanced Core knowledge reference.
-  Trigger: When user asks about ISTQB terminology, test levels, test types, test techniques, certification, or testing standards.
+  Trigger: terminología ISTQB, niveles de testing, técnicas, certificación, estándares
 license: Apache-2.0
 metadata:
   author: patesi

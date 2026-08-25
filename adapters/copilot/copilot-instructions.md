@@ -1,4 +1,4 @@
-﻿# Patesi â€” Adaptador para GitHub Copilot
+# Patesi â€” Adaptador para GitHub Copilot
 
 > **AUTO-GENERATED** por `scripts/build-copilot-adapter.ps1`
 > **NO EDITAR MANUALMENTE** â€” ejecutÃ¡ `.\scripts\build-copilot-adapter.ps1` para regenerar.

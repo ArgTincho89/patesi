@@ -2,7 +2,7 @@
 name: sdet-sqem-ia
 description: >
   SQEM Annex IA: AI/ML/GenAI project controls including data quality, golden dataset, groundedness, hallucination rate, red-teaming, fairness, drift, and EU AI Act compliance.
-  Trigger: When user asks about AI/ML/GenAI testing, data quality, LLM evaluation, Responsible AI, EU AI Act, or AI-specific quality controls in a Seidor project.
+  Trigger: proyectos IA/ML/GenAI, calidad de datos, golden dataset, red-teaming, EU AI Act
 license: Apache-2.0
 metadata:
   author: patesi
@@ -116,14 +116,4 @@ At QG0, if classified as high risk:
 
 ---
 
-## Trigger Keywords
 
-Load this skill when the user says any of:
-- "AI testing", "ML testing", "GenAI testing", "LLM testing"
-- "data quality", "golden dataset", "train test leak"
-- "groundedness", "faithfulness", "hallucination"
-- "red-teaming", "prompt injection", "jailbreak"
-- "fairness", "bias", "AI bias"
-- "drift", "model drift", "data drift"
-- "EU AI Act", "AI regulation", "responsible AI"
-- "agente IA", "testing IA", "calidad IA"

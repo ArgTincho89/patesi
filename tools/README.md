@@ -65,6 +65,39 @@ Todos los comandos requieren confirmación según la política de `config.yaml`.
 
 ---
 
+## Generador de Skill Registry
+
+El script `scripts/generate-registry.ps1` (o `.sh` en Linux/macOS) lee los frontmatter de cada `skills/sdet-*/SKILL.md` y genera **3 outputs**:
+
+| Output | Path | Qué genera |
+|--------|------|------------|
+| Skill registry | `.atl/skill-registry.md` | Documento legible con todos los skills y triggers |
+| Skills block | `skills-block.yaml` | Bloque YAML para `config.yaml` (copia pegar) |
+| Copilot triggers | `adapters/copilot/copilot-instructions.md` | Tabla de triggers para el adaptador de Copilot |
+
+### Verificación de Frescura (`--check`)
+
+Usá `--check` para verificar si los artefactos están actualizados con los frontmatter actuales. Sale con código **1** si están stale, **0** si están frescos.
+
+```powershell
+.\scripts\generate-registry.ps1 --check
+```
+
+```bash
+./scripts/generate-registry.sh --check
+```
+
+### Pre-commit Hook
+
+Podés usar `--check` como pre-commit hook para evitar que se suban skills sin regenerar los artefactos:
+
+```bash
+# Add to .git/hooks/pre-commit or use pre-commit framework
+./scripts/generate-registry.sh --check || (echo "Skill registry is stale! Run: ./scripts/generate-registry.sh" && exit 1)
+```
+
+---
+
 ## Reglas de Uso
 
 1. **Permisos first** — Antes de cualquier acción, consultá la política de permisos en config.yaml

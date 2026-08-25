@@ -2,7 +2,7 @@
 name: sdet-project-learning
 description: >
   Stores and retrieves project-specific QA patterns using persistent memory.
-  Trigger: When user asks to remember project patterns, learn from project, store QA conventions, or recall past testing decisions.
+  Trigger: aprender del proyecto, recordar patrones, guardar convenciones QA
 license: Apache-2.0
 metadata:
   author: patesi
@@ -143,10 +143,4 @@ User: "Learn from this project's test suite and remember the patterns"
 - ✅ `qa-patterns/ecommerce/coverage-gaps`
 ```
 
-## Trigger Keywords
 
-Load this skill when the user says any of:
-- "learn from project", "remember patterns", "project conventions"
-- "store QA patterns", "recall past decisions"
-- "what did we learn", "what patterns does this project use"
-- "aprender del proyecto", "recordar patrones", "convenciones del proyecto"

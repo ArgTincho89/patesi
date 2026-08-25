@@ -2,7 +2,7 @@
 name: sdet-sqem-controls
 description: >
   SQEM operational controls: control catalog by gate x NAQ, code coverage thresholds, SonarQube profiles, key indicators, dashboards, and reporting levels.
-  Trigger: When user asks about operational controls, coverage thresholds, SonarQube quality gates, indicators, dashboards, or reporting in a Seidor project.
+  Trigger: controles operativos Seidor, umbrales de cobertura, perfiles SonarQube, indicadores
 license: Apache-2.0
 metadata:
   author: patesi
@@ -137,14 +137,4 @@ Defines the catalog of operational controls, thresholds by NAQ, indicators, and 
 
 ---
 
-## Trigger Keywords
 
-Load this skill when the user says any of:
-- "operational controls", "control catalog", "controls by gate"
-- "coverage thresholds", "code coverage", "coverage requirements"
-- "SonarQube", "quality gate Sonar", "Sonar profile"
-- "indicators", "KPIs", "metrics", "thresholds"
-- "dashboards", "reporting", "barometro", "semaforo"
-- "deliverables by NAQ", "minimum deliverables"
-- "DDE", "DER", "defect detection"
-- "controles operativos", "umbrales", "indicadores"

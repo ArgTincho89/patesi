@@ -2,7 +2,7 @@
 name: sdet-automation-appium
 description: >
   Generates Appium mobile test automation for iOS and Android.
-  Trigger: When user asks to generate mobile tests, create Appium framework, or automate mobile app testing.
+  Trigger: Appium, tests móviles, automatización móvil, iOS, Android
 license: Apache-2.0
 metadata:
   author: patesi
@@ -277,10 +277,4 @@ class TestLogin:
         assert login_page.get_error_message() == "Invalid credentials"
 ```
 
-## Trigger Keywords
 
-Load this skill when the user says any of:
-- "Appium", "mobile testing", "mobile automation", "iOS test", "Android test"
-- "generate Appium framework", "mobile test framework"
-- "automate mobile app", "device testing"
-- "pruebas móviles", "automatizar app móvil", "pruebas Appium", "testear app celular"

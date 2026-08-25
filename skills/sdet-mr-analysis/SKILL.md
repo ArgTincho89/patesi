@@ -2,7 +2,7 @@
 name: sdet-mr-analysis
 description: >
   Analyzes merge requests and pull requests for test impact and breakage potential.
-  Trigger: When user asks to analyze MR, PR, merge request, pull request, code review for testing, or test impact analysis.
+  Trigger: análisis de MR, análisis de PR, review de código para testing, impacto en tests
 license: Apache-2.0
 metadata:
   author: patesi
@@ -206,10 +206,4 @@ Files changed:
 5. **SECURITY REVIEW**: JWT implementation should be reviewed for security best practices
 ```
 
-## Trigger Keywords
 
-Load this skill when the user says any of:
-- "MR analysis", "PR analysis", "merge request review"
-- "pull request review", "code review for testing"
-- "what might break", "test impact analysis"
-- "análisis de MR", "revisión de PR"

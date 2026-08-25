@@ -106,6 +106,7 @@ $($skillLines -join "`n")
 Combiná el idioma del usuario. Por defecto en castellano.
 "@
 
-Set-Content -Path $OutputPath -Value $adapter -Encoding UTF8
+$utf8NoBom = [System.Text.UTF8Encoding]::new($false)
+[System.IO.File]::WriteAllText($OutputPath, $adapter, $utf8NoBom)
 Write-Host "Generated: adapters/copilot/copilot-instructions.md" -ForegroundColor Green
 Write-Host "Done." -ForegroundColor Cyan

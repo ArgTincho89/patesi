@@ -2,7 +2,7 @@
 name: sdet-cicd
 description: >
   Generates CI/CD pipeline configurations for GitHub Actions, GitLab CI, and Jenkins.
-  Trigger: When user asks to create CI/CD pipelines, GitHub Actions workflows, GitLab CI configs, Jenkinsfiles, or test automation pipelines.
+  Trigger: CI/CD, pipeline, GitHub Actions, GitLab CI, Jenkinsfile
 license: Apache-2.0
 metadata:
   author: patesi
@@ -320,10 +320,4 @@ pipeline {
 | Nightly | S + M + L | Catch environmental or dependency issues |
 | Manual | User choice | Debug or targeted testing |
 
-## Trigger Keywords
 
-Load this skill when the user says any of:
-- "CI/CD", "pipeline", "GitHub Actions", "GitLab CI", "Jenkinsfile"
-- "test pipeline", "automation pipeline"
-- "continuous integration", "continuous testing"
-- "configurar CI", "pipeline de testing"

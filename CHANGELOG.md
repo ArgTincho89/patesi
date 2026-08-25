@@ -4,6 +4,13 @@ All notable changes to Patesi will be documented in this file.
 
 Format based on [Keep a Changelog](https://keepachangelog.com/).
 
+## [2.2.0] - 2026-08-25
+
+### Changed
+- Environment-agnostic core: `agent.md`, `system.md`, and `config.yaml` are now tool-agnostic, shared across opencode/Copilot/Cursor adapters
+- Trigger language standardization across all skills (consistent frontmatter descriptions)
+- Registry generator rewrite: `scripts/generate-registry.ps1` / `.sh` now produces `.atl/skill-registry.md` from SKILL.md frontmatter
+
 ## [2.1.0] - 2026-08-25
 
 ### Added

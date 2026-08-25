@@ -2,7 +2,7 @@
 name: sdet-lang-python
 description: >
   Python testing patterns and conventions for SDET work.
-  Trigger: When user asks about Python testing, pytest patterns, Python test structure, or Python QA automation.
+  Trigger: Python testing, pytest, patrones Python, automatización Python
 license: Apache-2.0
 metadata:
   author: patesi
@@ -275,10 +275,4 @@ pytest --cov=src --cov-report=html  # With coverage
 pytest -n auto                   # Parallel execution
 ```
 
-## Trigger Keywords
 
-Load this skill when the user says any of:
-- "pytest", "Python test", "conftest", "fixtures", "parametrize"
-- "Python automation", "Python QA", "test Python"
-- "requirements.txt", "virtual environment Python"
-- "tests en Python", "pytest fixtures", "automatizar Python"

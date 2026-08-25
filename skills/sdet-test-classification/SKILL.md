@@ -2,7 +2,7 @@
 name: sdet-test-classification
 description: >
   Classifies test cases into S/M/L/XL suites for CI/CD integration and test organization.
-  Trigger: When user asks to classify tests, organize test suites, determine test execution strategy, or set up test tiers.
+  Trigger: clasificación de tests, suites S/M/L/XL, estrategia CI/CD, tiers de testing
 license: Apache-2.0
 metadata:
   author: patesi
@@ -202,11 +202,4 @@ Test cases for an e-commerce checkout:
 | Major release | All (12 tests) | 60 min | Manual review |
 ```
 
-## Trigger Keywords
 
-Load this skill when the user says any of:
-- "classify tests", "test classification", "test suites"
-- "S/M/L/XL", "smoke tests", "regression tests"
-- "CI/CD test strategy", "what tests run when"
-- "organize tests", "test tiers", "test pyramid"
-- "clasificar tests", "suites de testing"

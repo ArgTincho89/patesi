@@ -38,57 +38,58 @@ permission:
 skills:
   # --- QA Core ---
   - name: sdet-istqb
-    trigger: terminología ISTQB, niveles de testing, técnicas, certificación, estándares
+    trigger: terminología istqb, niveles de testing, técnicas, certificación, estándares
   - name: sdet-test-strategy
     trigger: estrategia de testing, plan de testing, estrategia de calidad, approach de testing
   - name: sdet-test-cases
     trigger: casos de prueba, escenarios de testing, diseño de tests, especificaciones
   - name: sdet-test-classification
-    trigger: clasificación de tests, suites S/M/L/XL, estrategia CI/CD, tiers de testing
+    trigger: clasificación de tests, suites s/m/l/xl, estrategia ci/cd, tiers de testing
   - name: sdet-risk-analysis
     trigger: análisis de riesgos, testing basado en riesgos, riesgo de user story, priorización
   - name: sdet-mr-analysis
-    trigger: análisis de MR, análisis de PR, review de código para testing, impacto en tests
-  - name: sdet-cicd
-    trigger: CI/CD, pipeline, GitHub Actions, GitLab CI, Jenkinsfile
+    trigger: análisis de mr, análisis de pr, review de código para testing, impacto en tests
   - name: sdet-project-learning
-    trigger: aprender del proyecto, recordar patrones, guardar convenciones QA
-    note: "Requiere persistencia de memoria — el adaptador del entorno define la implementación."
+    trigger: aprender del proyecto, recordar patrones, guardar convenciones qa
+
+  # --- Pipelines ---
+  - name: sdet-cicd
+    trigger: ci/cd, pipeline, github actions, gitlab ci, jenkinsfile
 
   # --- Automatización ---
   - name: sdet-automation
-    trigger: automatización de testing, Playwright, Page Object Model, E2E tests
+    trigger: automatización de testing, playwright, page object model, e2e tests
   - name: sdet-automation-cypress
-    trigger: Cypress, tests Cypress, framework Cypress, E2E Cypress
+    trigger: cypress, tests cypress, framework cypress, e2e cypress
   - name: sdet-automation-selenium
-    trigger: Selenium, WebDriver, tests Selenium, automatización Selenium
+    trigger: selenium, webdriver, tests selenium, automatización selenium
   - name: sdet-automation-appium
-    trigger: Appium, tests móviles, automatización móvil, iOS, Android
+    trigger: appium, tests móviles, automatización móvil, ios, android
   - name: sdet-automation-robot
-    trigger: Robot Framework, tests RF, keyword-driven, .robot files
+    trigger: robot framework, tests rf, keyword-driven, .robot files
 
   # --- Lenguajes ---
   - name: sdet-lang-python
-    trigger: Python testing, pytest, patrones Python, automatización Python
+    trigger: python testing, pytest, patrones python, automatización python
   - name: sdet-lang-java
-    trigger: Java testing, JUnit, TestNG, patrones Java, automatización Java
+    trigger: java testing, junit, testng, patrones java, automatización java
   - name: sdet-lang-javascript
-    trigger: JavaScript testing, TypeScript testing, Jest, Vitest, Node.js testing
+    trigger: javascript testing, typescript testing, jest, vitest, node.js testing
 
   # --- Metodologías y Build ---
   - name: sdet-methodology-gherkin
-    trigger: Gherkin, BDD, feature files, Given/When/Then, behavior-driven development
+    trigger: gherkin, bdd, feature files, given/when/then, behavior-driven development
   - name: sdet-methodology-cucumber
-    trigger: Cucumber, Cucumber-JVM, step definitions, BDD automation
+    trigger: cucumber, cucumber-jvm, step definitions, bdd automation
   - name: sdet-build-maven
-    trigger: Maven, Gradle, pom.xml, build.gradle, dependencias de testing
+    trigger: maven, gradle, pom.xml, build.gradle, dependencias de testing
 
   # --- SQEM (Seidor) ---
   - name: sdet-sqem-classification
-    trigger: clasificación de proyecto Seidor, cálculo NAQ, tipología, delivery target
+    trigger: clasificación de proyecto seidor, cálculo naq, tipología, delivery target
   - name: sdet-sqem-gates
-    trigger: puertas de calidad Seidor, QG0-QG7, matriz F/L/C/N/A, evaluación de gates
+    trigger: puertas de calidad seidor, qg0-qg7, matriz f/l/c/n/a, evaluación de gates
   - name: sdet-sqem-controls
-    trigger: controles operativos Seidor, umbrales de cobertura, perfiles SonarQube, indicadores
+    trigger: controles operativos seidor, umbrales de cobertura, perfiles sonarqube, indicadores
   - name: sdet-sqem-ia
-    trigger: proyectos IA/ML/GenAI, calidad de datos, golden dataset, red-teaming, EU AI Act
+    trigger: proyectos ia/ml/genai, calidad de datos, golden dataset, red-teaming, eu ai act

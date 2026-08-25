@@ -2,7 +2,7 @@
 name: sdet-methodology-gherkin
 description: >
   Gherkin/BDD methodology for writing executable specifications.
-  Trigger: When user asks about Gherkin, BDD, feature files, scenarios, Given/When/Then syntax, or behavior-driven development.
+  Trigger: Gherkin, BDD, feature files, Given/When/Then, behavior-driven development
 license: Apache-2.0
 metadata:
   author: patesi
@@ -258,10 +258,4 @@ features/
 | **UI Steps for API** | `Given the API returns 200` | Keep API scenarios API-focused |
 | **Vague Assertions** | `Then everything should work` | Be explicit about expected outcomes |
 
-## Trigger Keywords
 
-Load this skill when the user says any of:
-- "Gherkin", "feature file", "BDD", "behavior-driven"
-- "Given/When/Then", "scenario", "scenario outline"
-- "write feature", "BDD methodology", "executable specs"
-- "especificaciones", "Gherkin en español", "BDD testing"

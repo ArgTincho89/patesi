@@ -2,7 +2,7 @@
 name: sdet-automation-selenium
 description: >
   Generates Selenium WebDriver test frameworks for Java and Python.
-  Trigger: When user asks to generate Selenium tests, create Selenium automation, or set up WebDriver-based testing.
+  Trigger: Selenium, WebDriver, tests Selenium, automatización Selenium
 license: Apache-2.0
 metadata:
   author: patesi
@@ -398,10 +398,4 @@ class TestLogin:
         assert login_page.get_error_message() == "Email is required"
 ```
 
-## Trigger Keywords
 
-Load this skill when the user says any of:
-- "Selenium", "Selenium tests", "Selenium WebDriver", "Selenium automation"
-- "generate Selenium framework", "Selenium Page Object"
-- "automate with Selenium", "WebDriver tests"
-- "pruebas con Selenium", "automatizar con Selenium", "framework de Selenium"

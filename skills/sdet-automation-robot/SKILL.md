@@ -2,7 +2,7 @@
 name: sdet-automation-robot
 description: >
   Generates Robot Framework test suites for web, API, and desktop testing.
-  Trigger: When user asks to generate Robot Framework tests, create .robot files, or set up RF-based automation.
+  Trigger: Robot Framework, tests RF, keyword-driven, .robot files
 license: Apache-2.0
 metadata:
   author: patesi
@@ -267,10 +267,4 @@ robot --outputdir output tests/
 robot --dryrun tests/
 ```
 
-## Trigger Keywords
 
-Load this skill when the user says any of:
-- "Robot Framework", "Robot Framework tests", ".robot files"
-- "generate Robot Framework", "RF test suite"
-- "keyword-driven testing", "data-driven testing"
-- "pruebas Robot Framework", "archivos .robot", "framework de Robot"

@@ -2,7 +2,7 @@
 name: sdet-methodology-cucumber
 description: >
   Cucumber framework integration with Gherkin for BDD test automation.
-  Trigger: When user asks about Cucumber, Cucumber-JVM, step definitions, glue code, or BDD test automation.
+  Trigger: Cucumber, Cucumber-JVM, step definitions, BDD automation
 license: Apache-2.0
 metadata:
   author: patesi
@@ -278,10 +278,4 @@ module.exports = {
 | `@cucumber/pretty-formatter` | JS/TS | Improved output |
 | `cucumber-html-reporter` | JS/TS | HTML reports |
 
-## Trigger Keywords
 
-Load this skill when the user says any of:
-- "Cucumber", "Cucumber-JVM", "Cucumber.js", "step definitions"
-- "glue code", "BDD automation", "Cucumber runner"
-- "feature file to code", "Given/When/Then implementation"
-- "Cucumber en Java", "Cucumber TypeScript", "automatizar Cucumber"

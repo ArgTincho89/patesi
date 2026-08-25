@@ -457,11 +457,11 @@ metadata:
 ```
 
 3. Incluí keywords de trigger en la descripción
-4. Ejecutá `.\scripts\generate-registry.ps1` para regenerar `.atl/skill-registry.md`
-5. Actualizá `config.yaml` con el nuevo skill (o copiá la sección que genera el script)
+4. Ejecutá `.\scripts\generate-registry.ps1` para regenerar los 3 artefactos derivados (`.atl/skill-registry.md`, `skills-block.yaml`, adaptador de Copilot)
+5. Actualizá `config.yaml` con el bloque de skills generado (o copiá desde `skills-block.yaml`)
 6. Mandá un PR
 
-> **Importante**: No edités `.atl/skill-registry.md` manualmente — se regenera desde los frontmatter.
+> **Importante**: No edités `.atl/skill-registry.md` ni `skills-block.yaml` manualmente — se regeneran desde los frontmatter.
 
 ### Mejorar el conocimiento
 

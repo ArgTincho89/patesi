@@ -2,7 +2,7 @@
 name: sdet-automation
 description: >
   Generates Playwright + TypeScript test automation frameworks with Page Object Model pattern.
-  Trigger: When user asks to generate test automation framework, create Playwright tests, build Page Objects, or set up test automation.
+  Trigger: automatización de testing, Playwright, Page Object Model, E2E tests
 license: Apache-2.0
 metadata:
   author: patesi
@@ -381,10 +381,4 @@ test.describe('Login', () => {
 });
 ```
 
-## Trigger Keywords
 
-Load this skill when the user says any of:
-- "Playwright", "test automation", "Page Object", "E2E tests"
-- "generate test framework", "automation framework"
-- "automate tests", "write automated tests"
-- "framework de testing", "automatizar tests"

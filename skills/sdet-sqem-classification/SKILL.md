@@ -2,7 +2,7 @@
 name: sdet-sqem-classification
 description: >
   SQEM project classification: NAQ calculation, tipologia selection, delivery target derivation, nucleo comun, and governance roles.
-  Trigger: When user asks to classify a Seidor project, calculate NAQ, select tipologia, derive delivery target, or understand SQEM governance.
+  Trigger: clasificación de proyecto Seidor, cálculo NAQ, tipología, delivery target
 license: Apache-2.0
 metadata:
   author: patesi
@@ -148,12 +148,4 @@ These 9 items apply to EVERY Seidor project regardless of NAQ, tipologia, or del
 
 ---
 
-## Trigger Keywords
 
-Load this skill when the user says any of:
-- "classify project", "calculate NAQ", "NAQ score"
-- "what tipologia", "which tipologia", "project type"
-- "delivery target", "delivery mode"
-- "nucleo comun", "non-negotiable"
-- "SQEM governance", "roles"
-- "clasificar proyecto", "calcular NAQ", "tipologia"

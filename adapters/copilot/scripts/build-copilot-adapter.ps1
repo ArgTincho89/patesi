@@ -98,11 +98,6 @@ $lines += "**Skills de lenguaje**: Python, Java, JavaScript/TypeScript"
 $lines += "**Skills de metodología**: Gherkin/BDD, Cucumber, Maven/Gradle"
 $lines += ""
 $lines += "> La persistencia entre sesiones depende de las capacidades de instrucciones y contexto disponibles en Copilot. No se asume memoria persistente ni herramientas de opencode."
-$lines += ""
-$lines += "## Idioma"
-$lines += ""
-$lines += "Combiná el idioma del usuario. Por defecto en castellano."
-
 # Join and write as UTF-8 without BOM
 $output = ($lines -join "`n") + "`n"
 [System.IO.File]::WriteAllText($OutputPath, $output, $utf8NoBom)

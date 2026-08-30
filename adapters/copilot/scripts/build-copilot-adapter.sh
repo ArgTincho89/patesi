@@ -81,9 +81,6 @@ $SKILL_LIST
 
 > La persistencia entre sesiones depende de las capacidades de instrucciones y contexto disponibles en Copilot. No se asume memoria persistente ni herramientas de opencode.
 
-## Idioma
-
-Combiná el idioma del usuario. Por defecto en castellano.
 HEREDOC
 
 echo "Generado: adapters/copilot/copilot-instructions.md"

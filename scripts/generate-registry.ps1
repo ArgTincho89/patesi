@@ -53,6 +53,9 @@ $humanPhrases = @{
     "sdet-methodology-cucumber"   = "Cucumber / step definitions"
     "sdet-build-maven"            = "Maven / Gradle / build config"
     "sdet-sqem-classification"    = "Clasificación proyecto Seidor"
+    "sdet-sqem-gate-matrix"       = "Qué gates aplican (tipología x NAQ)"
+    "sdet-sqem-typology-tests"    = "Qué probar en cada gate por tipología"
+    "sdet-sqem-governance"        = "Roles, aprobadores y excepciones Seidor"
     "sdet-sqem-gates"             = "Puertas de calidad Seidor"
     "sdet-sqem-controls"          = "Controles / umbrales Seidor"
     "sdet-sqem-ia"                = "IA/ML/GenAI testing"
@@ -65,7 +68,7 @@ $categories = [ordered]@{
     "automation"   = @("sdet-automation", "sdet-automation-cypress", "sdet-automation-selenium", "sdet-automation-appium", "sdet-automation-robot")
     "languages"    = @("sdet-lang-python", "sdet-lang-java", "sdet-lang-javascript")
     "methodologies"= @("sdet-methodology-gherkin", "sdet-methodology-cucumber", "sdet-build-maven")
-    "sqem"         = @("sdet-sqem-classification", "sdet-sqem-gates", "sdet-sqem-controls", "sdet-sqem-ia")
+    "sqem"         = @("sdet-sqem-classification", "sdet-sqem-gate-matrix", "sdet-sqem-gates", "sdet-sqem-typology-tests", "sdet-sqem-controls", "sdet-sqem-ia", "sdet-sqem-governance")
 }
 
 $categoryLabels = @{

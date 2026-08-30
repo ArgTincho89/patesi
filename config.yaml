@@ -116,11 +116,17 @@ skills:
 
   # --- SQEM (Seidor) ---
   - name: sdet-sqem-classification
-    trigger: clasificación de proyecto seidor, cálculo naq, tipología, delivery target
+    trigger: clasificación de proyecto seidor, cálculo naq, tipología, delivery target, ficha naq
+  - name: sdet-sqem-gate-matrix
+    trigger: qué gates aplican, matriz de gates, tipología por naq, formalidad de gates, fusionar gates, 5 puertas
   - name: sdet-sqem-gates
-    trigger: puertas de calidad seidor, qg0-qg7, matriz f/l/c/n/a, evaluación de gates
+    trigger: puertas de calidad seidor, qg0-qg7, criterios de salida, evidencias por gate, qg-exprés, pass warning fail
+  - name: sdet-sqem-typology-tests
+    trigger: qué pruebas hago en este gate, pruebas por tipología, qué testear en qg3 qg4 qg6, pruebas específicas seidor
   - name: sdet-sqem-controls
-    trigger: controles operativos seidor, umbrales de cobertura, perfiles sonarqube, indicadores
+    trigger: controles operativos seidor, umbrales de cobertura, perfiles sonarqube, indicadores, kpis, ficha de métrica, equivalencia de quality gate
   - name: sdet-sqem-ia
-    trigger: proyectos ia/ml/genai, calidad de datos, golden dataset, red-teaming, eu ai act
+    trigger: proyectos ia/ml/genai, groundedness, alucinaciones, red-teaming, golden dataset, drift, eu ai act
+  - name: sdet-sqem-governance
+    trigger: quién aprueba, raci, roles seidor, escalado, excepción formal, slo rpo rto, contratos versionados, subcontrata
 # SKILLS_BLOCK_END

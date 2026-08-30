@@ -41,7 +41,7 @@ bash adapters/opencode/scripts/install.sh
 .\adapters\opencode\scripts\install.ps1
 ```
 
-Esto copia el agente y los 32 skills a `~/.config/opencode/`. Después reiniciá opencode y cambiá al agente con **Tab** o `@patesi`.
+Esto copia el agente y los 35 skills a `~/.config/opencode/`. Después reiniciá opencode y cambiá al agente con **Tab** o `@patesi`.
 
 ### Opción B — Manual
 
@@ -100,8 +100,11 @@ Los skills se cargan bajo demanda cuando la solicitud del usuario coincide con u
 - **Modo C (proyecto de cliente) — siempre** → `sdet-client-profile` *
 - Modo C + cliente nuevo con documentación → `sdet-client-onboarding`
 - Proyecto Seidor + necesita NAQ → `sdet-sqem-classification`
-- Proyecto Seidor + necesita gates → `sdet-sqem-gates`
-- Proyecto Seidor + necesita controles → `sdet-sqem-controls`
+- **Proyecto Seidor + qué gates aplican → `sdet-sqem-gate-matrix`** (siempre tras clasificar)
+- Proyecto Seidor + qué probar en cada gate → `sdet-sqem-typology-tests`
+- Proyecto Seidor + criterios/evidencias de un gate → `sdet-sqem-gates`
+- Proyecto Seidor + umbrales e indicadores → `sdet-sqem-controls`
+- Proyecto Seidor + quién aprueba / excepciones → `sdet-sqem-governance`
 - Proyecto Seidor + IA/ML/GenAI → `sdet-sqem-ia`
 
 ### Resolución por modo
@@ -110,7 +113,7 @@ El modo se resuelve en el Paso 2 del protocolo de `system.md` y determina qué s
 
 | Modo | Skills habilitados |
 |------|--------------------|
-| **A — Seidor** | Todos, incluidos los cuatro skills SQEM |
+| **A — Seidor** | Todos, incluidos los **siete** skills SQEM. Tras clasificar, `sdet-sqem-gate-matrix` es obligatorio |
 | **B — Personal** | Todos **menos** los SQEM. Base: `sdet-industry-practices` + `sdet-istqb`. Cargar un skill SQEM en Modo B es un error |
 | **C — Cliente** | `sdet-client-profile` siempre, `sdet-client-onboarding` al arrancar con documentación, y el resto según la tarea. SQEM solo si el usuario lo pide explícitamente |
 

@@ -54,11 +54,19 @@ El **SQEM es la referencia absoluta**. ISTQB complementa pero nunca reemplaza.
 
 ```
 Usuario: "Creame una estrategia de testing para el módulo de pagos"
-Patesi: → Recorre los factores de NAQ → Deriva delivery target
-         → Genera estrategia validada contra SQEM, citando sección
+Patesi: → Recorre los 6 factores con las escalas de §5.1 → Calcula el NAQ
+         → Tipología primaria + secundarias → Lee la fila de la matriz
+         → "QG0 Formal · QG1 Formal · ... · QG5 Ligero (condicional
+            resuelto por NAQ Medio, §6.5)" → Deriva umbrales y entregables
 ```
 
-Cada recomendación cita la sección SQEM aplicable. Si el usuario propone algo que viola SQEM, Patesi lo señala y pide excepción formal.
+Cada recomendación **cita la sección SQEM aplicable** (§5.1, §6.4, §10.2…). Una recomendación sin sección citada no es verificable y no vale.
+
+El flujo es: calcular el NAQ desde los seis factores con sus escalas de referencia —nunca preguntarle la banda al usuario— determinar tipología primaria y secundarias, y **leer la fila de la matriz resuelta** de `sdet-sqem-gate-matrix`, que trae las 60 combinaciones de tipología × NAQ con el estado de los 8 gates y su nota justificativa.
+
+**Fallback declarado:** cuando SQEM no cubre una situación, Patesi aplica buenas prácticas de industria e ISTQB y **lo declara siempre** — *"SQEM no define X. Aplico [práctica] como fallback"*. Nunca presenta una práctica de industria como si fuera exigencia SQEM.
+
+Si el usuario propone algo que viola SQEM, lo señala y pide excepción formal según la matriz de aprobadores de §8.
 
 ### Modo B — Proyecto Personal
 
@@ -194,10 +202,13 @@ patesi/
 │   ├── sdet-cicd/                   GitHub Actions / GitLab CI / Jenkins
 │   │
 │   │  ── SQEM (Seidor) ──
-│   ├── sdet-sqem-classification/    NAQ + tipología + delivery target
-│   ├── sdet-sqem-gates/             QG0-QG7 + matriz F/L/C/N/A
-│   ├── sdet-sqem-controls/          Controles por gate × NAQ + SonarQube
-│   └── sdet-sqem-ia/                Controles IA/ML/GenAI (Anexo IA)
+│   ├── sdet-sqem-classification/    NAQ con escalas por factor + 15 tipologías
+│   ├── sdet-sqem-gate-matrix/       Las 60 combinaciones tipología × NAQ resueltas
+│   ├── sdet-sqem-typology-tests/    Qué probar en cada gate según tipología
+│   ├── sdet-sqem-gates/             QG0-QG7: criterios, evidencias, aprobador
+│   ├── sdet-sqem-controls/          Umbrales, indicadores, KPIs y entregables
+│   ├── sdet-sqem-governance/        Roles, RACI, escalado y excepciones
+│   └── sdet-sqem-ia/                Anexo IA: 13 controles + EU AI Act
 │
 ├── memory/                          MEMORIA POR PROYECTO
 │   └── _template/

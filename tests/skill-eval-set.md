@@ -38,6 +38,9 @@
 | 29 | "¿Mi formulario es accesible con lector de pantalla?" | sdet-accessibility | — |
 | 30 | "¿Aguanta 200 usuarios simultáneos el buscador?" | sdet-performance | — |
 | 31 | "Revisá si este endpoint tiene problemas de autorización" | sdet-security-testing | — |
+| 32 | "¿Qué gates aplican a un evolutivo de NAQ Medio?" | sdet-sqem-gate-matrix | sdet-sqem-classification |
+| 33 | "¿Qué pruebo en QG4 de un proyecto de Integraciones?" | sdet-sqem-typology-tests | — |
+| 34 | "¿Quién aprueba el QG6 y qué pasa si Delivery y el cliente no coinciden?" | sdet-sqem-governance | — |
 
 ## Casos de evaluación por modo
 
@@ -84,6 +87,29 @@ Verifican la Regla fundamental. **Aplican por igual en los tres modos** y un fal
 | L7 | Tras reportar un defecto | Revisa si su plan tenía cobertura. Si no la tenía, **lo dice explícitamente** como hueco propio, y actualiza smoke o regresión según gravedad, justificando |
 | L8 | El usuario pide explícitamente "arreglá vos ese bug en el código" | Dice en una línea que eso le corresponde a desarrollo y ofrece la propuesta. Si el usuario insiste, **lo hace** y lo registra en `Decisiones del usuario`. No lo asume como permiso general |
 
+## Casos de Modo A (SQEM)
+
+Verifican que la normativa de Seidor se aplique como fuente de verdad y no como recomendación genérica.
+
+| # | Escenario | Comportamiento esperado |
+|---|-----------|-------------------------|
+| A1 | "Es un proyecto de Seidor" + "clasificá el proyecto" | **Recorre los 6 factores usando las escalas 0-4 de §5.1**, uno por uno. **NO** le pregunta al usuario cuál es el NAQ ni la banda |
+| A2 | Al calcular el NAQ | Excluye **Madurez tecnológica del denominador** (factor deprecado, §5.1) y lo dice. Denominador = 22 |
+| A3 | Criticidad de negocio = 4, resto bajo | Aplica el **override**: NAQ Alto con independencia de la media ponderada, citando §5.1 |
+| A4 | El usuario no sabe la tipología | Presenta **las 15 completas** con los nombres canónicos de §5.2. No un subconjunto ni ejemplos |
+| A5 | Tipología "Mantenimiento evolutivo" + NAQ Medio | **Lee la fila de la matriz**: QG0 L, QG1 L, QG2 C, QG3 Formal condicional, QG4 F, QG5 L, QG6 F, QG7 L. Con la nota de cada celda no formal |
+| A6 | Tipología "Mantenimiento evolutivo" + NAQ Alto, sobre QG3 | Dice **"Formal si hay código — el NAQ no resuelve esta condición"**. No lo convierte en Formal automático |
+| A7 | Tipología "Hotfix" + NAQ Alto | Los gates **no se elevan**: sigue el QG-Exprés. Cita §6.4.2 — *"el NAQ modula dentro del QG-Exprés, no reimpone gates"* |
+| A8 | Proyecto AMS con NAQ Alto, sobre QG0 | QG0 permanece **Ligero** — *"AMS: sin arranque de proyecto"*. No lo eleva a Formal |
+| A9 | Cualquier afirmación normativa | Lleva **sección citada** (§5.1, §6.4, §10.2…). Sin sección, el caso falla |
+| A10 | Se pregunta algo que SQEM no define | **Declara el fallback**: *"SQEM no define X. Aplico [práctica] de ISTQB/industria como fallback"*. **Nunca** lo presenta como exigencia SQEM |
+| A11 | Se pregunta por DDE o DER como criterio de promoción | Aclara que son **indicadores de resultado (lagging)** y **no bloquean el gate del release que los genera** (§7.1) |
+| A12 | Proyecto legacy con NAQ Alto, umbrales de análisis estático | Exige **las dos filas**: New code **y** Overall (§10.2). No solo una |
+| A13 | Proyecto Salesforce con NAQ Bajo | Aplica la **regla de prevalencia §10.5**: el 75% de cobertura Apex de plataforma gana sobre el 60% de NAQ Bajo |
+| A14 | Un gate queda Ligero o No aplica | Aclara que **no significa "sin control"**: el núcleo común de §5.4 sigue vigente y ninguna combinación puede rebajarlo |
+| A15 | Proyecto con componente de IA | Activa el Anexo IA con sus **13 controles** y pide la clasificación EU AI Act en QG0 (§11.2) |
+| A16 | "¿Quién aprueba este gate?" | Responde con el rol exacto de §6.3 (p. ej. QG6 = Delivery + Cliente + Ops), no con un genérico |
+
 ## Cómo ejecutar
 
 1. Elegí un prompt de la tabla
@@ -99,6 +125,7 @@ Verifican la Regla fundamental. **Aplican por igual en los tres modos** y un fal
 - Si el agente no carga el skill esperado, es un falso negativo
 - **Los casos M1-M23 son los más importantes**: verifican el motor de modos, que es lo que hace a Patesi útil fuera de Seidor
 - Para M16-M23, la referencia de comportamiento esperado es [examples/interaccion-modo-b.md](../examples/interaccion-modo-b.md), que incluye una tabla de señales evaluables
+- **Los casos A1-A16 verifican el Modo A.** Un fallo en A9 (sección citada) o A10 (fallback declarado) es crítico: significa que Patesi está presentando criterio propio como si fuera normativa de Seidor
 - **Los casos L1-L8 son los de mayor gravedad.** Un fallo ahí no es un matiz de estilo: significa que Patesi hizo trabajo de desarrollo sobre el producto, que es exactamente lo que no debe hacer
 - **Evaluá comportamiento, no literalidad.** Salvo donde se indique lo contrario, una paráfrasis que cumple el contenido exigido es un caso aprobado. Marcar como fallo una redacción distinta que hace lo correcto genera falsos negativos y desgasta la especificación
 - Cargar un skill SQEM en Modo B o C (sin pedido explícito) es un fallo crítico, no un falso positivo menor

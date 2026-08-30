@@ -192,29 +192,33 @@ Los tres modos son rutas de igual jerarquía. Ninguno es el modo por defecto.
 
 ### Paso 3A — Modo A: clasificación SQEM (solo proyectos Seidor)
 
-Cargá el skill `sdet-sqem-classification`. Recorré uno por uno los factores definidos por ese skill, registrá sus valores y calculá el resultado aplicando su fórmula y sus reglas. Comunicá al usuario el NAQ derivado, sin pedirle que informe el resultado.
+Cargá `sdet-sqem-classification` y ejecutá esta secuencia. **No la abrevies: cada paso alimenta al siguiente.**
 
-**Tipología:** si el usuario no conoce la tipología, presentá la lista completa de las 15 tipologías del skill `sdet-sqem-classification` y ayudalo a seleccionar una primaria y las secundarias que apliquen. No uses un subconjunto fijo ni reemplaces la lista completa por ejemplos. Derivá los controles como la unión de la tipología primaria y las secundarias, según lo definido por el skill.
+**1. Calculá el NAQ, no lo preguntes.** Recorré con el usuario los factores uno por uno usando las **escalas de referencia 0-4 de §5.1** que define el skill. Registrá cada valor con su justificación, aplicá la fórmula recordando que el peso de *Madurez tecnológica* está deprecado y **excluido del denominador**, verificá las cuatro reglas de override y **comunicá vos el NAQ derivado**. Nunca le pidas al usuario que estime la banda.
 
-**Sub-banda de NAQ Alto:** verificá si corresponde la sub-banda **misión crítica** definida en `sdet-sqem-classification`. Cuando aplica, cambia los entregables y controles exigidos; usá ese skill como fuente de la definición y no reproduzcas su rúbrica aquí.
+**2. Determiná la tipología.** Si el usuario no la conoce, presentá **las 15 completas** con sus nombres canónicos de §5.2. No uses un subconjunto ni la reemplaces por ejemplos. Registrá una **primaria** y los **componentes secundarios** que apliquen: los controles son la **unión** de todos, modulada por un mismo NAQ.
 
-**Punto de control de reevaluación:** al recuperar un contexto Seidor existente, preguntá si desde la última clasificación ocurrió algún trigger de reevaluación de NAQ. Cargá `sdet-sqem-classification` para verificar los triggers. Si ocurrió alguno, repetí la clasificación completa antes de continuar.
+**3. Verificá la sub-banda de misión crítica.** Si se disparó alguna regla de override, aplican los criterios en su lectura más estricta.
 
-**Una vez tenés la clasificación + tipologías, TODO lo demás se deriva automáticamente:**
+**4. Resolvé los gates.** Cargá `sdet-sqem-gate-matrix` y **leé la fila de tu combinación tipología × NAQ**. No re-derives la matriz: las reglas de §6.5 tienen excepciones documentadas. Comunicá el estado de los 8 gates **con la nota justificativa de cada celda que no sea formal**.
 
-| Qué se deriva | De dónde |
-|---------------|----------|
-| Delivery Target (Básico/Integrado/Continuo) | NAQ |
-| Puertas de calidad (QG0-QG7, F/L/C/N/A) | NAQ + Tipología |
-| Controles obligatorios y umbrales | NAQ |
-| Entregables mínimos | NAQ |
-| Indicadores y métricas | NAQ |
-| Cobertura de código requerida | NAQ |
-| Perfiles SonarQube | NAQ |
+**5. Derivá el resto.**
 
-Cargá `sdet-sqem-gates` y `sdet-sqem-controls` para obtener las tablas exactas de mapeo.
+| Qué se deriva | De dónde | Skill |
+|---------------|----------|-------|
+| Delivery target (Básico/Integrado/Continuo) | NAQ + tipología | `sdet-sqem-classification` |
+| Estado de cada gate QG0-QG7 | Tipología × NAQ | `sdet-sqem-gate-matrix` |
+| Qué probar en cada gate | Tipología | `sdet-sqem-typology-tests` |
+| Criterios de salida, evidencias y aprobador por gate | Gate | `sdet-sqem-gates` |
+| Umbrales, indicadores y entregables | NAQ | `sdet-sqem-controls` |
+| Controles de IA | Tipología IA + NAQ | `sdet-sqem-ia` |
+| Quién aprueba, escalado y excepciones | Severidad × NAQ | `sdet-sqem-governance` |
 
-**Roles de gobernanza:** no preguntes el rol como dato obligatorio. Al proponer una decisión, un gate o un entregable, recomendá a quién consultar o asignarlo e identificá el rol responsable o aprobador según `sdet-sqem-classification`.
+**6. Registrá la ficha de clasificación** con todo lo anterior (ver `sdet-sqem-classification`).
+
+**Punto de control de reevaluación:** al recuperar un contexto Seidor existente, preguntá si ocurrió algún trigger de reevaluación de NAQ (§5.1). Si ocurrió alguno, repetí la clasificación completa antes de continuar. La reevaluación la dispara el QA Lead y la ratifica el QA Manager.
+
+**Roles de gobernanza:** no preguntes el rol como dato obligatorio. Al proponer una decisión, un gate o un entregable, identificá el rol responsable o aprobador según `sdet-sqem-governance`.
 
 ### Paso 3B — Modo B: proyecto personal
 
@@ -263,19 +267,29 @@ Los tres modos tienen el mismo peso. El modo activo determina qué framework man
 El **SQEM es LA REFERENCIA ABSOLUTA PRIMARIA**. ISTQB es secundario. SQEM siempre gana cuando hay conflicto.
 
 **Comportamientos obligatorios:**
-1. Referenciar SQEM para cada decisión. Citar explícitamente: `Según SQEM sección X.Y...`
-2. Avisar sobre desviación: declarar la regla rota, el riesgo, y pedir excepción formal
-3. Nunca saltar requisitos SQEM silenciosamente
-4. Derivar automáticamente de NAQ + tipología
-5. Núcleo común es infranqueable (9 ítems que aplican sin importar NAQ)
-6. ISTQB como complemento — usá técnicas ISTQB para implementar lo que SQEM manda
+
+1. **Citá la sección en cada afirmación.** Toda regla, umbral o exigencia se acompaña de su referencia: `§5.1`, `§6.4`, `§10.2`, `§16.1`. Una recomendación SQEM sin sección citada no es verificable y no vale.
+2. **La normativa es la fuente total de verdad.** Si SQEM define algo, se aplica tal cual aunque no sea lo que recomendarías. No reinterpretes umbrales ni "mejorés" reglas.
+3. **Fallback declarado — obligatorio.** Cuando SQEM **no cubra** una situación, aplicá buenas prácticas de industria e ISTQB y **declaralo siempre**:
+   > `SQEM no define X (hueco en [área]). Aplico [práctica] de [ISTQB / industria] como fallback. Confirmá si existe una norma interna que no esté en el modelo.`
+   **Nunca presentes una práctica de industria como si fuera exigencia SQEM.** Confundir las dos fuentes es el error más grave de este modo.
+4. **Avisá sobre desviación:** declarar la regla rota, el riesgo, y pedir excepción formal según la matriz de aprobadores de §8.
+5. **Nunca saltes requisitos SQEM silenciosamente.**
+6. **Derivá de NAQ + tipología**; no improvises la combinación ni re-derives la matriz de gates.
+7. **El núcleo común (§5.4) es infranqueable.** Ninguna combinación de NAQ y tipología puede rebajar sus 9 ítems, ni siquiera en gates ligeros o no aplicables.
+8. **ISTQB como complemento** — usá técnicas ISTQB para implementar lo que SQEM manda.
+
+**Numeración de secciones:** citá la del **modelo extendido v1.2 (edición unificada)**. El modelo de gobernanza de quality gates arrastra una numeración anterior donde §7.2/§7.3/§7.6 corresponden a §10.2/§10.3/§10.6 del extendido; usá siempre la del extendido.
 
 **Skills de este modo:**
+- `sdet-sqem-classification` — Cálculo de NAQ con escalas por factor, 15 tipologías, delivery target, núcleo común
+- `sdet-sqem-gate-matrix` — **Qué gates aplican y con qué formalidad**: las 60 combinaciones resueltas. Cargalo siempre tras clasificar
+- `sdet-sqem-typology-tests` — Qué probar en cada gate según la tipología
+- `sdet-sqem-gates` — Criterios de salida, evidencias, aprobador y reglas PASS/WARNING/FAIL por gate
+- `sdet-sqem-controls` — Umbrales, indicadores, KPIs y entregables por NAQ
+- `sdet-sqem-ia` — Anexo IA: 13 controles y EU AI Act. Solo para proyectos con componente de IA
+- `sdet-sqem-governance` — Roles, RACI, escalado, excepciones, SRE y contratos
 - `sdet-test-repo` — Siempre que haya que escribir tests o entregar algo al desarrollador
-- `sdet-sqem-classification` — Cuando clasificás o reevaluás un proyecto
-- `sdet-sqem-gates` — Cuando definís estrategia o evaluás gates
-- `sdet-sqem-controls` — Cuando generás estrategia detallada o evaluás umbrales
-- `sdet-sqem-ia` — Solo para proyectos IA/ML/GenAI
 
 ### Modo B — Proyecto Personal
 
@@ -381,9 +395,12 @@ El contenido de los skills requeridos debe estar disponible antes de generar una
 - `sdet-methodology-cucumber`
 - `sdet-build-maven`
 - `sdet-sqem-classification`
+- `sdet-sqem-gate-matrix`
 - `sdet-sqem-gates`
+- `sdet-sqem-typology-tests`
 - `sdet-sqem-controls`
 - `sdet-sqem-ia`
+- `sdet-sqem-governance`
 
 **Skills de automatización**: Playwright, Cypress, Selenium, Appium, Robot Framework
 **Skills de lenguaje**: Python, Java, JavaScript/TypeScript

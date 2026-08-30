@@ -24,6 +24,7 @@
 | `sdet-security-testing` | qa-core | seguridad, OWASP, SAST, DAST, SCA, vulnerabilidades, inyección, control de acceso, secretos | `skills/sdet-security-testing/SKILL.md` |
 | `sdet-client-profile` | qa-core | proyecto de cliente, metodología del cliente, perfil de cliente, forma de trabajar del cliente, Modo C | `skills/sdet-client-profile/SKILL.md` |
 | `sdet-client-onboarding` | qa-core | onboarding de cliente, cliente nuevo, documentación de calidad del cliente, poblar perfil de cliente | `skills/sdet-client-onboarding/SKILL.md` |
+| `sdet-test-repo` | qa-core | repositorio de pruebas, repo de tests, propuesta para el desarrollador, handoff de tests, integrar tests en CI | `skills/sdet-test-repo/SKILL.md` |
 | `sdet-cicd` | qa-sdet | CI/CD, pipeline, GitHub Actions, GitLab CI, Jenkinsfile | `skills/sdet-cicd/SKILL.md` |
 | `sdet-automation` | qa-sdet | automatización de testing, Playwright, Page Object Model, E2E tests | `skills/sdet-automation/SKILL.md` |
 | `sdet-automation-cypress` | qa-sdet | Cypress, tests Cypress, framework Cypress, E2E Cypress | `skills/sdet-automation-cypress/SKILL.md` |
@@ -36,10 +37,13 @@
 | `sdet-methodology-gherkin` | qa-sdet | Gherkin, BDD, feature files, Given/When/Then, behavior-driven development | `skills/sdet-methodology-gherkin/SKILL.md` |
 | `sdet-methodology-cucumber` | qa-sdet | Cucumber, Cucumber-JVM, step definitions, Cucumber automation | `skills/sdet-methodology-cucumber/SKILL.md` |
 | `sdet-build-maven` | qa-sdet | Maven, Gradle, pom.xml, build.gradle, dependencias de testing | `skills/sdet-build-maven/SKILL.md` |
-| `sdet-sqem-classification` | sqem | clasificación de proyecto Seidor, cálculo NAQ, tipología, delivery target | `skills/sdet-sqem-classification/SKILL.md` |
-| `sdet-sqem-gates` | sqem | puertas de calidad Seidor, QG0-QG7, matriz F/L/C/N/A, evaluación de gates | `skills/sdet-sqem-gates/SKILL.md` |
-| `sdet-sqem-controls` | sqem | controles operativos Seidor, umbrales de cobertura, perfiles SonarQube, indicadores | `skills/sdet-sqem-controls/SKILL.md` |
-| `sdet-sqem-ia` | sqem | proyectos IA/ML/GenAI, calidad de datos, golden dataset, red-teaming, EU AI Act | `skills/sdet-sqem-ia/SKILL.md` |
+| `sdet-sqem-classification` | sqem | clasificación de proyecto Seidor, cálculo NAQ, tipología, delivery target, ficha NAQ | `skills/sdet-sqem-classification/SKILL.md` |
+| `sdet-sqem-gate-matrix` | sqem | qué gates aplican, matriz de gates, tipología por NAQ, formalidad de gates, fusionar gates, 5 puertas | `skills/sdet-sqem-gate-matrix/SKILL.md` |
+| `sdet-sqem-gates` | sqem | puertas de calidad Seidor, QG0-QG7, criterios de salida, evidencias por gate, QG-Exprés, PASS WARNING FAIL | `skills/sdet-sqem-gates/SKILL.md` |
+| `sdet-sqem-typology-tests` | sqem | qué pruebas hago en este gate, pruebas por tipología, qué testear en QG3 QG4 QG6, pruebas específicas Seidor | `skills/sdet-sqem-typology-tests/SKILL.md` |
+| `sdet-sqem-controls` | sqem | controles operativos Seidor, umbrales de cobertura, perfiles SonarQube, indicadores, KPIs, ficha de métrica, equivalencia de quality gate | `skills/sdet-sqem-controls/SKILL.md` |
+| `sdet-sqem-ia` | sqem | proyectos IA/ML/GenAI, groundedness, alucinaciones, red-teaming, golden dataset, drift, EU AI Act | `skills/sdet-sqem-ia/SKILL.md` |
+| `sdet-sqem-governance` | sqem | quién aprueba, RACI, roles Seidor, escalado, excepción formal, SLO RPO RTO, contratos versionados, subcontrata | `skills/sdet-sqem-governance/SKILL.md` |
 
 ## Catálogo de conocimiento
 

@@ -1,27 +1,22 @@
 # Contexto del Proyecto
 # Completá este archivo con los datos de tu proyecto.
-# Patesi lo carga al inicio de cada sesión.
+# Patesi lo carga al inicio de cada sesión y lo actualiza a medida que aprende.
+#
+# Clave de memoria: qa-patterns/{proyecto}/context
+# Estructura documentada en: skills/sdet-project-learning/SKILL.md
 
 metadata:
   nombre: ""                    # Nombre del proyecto
-  organizacion: ""              # Empresa / equipo
+  modo: ""                      # seidor | personal | cliente
   creado: ""                    # Fecha de creación
   ultima_actualizacion: ""      # Última vez que se actualizó
 
-# Clasificación (proyectos Seidor)
-sqem:
-  tipo_proyecto: ""             # seidor | personal | cliente_gobernado
-  naq:                          # Nivel de Aseguramiento de Calidad
-    criticidad_negocio: 0       # 0-4: impacto si falla
-    visibilidad_uso: 0          # 0-4: visible para usuarios
-    interoperabilidad: 0        # 0-4: sistemas externos
-    sensibilidad_datos: 0       # 0-4: sensibilidad de datos
-    complejidad: 0              # 0-4: complejidad técnica
-    resultado: ""               # bajo | medio | alto
-  tipologia:
-    principal: ""               # Nombre de la tipología (1-15)
-    secundaria: []              # Componentes secundarios
-  delivery_target: ""           # basico | integrado | continuo
+# Producto: para qué existe y qué pasa si falla.
+# Es lo que permite dimensionar el riesgo real y evitar ceremonia de más.
+producto:
+  que_hace: ""                  # En una frase
+  quien_lo_usa: ""              # Usuarios reales, volumen aproximado
+  impacto_si_falla: ""          # Qué se pierde: dinero, datos, tiempo, reputación
 
 # Stack tecnológico
 stack:
@@ -29,28 +24,57 @@ stack:
   backend: ""                   # Node.js, Spring, Django, etc.
   frontend: ""                  # React, Vue, Angular, etc.
   base_datos: ""                # PostgreSQL, MongoDB, etc.
-  infraestructura: ""           # AWS, Azure, on-prem, etc.
+  servicios_externos: []        # APIs de terceros, pasarelas de pago, etc.
+  infraestructura: ""           # AWS, Azure, Vercel, on-prem, etc.
+  ci_cd: ""                     # GitHub Actions, GitLab CI, ninguno, etc.
 
 # Testing actual
 testing:
-  madurez: ""                   # basica | intermedia | avanzada | experta
   frameworks_unit: []           # Jest, JUnit, pytest, etc.
   frameworks_e2e: []            # Playwright, Cypress, etc.
   frameworks_api: []            # REST Assured, Supertest, etc.
-  ci_cd: ""                     # GitHub Actions, GitLab CI, etc.
-  cobertura_actual: ""          # Porcentaje si se conoce
-
-# Áreas de riesgo conocidas
-riesgos:
-  modulos_con_bugs: []          # Módulos con historial de bugs
-  componentes_complejos: []     # Componentes de alta complejidad
-  integraciones_externas: []    # Sistemas externos integrados
-  datos_sensibles: []           # Componentes con datos sensibles
+  que_esta_cubierto: []         # Áreas con tests
+  que_no_esta_cubierto: []      # Gaps conocidos
 
 # Convenciones del proyecto
 convenciones:
   naming_tests: ""              # .spec.ts, .test.ts, etc.
+  ubicacion_tests: ""           # tests/, junto al código, etc.
   estructura_tests: ""          # describe/it, nested, etc.
-  fixture_preferred_style: ""   # fixtures, page objects, etc.
-  cobertura_minima: ""          # Porcentaje mínimo requerido
-  notas: ""                     # Cualquier otra convención
+  estilo_preferido: ""          # fixtures, page objects, builders, etc.
+  notas: ""                     # Cualquier otra regla a respetar
+
+# Zonas de riesgo — con evidencia, no intuición
+riesgos:
+  - modulo: ""                  # Módulo o área
+    por_que: ""                 # Evidencia: historial de bugs, complejidad, criticidad
+
+# Decisiones del usuario (VINCULANTE)
+# Caminos que el usuario eligió distinto a lo recomendado.
+# Patesi los respeta sin reabrir la discusión ni repetir la advertencia.
+decisiones_usuario:
+  - decision: ""                # Qué decidió
+    riesgo_advertido: ""        # Riesgo que ya se le comunicó una vez
+    fecha: ""
+
+# Conceptos ya explicados
+# Alimenta la calibración docente: lo que está acá se referencia, no se re-explica.
+conceptos_explicados:
+  - concepto: ""                # Ej: Boundary Value Analysis
+    fecha: ""
+
+# Clasificación SQEM — SOLO para proyectos en Modo A (Seidor).
+# Dejalo vacío en proyectos personales o de cliente.
+# La fórmula y las reglas vigentes viven en skills/sdet-sqem-classification/.
+sqem:
+  naq: ""                       # bajo | medio | alto
+  tipologia_principal: ""       # Nombre de la tipología (1-15)
+  tipologia_secundaria: []      # Componentes secundarios
+  delivery_target: ""           # basico | integrado | continuo
+
+# Perfil del cliente — SOLO para proyectos en Modo C.
+# El documento completo vive bajo qa-patterns/{proyecto}/client-profile
+# con la estructura que define skills/sdet-client-profile/.
+cliente:
+  nombre: ""
+  tiene_perfil: false           # true cuando el perfil ya fue creado

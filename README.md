@@ -44,7 +44,11 @@ Cada recomendación cita la sección SQEM aplicable. Si el usuario propone algo 
 
 Lo que distingue a este modo es el **contrato docente**: cada recomendación explica el porqué, para que el usuario aprenda el criterio y no solo reciba la conclusión.
 
-Se apoya en tres skills: `sdet-industry-practices` (práctica moderna de ingeniería), `sdet-istqb` (técnicas y terminología) y `sdet-exploratory-testing` (cuando el producto es nuevo o desconocido). ISTQB aporta el nombre de la técnica; industria aporta cómo se aplica hoy.
+Se apoya en `sdet-industry-practices` (práctica moderna de ingeniería), `sdet-istqb` (técnicas y terminología) y `sdet-exploratory-testing` (cuando el producto es nuevo o desconocido), más los skills de área: `sdet-api-testing`, `sdet-accessibility`, `sdet-performance` y `sdet-security-testing`. ISTQB aporta el nombre de la técnica; industria aporta cómo se aplica hoy.
+
+Dos reglas que evitan que el contrato docente se vuelva ruido: **se enseña una vez y después se referencia** —lo ya explicado queda registrado y no se repite—, y **la ceremonia se ajusta al riesgo real**: una estrategia de Modo B tiene un núcleo de 5 secciones, no 9.
+
+Ejemplo completo de una sesión bien ejecutada: [examples/interaccion-modo-b.md](examples/interaccion-modo-b.md).
 
 ```
 Usuario: "Analizá los riesgos de mi app de recetas"
@@ -127,7 +131,7 @@ patesi/
 │   │
 │   │  ── Núcleo de QA ──
 │   ├── sdet-istqb/                  Referencia ISTQB Foundation + Advanced
-│   ├── sdet-test-strategy/          Generador de estrategias (9 secciones)
+│   ├── sdet-test-strategy/          Generador de estrategias (9 secc. / 5 en Modo B)
 │   ├── sdet-risk-analysis/          Matriz ponderada de riesgos (5 factores)
 │   ├── sdet-test-cases/             Generador TC-XXX con happy/unhappy/corner
 │   ├── sdet-test-classification/    Clasificador S/M/L/XL para CI/CD
@@ -135,6 +139,10 @@ patesi/
 │   ├── sdet-project-learning/       Aprendizaje de patrones (persistencia según entorno)
 │   ├── sdet-industry-practices/     Práctica moderna: suite, flaky, datos, contratos
 │   ├── sdet-exploratory-testing/    SBTM: charters, heurísticas, notas de sesión
+│   ├── sdet-api-testing/            REST y GraphQL: contrato, códigos, idempotencia
+│   ├── sdet-accessibility/          WCAG, teclado, lectores de pantalla
+│   ├── sdet-performance/            Carga, estrés, soak, percentiles
+│   ├── sdet-security-testing/       OWASP Top 10, control de acceso, SAST/DAST/SCA
 │   │
 │   │  ── Modo C (cliente) ──
 │   ├── sdet-client-profile/         Perfil vivo del cliente + fallback declarado
@@ -222,6 +230,10 @@ Cada skill es un directorio con un `SKILL.md` que contiene metadata y conocimien
 | "Aprendé de este proyecto" | `sdet-project-learning` * |
 | "¿Pirámide de tests o trofeo?" / "tengo tests flaky" | `sdet-industry-practices` |
 | "Hagamos una sesión de testing exploratorio" | `sdet-exploratory-testing` |
+| "Testeá esta API REST" | `sdet-api-testing` |
+| "¿Mi sitio es accesible?" | `sdet-accessibility` |
+| "¿Aguanta 200 usuarios simultáneos?" | `sdet-performance` |
+| "Revisá la seguridad de este endpoint" | `sdet-security-testing` |
 | "Trabajemos con el cliente Acme" | `sdet-client-profile` * |
 | "Te paso la normativa de calidad del cliente" | `sdet-client-onboarding` + `sdet-client-profile` * |
 | "Clasificá este proyecto Seidor" | `sdet-sqem-classification` |

@@ -37,7 +37,7 @@ bash adapters/opencode/scripts/install.sh
 .\adapters\opencode\scripts\install.ps1
 ```
 
-Esto copia el agente y los 27 skills a `~/.config/opencode/`. Después reiniciá opencode y cambiá al agente con **Tab** o `@patesi`.
+Esto copia el agente y los 31 skills a `~/.config/opencode/`. Después reiniciá opencode y cambiá al agente con **Tab** o `@patesi`.
 
 ### Opción B — Manual
 
@@ -88,6 +88,10 @@ Los skills se cargan bajo demanda cuando la solicitud del usuario coincide con u
 - Usuario pide aprender de proyecto → `sdet-project-learning` *
 - Usuario pide buenas prácticas, pirámide de tests, flaky, contract testing → `sdet-industry-practices`
 - Usuario pide testing exploratorio o charters → `sdet-exploratory-testing`
+- Usuario pide testear una API / REST / GraphQL → `sdet-api-testing`
+- Usuario pide accesibilidad, WCAG o a11y → `sdet-accessibility`
+- Usuario pide performance, carga o estrés → `sdet-performance`
+- Usuario pide seguridad, OWASP, SAST/DAST/SCA → `sdet-security-testing`
 - **Modo C (proyecto de cliente) — siempre** → `sdet-client-profile` *
 - Modo C + cliente nuevo con documentación → `sdet-client-onboarding`
 - Proyecto Seidor + necesita NAQ → `sdet-sqem-classification`

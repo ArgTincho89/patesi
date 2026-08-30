@@ -51,6 +51,57 @@ Estructura del contenido:
 
 Buscá patrones por clave: `qa-patterns/{project}`
 
+---
+
+## Contexto del proyecto (`qa-patterns/{project}/context`)
+
+Además de los patrones sueltos, cada proyecto tiene **un documento de contexto** con la estructura siguiente. Es el equivalente para Modo B del perfil de cliente que `sdet-client-profile` mantiene en Modo C: un documento vivo que evita volver a preguntar lo que ya se sabe.
+
+La plantilla vacía vive en `memory/_template/context.yaml`.
+
+```markdown
+# Contexto del proyecto: {nombre}
+
+Última actualización: {fecha}
+
+## Producto
+- Qué hace y quién lo usa:
+- Qué pasa si falla: {para dimensionar el riesgo real}
+
+## Stack
+- Lenguaje y framework:
+- Base de datos y servicios externos:
+- Dónde se despliega; hay CI:
+
+## Testing actual
+- Frameworks en uso:
+- Qué está cubierto:
+- Qué no está cubierto:
+
+## Convenciones
+- Nombres y ubicación de los tests:
+- Estilo preferido (fixtures, page objects, builders):
+- Cualquier regla que el usuario haya pedido respetar:
+
+## Zonas de riesgo
+- {módulo}: {por qué es riesgoso — evidencia, no intuición}
+
+## Decisiones del usuario
+Caminos que el usuario eligió distinto a lo recomendado. Se respetan sin volver a discutirlos.
+- {decisión} — riesgo ya advertido: {cuál} — fecha: {fecha}
+
+## Conceptos ya explicados
+Técnicas y principios que ya se explicaron en este proyecto. No se vuelven a explicar desde cero.
+- {concepto} — explicado el {fecha}
+```
+
+**Reglas de mantenimiento:**
+
+- Actualizalo cuando descubras algo nuevo, no al final de la sesión.
+- **`Decisiones del usuario` es vinculante**: si algo figura ahí, se ejecuta sin reabrir la discusión ni repetir la advertencia.
+- **`Conceptos ya explicados` alimenta la calibración docente**: lo que está en esa lista se referencia, no se re-explica.
+- Si el proyecto es de un cliente (Modo C), este documento no reemplaza al perfil del cliente: convive con él.
+
 ## Flujo de trabajo
 
 ### Fase de aprendizaje (cuando el usuario dice "Aprendé del proyecto")

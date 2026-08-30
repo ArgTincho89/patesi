@@ -33,6 +33,10 @@ declare -a HUMAN_PHRASES=(
     "sdet-client-onboarding|Arranque con un cliente nuevo"
     "sdet-industry-practices|Buenas prácticas de la industria"
     "sdet-exploratory-testing|Testing exploratorio / charters"
+    "sdet-api-testing|Testing de APIs / REST / GraphQL"
+    "sdet-accessibility|Accesibilidad / WCAG / a11y"
+    "sdet-performance|Performance / carga / percentiles"
+    "sdet-security-testing|Seguridad / OWASP / SAST-DAST-SCA"
     "sdet-automation|Framework de Playwright"
     "sdet-automation-cypress|Framework de Cypress"
     "sdet-automation-selenium|Selenium (Java/Python)"
@@ -53,7 +57,7 @@ declare -a HUMAN_PHRASES=(
 # --- Categorías de salida para agrupar config.yaml ---
 # Formato: "clave_de_categoría|etiqueta_visible|skill1,skill2,..."
 declare -a CATEGORY_DEFS=(
-    "qa-core|Núcleo de QA|sdet-istqb,sdet-test-strategy,sdet-test-cases,sdet-test-classification,sdet-risk-analysis,sdet-mr-analysis,sdet-project-learning,sdet-industry-practices,sdet-exploratory-testing,sdet-client-profile,sdet-client-onboarding"
+    "qa-core|Núcleo de QA|sdet-istqb,sdet-test-strategy,sdet-test-cases,sdet-test-classification,sdet-risk-analysis,sdet-mr-analysis,sdet-project-learning,sdet-industry-practices,sdet-exploratory-testing,sdet-api-testing,sdet-accessibility,sdet-performance,sdet-security-testing,sdet-client-profile,sdet-client-onboarding"
     "pipelines|Pipelines|sdet-cicd"
     "automation|Automatización|sdet-automation,sdet-automation-cypress,sdet-automation-selenium,sdet-automation-appium,sdet-automation-robot"
     "languages|Lenguajes|sdet-lang-python,sdet-lang-java,sdet-lang-javascript"
@@ -378,11 +382,17 @@ mkdir -p "$REPO_DIR/.atl"
 cp /tmp/patesi_registry_content.md "$REPO_DIR/.atl/skill-registry.md"
 echo "Generado: .atl/skill-registry.md ($COUNT skills)"
 
+# Contador de escrituras fallidas. Si alguna falla, el script termina con codigo
+# distinto de cero: un derivado sin actualizar NO puede reportarse como exito,
+# porque se commitea silenciosamente y rompe las regeneraciones siguientes.
+WRITE_FAILURES=0
+
 # Escribir 2: bloque de skills de config.yaml (entre markers)
 if update_marked_section "$REPO_DIR/config.yaml" "# SKILLS_BLOCK_START" "# SKILLS_BLOCK_END" "$CONFIG_SKILLS_CONTENT"; then
     echo "Generado: bloque de skills de config.yaml (entre markers)"
 else
     echo "FALLÓ: config.yaml -- no se pudo actualizar el bloque de skills"
+    WRITE_FAILURES=$((WRITE_FAILURES + 1))
 fi
 
 # Escribir 3: tabla §8 de system.md (entre markers)
@@ -390,6 +400,7 @@ if update_marked_section "$REPO_DIR/system.md" "SKILL_TABLE_START" "SKILL_TABLE_
     echo "Generado: tabla de system.md §8 (entre markers)"
 else
     echo "FALLÓ: system.md -- no se pudo actualizar la tabla de skills"
+    WRITE_FAILURES=$((WRITE_FAILURES + 1))
 fi
 
 # Limpiar skills-block.yaml heredado si existe
@@ -402,4 +413,8 @@ fi
 rm -f /tmp/patesi_registry_content.md
 
 echo ""
+if [ "$WRITE_FAILURES" -gt 0 ]; then
+    echo "ERROR: $WRITE_FAILURES derivado(s) NO se actualizaron. Restaura los markers antes de commitear."
+    exit 1
+fi
 echo "Listo. $COUNT skills procesados. 3 archivos actualizados."

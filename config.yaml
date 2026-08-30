@@ -35,6 +35,7 @@ permission:
 # Skills disponibles para este agente
 # IMPORTANTE: Este bloque se genera desde los frontmatter de skills/sdet-*/SKILL.md
 # Para regenerar: .\scripts\generate-registry.ps1
+# SKILLS_BLOCK_START
 skills:
   # --- Núcleo de QA ---
   - name: sdet-istqb
@@ -55,6 +56,14 @@ skills:
     trigger: buenas prácticas de la industria, pirámide de tests, shift-left, tests flaky, datos de prueba, contract testing, feature flags, criterios de release
   - name: sdet-exploratory-testing
     trigger: testing exploratorio, session-based test management, charter de exploración, heurísticas de testing, sfdipot, few hiccupps
+  - name: sdet-api-testing
+    trigger: testing de api, rest, graphql, endpoints, status code, contrato de api, postman, esquema json
+  - name: sdet-accessibility
+    trigger: accesibilidad, a11y, wcag, lector de pantalla, navegación por teclado, contraste, aria
+  - name: sdet-performance
+    trigger: performance, pruebas de carga, estrés, soak, latencia, throughput, k6, jmeter, percentiles
+  - name: sdet-security-testing
+    trigger: seguridad, owasp, sast, dast, sca, vulnerabilidades, inyección, control de acceso, secretos
   - name: sdet-client-profile
     trigger: proyecto de cliente, metodología del cliente, perfil de cliente, forma de trabajar del cliente, modo c
   - name: sdet-client-onboarding
@@ -101,3 +110,4 @@ skills:
     trigger: controles operativos seidor, umbrales de cobertura, perfiles sonarqube, indicadores
   - name: sdet-sqem-ia
     trigger: proyectos ia/ml/genai, calidad de datos, golden dataset, red-teaming, eu ai act
+# SKILLS_BLOCK_END

@@ -24,12 +24,29 @@ El usuario puede proporcionar:
 
 Si el usuario solo proporciona el nombre de una feature o una descripción breve, hacé preguntas aclaratorias sobre alcance, restricciones y tolerancia al riesgo antes de generar.
 
+## Cuántas secciones incluir
+
+La plantilla tiene 9 secciones. **Cuántas usás depende del modo activo y del riesgo real, no del formato por sí mismo.**
+
+| Modo | Secciones |
+|------|-----------|
+| **A — Seidor** | Las 9 completas |
+| **B — Personal** | Núcleo obligatorio: **1 alcance, 2 niveles, 3 tipos, 4 riesgos y 5 criterios de salida**. Las secciones 6 a 9 solo si aportan |
+| **C — Cliente** | Las que exija el perfil del cliente; si no lo define, el núcleo de 5, declarado como fallback |
+
+Las secciones 6 a 9 (entorno, automatización, roles, mitigaciones) son opcionales fuera del Modo A:
+
+- **6 Entorno**: solo si hay más de un entorno o el entorno condiciona qué se puede probar
+- **7 Automatización**: solo si hay algo que automatizar hoy
+- **8 Roles**: omitila si el proyecto lo lleva una sola persona
+- **9 Mitigaciones**: fusionala con riesgos cuando sean pocos
+
+**Omitir una sección es una decisión, no un descuido: decí en una línea por qué la omitiste.**
+
 ## Plantilla de salida
 
-Generá la estrategia de testing con TODAS las secciones siguientes:
-
 ```markdown
-# Estrategia de testing: {Feature/Project Name}
+# Estrategia de testing: {Feature/Proyecto}
 
 ## 1. Alcance
 
@@ -103,6 +120,8 @@ Generá la estrategia de testing con TODAS las secciones siguientes:
 - **Solo manual**: Testing exploratorio, testing de usabilidad, testing ad-hoc y tests de una sola ejecución
 
 ## 8. Roles y responsabilidades
+
+> Sección opcional. Omitila cuando el proyecto lo lleva adelante una sola persona: una tabla de roles con una única fila no informa nada. Si la omitís, decilo en una línea.
 
 | Rol | Responsabilidad |
 |------|---------------|

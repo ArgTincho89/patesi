@@ -18,6 +18,10 @@
 | `sdet-project-learning` | qa-sdet | aprender del proyecto, recordar patrones, guardar convenciones QA | `skills/sdet-project-learning/SKILL.md` |
 | `sdet-industry-practices` | qa-core | buenas prácticas de la industria, pirámide de tests, shift-left, tests flaky, datos de prueba, contract testing, feature flags, criterios de release | `skills/sdet-industry-practices/SKILL.md` |
 | `sdet-exploratory-testing` | qa-core | testing exploratorio, session-based test management, charter de exploración, heurísticas de testing, SFDIPOT, FEW HICCUPPS | `skills/sdet-exploratory-testing/SKILL.md` |
+| `sdet-api-testing` | qa-core | testing de API, REST, GraphQL, endpoints, status code, contrato de API, Postman, esquema JSON | `skills/sdet-api-testing/SKILL.md` |
+| `sdet-accessibility` | qa-core | accesibilidad, a11y, WCAG, lector de pantalla, navegación por teclado, contraste, ARIA | `skills/sdet-accessibility/SKILL.md` |
+| `sdet-performance` | qa-core | performance, pruebas de carga, estrés, soak, latencia, throughput, k6, JMeter, percentiles | `skills/sdet-performance/SKILL.md` |
+| `sdet-security-testing` | qa-core | seguridad, OWASP, SAST, DAST, SCA, vulnerabilidades, inyección, control de acceso, secretos | `skills/sdet-security-testing/SKILL.md` |
 | `sdet-client-profile` | qa-core | proyecto de cliente, metodología del cliente, perfil de cliente, forma de trabajar del cliente, Modo C | `skills/sdet-client-profile/SKILL.md` |
 | `sdet-client-onboarding` | qa-core | onboarding de cliente, cliente nuevo, documentación de calidad del cliente, poblar perfil de cliente | `skills/sdet-client-onboarding/SKILL.md` |
 | `sdet-cicd` | qa-sdet | CI/CD, pipeline, GitHub Actions, GitLab CI, Jenkinsfile | `skills/sdet-cicd/SKILL.md` |

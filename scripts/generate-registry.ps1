@@ -36,6 +36,10 @@ $humanPhrases = @{
     "sdet-client-onboarding"      = "Arranque con un cliente nuevo"
     "sdet-industry-practices"     = "Buenas prácticas de la industria"
     "sdet-exploratory-testing"    = "Testing exploratorio / charters"
+    "sdet-api-testing"            = "Testing de APIs / REST / GraphQL"
+    "sdet-accessibility"          = "Accesibilidad / WCAG / a11y"
+    "sdet-performance"            = "Performance / carga / percentiles"
+    "sdet-security-testing"       = "Seguridad / OWASP / SAST-DAST-SCA"
     "sdet-automation"             = "Framework de Playwright"
     "sdet-automation-cypress"     = "Framework de Cypress"
     "sdet-automation-selenium"    = "Selenium (Java/Python)"
@@ -55,7 +59,7 @@ $humanPhrases = @{
 
 # --- Categorías de salida para agrupar config.yaml ---
 $categories = [ordered]@{
-    "qa-core"      = @("sdet-istqb", "sdet-test-strategy", "sdet-test-cases", "sdet-test-classification", "sdet-risk-analysis", "sdet-mr-analysis", "sdet-project-learning", "sdet-industry-practices", "sdet-exploratory-testing", "sdet-client-profile", "sdet-client-onboarding")
+    "qa-core"      = @("sdet-istqb", "sdet-test-strategy", "sdet-test-cases", "sdet-test-classification", "sdet-risk-analysis", "sdet-mr-analysis", "sdet-project-learning", "sdet-industry-practices", "sdet-exploratory-testing", "sdet-api-testing", "sdet-accessibility", "sdet-performance", "sdet-security-testing", "sdet-client-profile", "sdet-client-onboarding")
     "pipelines"    = @("sdet-cicd")
     "automation"   = @("sdet-automation", "sdet-automation-cypress", "sdet-automation-selenium", "sdet-automation-appium", "sdet-automation-robot")
     "languages"    = @("sdet-lang-python", "sdet-lang-java", "sdet-lang-javascript")
@@ -370,12 +374,18 @@ $registryPath = Join-Path $RepoDir ".atl\skill-registry.md"
 [System.IO.File]::WriteAllText($registryPath, $registryContent, [System.Text.UTF8Encoding]::new($false))
     Write-Host "Generado: .atl/skill-registry.md ($($allSkills.Count) skills)" -ForegroundColor Green
 
+# Contador de escrituras fallidas. Si alguna falla, el script termina con codigo
+# distinto de cero: un derivado sin actualizar NO puede reportarse como exito,
+# porque se commitea silenciosamente y rompe las regeneraciones siguientes.
+$writeFailures = 0
+
 # Write 2: config.yaml skills block (between markers)
 $configFile = Join-Path $RepoDir "config.yaml"
 if (Update-MarkedSection -FilePath $configFile -StartMarker "# SKILLS_BLOCK_START" -EndMarker "# SKILLS_BLOCK_END" -NewContent "# SKILLS_BLOCK_START`nskills:`n$configSkillsBlock# SKILLS_BLOCK_END") {
     Write-Host "Generado: bloque de skills de config.yaml (entre markers)" -ForegroundColor Green
 } else {
-    Write-Host "FAILED: config.yaml -- could not update skills block" -ForegroundColor Red
+    Write-Host "FAILED: config.yaml -- no se pudo actualizar el bloque de skills" -ForegroundColor Red
+    $writeFailures++
 }
 
 # Write 3: system.md §8 table (between markers)
@@ -383,7 +393,8 @@ $systemFile = Join-Path $RepoDir "system.md"
 if (Update-MarkedSection -FilePath $systemFile -StartMarker "<!-- SKILL_TABLE_START" -EndMarker "<!-- SKILL_TABLE_END -->" -NewContent $sysTableContent) {
     Write-Host "Generado: tabla de system.md §8 (entre markers)" -ForegroundColor Green
 } else {
-    Write-Host "FAILED: system.md -- could not update skill table" -ForegroundColor Red
+    Write-Host "FAILED: system.md -- no se pudo actualizar la tabla de skills" -ForegroundColor Red
+    $writeFailures++
 }
 
 # Cleanup legacy skills-block.yaml if it exists
@@ -394,4 +405,8 @@ if (Test-Path $legacyBlock) {
 }
 
 Write-Host ""
+if ($writeFailures -gt 0) {
+    Write-Host "ERROR: $writeFailures derivado(s) NO se actualizaron. Restaura los markers antes de commitear." -ForegroundColor Red
+    exit 1
+}
 Write-Host "Listo. $($allSkills.Count) skills procesados. 3 archivos actualizados." -ForegroundColor Cyan

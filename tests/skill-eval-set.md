@@ -34,6 +34,10 @@
 | 25 | "Quiero hacer una sesión de testing exploratorio del checkout" | sdet-exploratory-testing | — |
 | 26 | "Armame un charter para explorar la carga de archivos" | sdet-exploratory-testing | — |
 | 27 | "Empezamos con el cliente Acme, te paso su manual de calidad" | sdet-client-onboarding | sdet-client-profile |
+| 28 | "Testeá el endpoint POST /movimientos de mi API" | sdet-api-testing | — |
+| 29 | "¿Mi formulario es accesible con lector de pantalla?" | sdet-accessibility | — |
+| 30 | "¿Aguanta 200 usuarios simultáneos el buscador?" | sdet-performance | — |
+| 31 | "Revisá si este endpoint tiene problemas de autorización" | sdet-security-testing | — |
 
 ## Casos de evaluación por modo
 
@@ -56,6 +60,12 @@ Verifican que el protocolo de la Sección 1 resuelva el modo y que **no haya con
 | M13 | Modo C: el manual del cliente dice "buscamos la excelencia en calidad" | **No** lo convierte en regla del perfil. Solo entran reglas verificables |
 | M14 | Modo C onboarding: Patesi deduce una regla que el documento no dice literalmente | La marca como `fallback` y la lleva al bloque "Necesito que confirmes". **Nunca** la promueve a `cliente` por su cuenta |
 | M15 | Modo C: cliente nuevo **sin** documentación | Lo dice sin dramatismo, elicita el Bloque 1 y marca todas las áreas como huecos abiertos. Trabaja igual |
+| M16 | Modo B: se explica un concepto (ej. BVA) y **más tarde en la misma sesión** vuelve a aplicar | La segunda vez lo **referencia en una línea**, no lo re-explica. El concepto quedó en `Conceptos ya explicados` |
+| M17 | Modo B: el usuario ya rechazó una recomendación en un turno anterior | En turnos siguientes **no** reabre la discusión ni repite la advertencia. La decisión está en `Decisiones del usuario` |
+| M18 | Modo B: "creame una estrategia de testing" en un proyecto de una sola persona | Entrega el **núcleo de 5 secciones**. **No** incluye "Roles y responsabilidades". Dice en una línea por qué omitió las secciones que omitió |
+| M19 | Modo B: tarea sobre una interfaz web o una API expuesta | Nombra accesibilidad y seguridad básica **una vez** con el riesgo concreto, aunque el usuario no las haya pedido. Respeta la decisión si prefiere postergarlas |
+| M20 | Modo B: el usuario usa terminología estándar con precisión | Sube el registro y va al grano. **No** explica desde cero lo que el usuario claramente domina |
+| M21 | Cualquier respuesta sustantiva de Modo B | Sigue la anatomía de §7: respuesta directa primero, después porqué, técnica, criterio y qué queda afuera |
 
 ## Cómo ejecutar
 
@@ -70,6 +80,7 @@ Verifican que el protocolo de la Sección 1 resuelva el modo y que **no haya con
 - Los casos SQEM (16-19) solo deberían activarse en Modo A (proyectos Seidor)
 - Si el agente carga un skill no listado como esperado, es un falso positivo
 - Si el agente no carga el skill esperado, es un falso negativo
-- **Los casos M1-M15 son los más importantes**: verifican el motor de modos, que es lo que hace a Patesi útil fuera de Seidor
+- **Los casos M1-M21 son los más importantes**: verifican el motor de modos, que es lo que hace a Patesi útil fuera de Seidor
+- Para M16-M21, la referencia de comportamiento esperado es [examples/interaccion-modo-b.md](../examples/interaccion-modo-b.md), que incluye una tabla de señales evaluables
 - Cargar un skill SQEM en Modo B o C (sin pedido explícito) es un fallo crítico, no un falso positivo menor
 - Los casos de modo deben ejecutarse **igual en opencode y en Copilot**. Cualquier diferencia de comportamiento entre ambos entornos es un defecto del adapter, no del núcleo

@@ -16,6 +16,8 @@ Responde a la pregunta operativa del Modo A: **dado un NAQ y una tipología, ¿q
 
 Fuente: SQEM v1.2 §6.4 (aplicación por tipología) y §6.5 (ajuste por NAQ), con las combinaciones ya resueltas según el modelo de gobernanza de quality gates de la Oficina de Calidad.
 
+> **Verificación:** las filas base están validadas contra la tabla §6.4 del Modelo extendido —fuente distinta del configurador— y las filas con NAQ contra las reglas de §6.5. Ejecutar `python scripts/check-sqem-matrix.py` tras cualquier cambio en esta tabla o cuando Seidor publique una versión nueva de la normativa.
+
 ---
 
 ## Regla de precedencia (§6.5) — leer antes de usar la matriz
@@ -48,6 +50,7 @@ Fuente: SQEM v1.2 §6.4 (aplicación por tipología) y §6.5 (ajuste por NAQ), c
 - **⑤** AMS sin arranque de proyecto: QG0 permanece ligero aunque el NAQ sea Medio o Alto (§6.4).
 - **⑥** §6.4.2 — el NAQ modula *dentro* del QG-Exprés; no reimpone gates.
 - **⑦** La validación antes de producción se mantiene siempre, aunque QG5 y QG6 se fusionen.
+- **⑧** Condicional que **se formaliza si el NAQ es Alto** (§6.4). Anotación de la fila base: indica hacia dónde resuelve, no que ya esté resuelto.
 
 ---
 
@@ -65,7 +68,7 @@ Fuente: SQEM v1.2 §6.4 (aplicación por tipología) y §6.5 (ajuste por NAQ), c
 | Mantenimiento evolutivo | Bajo | L | L | C | Fc⑤ | C① | C① | F①⑦ | L |
 | Mantenimiento evolutivo | Medio | L⑤ | L | C | Fc⑤ | F③ | L③ | F | L |
 | Mantenimiento evolutivo | Alto | L⑤ | F④ | F③ | Fc⑤ | F③ | F③ | F | F④ |
-| Mantenimiento correctivo | — | L | L | — | Fc | C | C③ | F | L |
+| Mantenimiento correctivo | — | L | L | — | Fc | C | C⑧ | F | L |
 | Mantenimiento correctivo | Bajo | L | L | — | Fc⑤ | C① | C① | F①⑦ | L |
 | Mantenimiento correctivo | Medio | L⑤ | L | — | Fc⑤ | F③ | L③ | F | L |
 | Mantenimiento correctivo | Alto | L⑤ | F④ | — | Fc⑤ | F③ | F③ | F | F④ |

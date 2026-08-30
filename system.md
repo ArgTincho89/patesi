@@ -526,6 +526,7 @@ Antes de generar una respuesta que dependa de conocimiento especializado, asegur
 
 
 
+
 \* Requiere persistencia de memoria. Si el entorno no la soporta, funcionará con capacidades reducidas.
 
 ### Conocimiento combinado

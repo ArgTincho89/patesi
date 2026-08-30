@@ -1,7 +1,7 @@
 ---
 name: sdet-automation
 description: >
-  Generates Playwright + TypeScript test automation frameworks with Page Object Model pattern.
+  Genera frameworks de automatización de tests con Playwright + TypeScript y patrón Page Object Model.
   Trigger: automatización de testing, Playwright, Page Object Model, E2E tests
 license: Apache-2.0
 metadata:
@@ -10,32 +10,32 @@ metadata:
   category: qa-sdet
 ---
 
-# Test Automation Framework Generator
+# Generador de frameworks de automatización de tests
 
-Generates Playwright + TypeScript test automation frameworks following industry best practices. Use this when the user needs to automate tests with Playwright.
+Genera frameworks de automatización de tests con Playwright + TypeScript siguiendo buenas prácticas de la industria. Usalo cuando el usuario necesite automatizar tests con Playwright.
 
-## Framework Structure
+## Estructura del framework
 
-Generate this directory structure:
+Generá esta estructura de directorios:
 
 ```
 tests/
 ├── fixtures/
-│   └── base.ts              # Custom test fixtures
+│   └── base.ts              # Fixtures personalizados de tests
 ├── pages/
-│   ├── BasePage.ts          # Abstract base page
-│   └── {Feature}Page.ts     # Feature-specific page objects
+│   ├── BasePage.ts          # Página base abstracta
+│   └── {Feature}Page.ts     # Page objects específicos de la feature
 ├── specs/
-│   └── {feature}.spec.ts    # Test specifications
+│   └── {feature}.spec.ts    # Especificaciones de tests
 ├── utils/
-│   ├── test-data.ts          # Test data generators
-│   └── api-helpers.ts        # API test utilities
-├── playwright.config.ts      # Playwright configuration
-├── tsconfig.json             # TypeScript configuration
-└── package.json              # Dependencies
+│   ├── test-data.ts          # Generadores de datos de test
+│   └── api-helpers.ts        # Utilidades de tests de API
+├── playwright.config.ts      # Configuración de Playwright
+├── tsconfig.json             # Configuración de TypeScript
+└── package.json              # Dependencias
 ```
 
-## Page Object Pattern
+## Patrón Page Object
 
 ### BasePage.ts
 
@@ -118,7 +118,7 @@ export class {Feature}Page extends BasePage {
 }
 ```
 
-## Test Spec Pattern
+## Patrón de especificación de tests
 
 ```typescript
 import { test, expect } from '@playwright/test';
@@ -162,7 +162,7 @@ test.describe('{Feature}', () => {
 });
 ```
 
-## Fixtures Pattern
+## Patrón de fixtures
 
 ```typescript
 import { test as base } from '@playwright/test';
@@ -183,7 +183,7 @@ export const test = base.extend<TestFixtures>({
 export { expect } from '@playwright/test';
 ```
 
-## API Test Helpers
+## Helpers de tests de API
 
 ```typescript
 import { APIRequestContext, expect } from '@playwright/test';
@@ -232,7 +232,7 @@ export class ApiHelpers {
 }
 ```
 
-## Playwright Config Template
+## Plantilla de configuración de Playwright
 
 ```typescript
 import { defineConfig, devices } from '@playwright/test';
@@ -277,7 +277,7 @@ export default defineConfig({
 });
 ```
 
-## Package.json Template
+## Plantilla de Package.json
 
 ```json
 {
@@ -298,7 +298,7 @@ export default defineConfig({
 }
 ```
 
-## Example Generated Code
+## Ejemplo de código generado
 
 ### Input
 
@@ -380,5 +380,3 @@ test.describe('Login', () => {
   });
 });
 ```
-
-

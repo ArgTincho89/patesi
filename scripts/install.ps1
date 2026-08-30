@@ -1,32 +1,32 @@
-# Patesi - SDET AI Agent Installer for Windows
-# Usage: .\install.ps1
+﻿# Patesi - Instalador del agente SDET de IA para Windows
+# Uso: .\install.ps1
 
 $ErrorActionPreference = "Stop"
 
-Write-Host "🔧 Installing Patesi - SDET AI Agent for opencode..." -ForegroundColor Cyan
+Write-Host "🔧 Instalando Patesi - Agente SDET de IA para opencode..." -ForegroundColor Cyan
 
-# Detect opencode config directory
+# Detectar el directorio de configuración de opencode
 $OpenCodeDir = "$env:USERPROFILE\.config\opencode"
 $ScriptDir = Split-Path -Parent $MyInvocation.MyCommand.Path
 $RepoDir = Split-Path -Parent $ScriptDir
 
-Write-Host "📁 OpenCode config directory: $OpenCodeDir" -ForegroundColor Gray
-Write-Host "📦 Patesi source: $RepoDir" -ForegroundColor Gray
+Write-Host "📁 Directorio de configuración de opencode: $OpenCodeDir" -ForegroundColor Gray
+Write-Host "📦 Fuente de Patesi: $RepoDir" -ForegroundColor Gray
 
-# Create directories
-Write-Host "📂 Creating directories..." -ForegroundColor Yellow
+# Crear directorios
+Write-Host "📂 Creando directorios..." -ForegroundColor Yellow
 New-Item -ItemType Directory -Force -Path "$OpenCodeDir\agents" | Out-Null
 New-Item -ItemType Directory -Force -Path "$OpenCodeDir\skills" | Out-Null
 
-# Copy agent (v2.0: agent.md + system.md from repo root)
-Write-Host "🤖 Installing agent..." -ForegroundColor Yellow
+# Copiar agente (v2.0: agent.md + system.md desde la raíz del repo)
+Write-Host "🤖 Instalando agente..." -ForegroundColor Yellow
 Copy-Item -Path "$RepoDir\agent.md" -Destination "$OpenCodeDir\agents\patesi.md" -Force
 Copy-Item -Path "$RepoDir\system.md" -Destination "$OpenCodeDir\agents\system.md" -Force
-Write-Host "   ✅ agents/patesi.md (from agent.md)" -ForegroundColor Green
+Write-Host "   ✅ agents/patesi.md (desde agent.md)" -ForegroundColor Green
 Write-Host "   ✅ agents/system.md" -ForegroundColor Green
 
-# Copy skills
-Write-Host "📚 Installing skills..." -ForegroundColor Yellow
+# Copiar skills
+Write-Host "📚 Instalando skills..." -ForegroundColor Yellow
 Get-ChildItem -Path "$RepoDir\skills\sdet-*" -Directory | ForEach-Object {
     $skillName = $_.Name
     $destDir = "$OpenCodeDir\skills\$skillName"
@@ -36,20 +36,16 @@ Get-ChildItem -Path "$RepoDir\skills\sdet-*" -Directory | ForEach-Object {
 }
 
 Write-Host ""
-Write-Host "🎉 Patesi installed successfully!" -ForegroundColor Green
+Write-Host "🎉 Patesi se instaló correctamente!" -ForegroundColor Green
 Write-Host ""
-Write-Host "Next steps:" -ForegroundColor Cyan
-Write-Host '  1. Add the agent to your opencode.json:' -ForegroundColor Cyan
-Write-Host '     {' -ForegroundColor Gray
-Write-Host '       "agent": {' -ForegroundColor Gray
-Write-Host '         "patesi": {' -ForegroundColor Gray
-Write-Host '           "description": "Patesi — Agente SDET de IA",' -ForegroundColor Gray
-Write-Host '           "mode": "primary",' -ForegroundColor Gray
-Write-Host '           "prompt": "{file:./agents/patesi.md}\n\n---\n\n{file:./agents/system.md}",' -ForegroundColor Gray
-Write-Host '           "tools": { "edit": true, "write": true }' -ForegroundColor Gray
-Write-Host '         }' -ForegroundColor Gray
-Write-Host '       }' -ForegroundColor Gray
-Write-Host '     }' -ForegroundColor Gray
+Write-Host "Próximos pasos:" -ForegroundColor Cyan
+Write-Host '  1. Agregá el agente a tu opencode.json:' -ForegroundColor Cyan
+Write-Host "Configuración JSON del agente:" -ForegroundColor Gray
+Write-Host "  agent: patesi" -ForegroundColor Gray
+Write-Host "  description: Patesi - Agente SDET de IA" -ForegroundColor Gray
+Write-Host "  mode: primary" -ForegroundColor Gray
+Write-Host "  prompt: agent.md + system.md" -ForegroundColor Gray
+Write-Host "  tools: edit, write" -ForegroundColor Gray
 Write-Host ""
-Write-Host "  2. Restart opencode" -ForegroundColor Cyan
-Write-Host "  3. Switch to the SDET agent using Tab key" -ForegroundColor Cyan
+Write-Host "  2. Reiniciá opencode" -ForegroundColor Cyan
+Write-Host "  3. Cambiá al agente SDET usando la tecla Tab" -ForegroundColor Cyan

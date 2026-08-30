@@ -1,7 +1,7 @@
 ---
 name: sdet-lang-javascript
 description: >
-  JavaScript/TypeScript testing patterns for SDET work.
+  Patrones de testing JavaScript/TypeScript para trabajo SDET.
   Trigger: JavaScript testing, TypeScript testing, Jest, Vitest, Node.js testing
 license: Apache-2.0
 metadata:
@@ -10,11 +10,11 @@ metadata:
   category: qa-sdet
 ---
 
-# JavaScript/TypeScript Testing Patterns for SDET
+# Patrones de testing JavaScript/TypeScript para SDET
 
-Jest and Vitest patterns, mocking, async testing, and project setup for JS/TS test automation.
+Patrones de Jest y Vitest, mocking, testing asíncrono y configuración de proyectos para automatización de tests JS/TS.
 
-## Project Structure
+## Estructura del proyecto
 
 ```
 tests/
@@ -33,7 +33,7 @@ tests/
 └── tsconfig.json
 ```
 
-## Jest Configuration
+## Configuración de Jest
 
 ### jest.config.ts
 
@@ -68,7 +68,7 @@ const config: Config = {
 export default config;
 ```
 
-### package.json Scripts
+### Scripts de package.json
 
 ```json
 {
@@ -83,7 +83,7 @@ export default config;
 }
 ```
 
-## Vitest Configuration
+## Configuración de Vitest
 
 ### vitest.config.ts
 
@@ -115,9 +115,9 @@ export default defineConfig({
 });
 ```
 
-## Test Patterns
+## Patrones de tests
 
-### Basic Unit Test
+### Test unitario básico
 
 ```typescript
 import { describe, it, expect, beforeEach, vi } from 'vitest'; // or jest
@@ -161,7 +161,7 @@ describe('UserService', () => {
 });
 ```
 
-### Parameterized Tests
+### Tests parametrizados
 
 ```typescript
 describe('login validation', () => {
@@ -188,7 +188,7 @@ describe('role permissions', () => {
 });
 ```
 
-### Async Testing
+### Testing asíncrono
 
 ```typescript
 describe('Async operations', () => {
@@ -220,7 +220,7 @@ describe('Async operations', () => {
 });
 ```
 
-### Mocking Patterns
+### Patrones de mocking
 
 ```typescript
 import { vi } from 'vitest'; // or jest.fn()
@@ -247,7 +247,7 @@ vi.setSystemTime(new Date('2024-01-15'));
 vi.stubEnv('API_URL', 'http://mock-api.test');
 ```
 
-### Fixtures Pattern
+### Patrón de fixtures
 
 ```typescript
 import { test as base, expect } from '@playwright/test'; // or jest fixture
@@ -331,9 +331,9 @@ describe('LoginForm', () => {
 });
 ```
 
-## Common Libraries
+## Librerías habituales
 
-| Library | Purpose |
+| Librería | Propósito |
 |---------|---------|
 | `jest` / `vitest` | Test runner + assertions |
 | `@testing-library/react` | React component testing |
@@ -343,5 +343,3 @@ describe('LoginForm', () => {
 | `nock` | HTTP request interception |
 | `faker` | Test data generation |
 | `zod` | Schema validation in tests |
-
-

@@ -1,7 +1,7 @@
 ---
 name: sdet-lang-java
 description: >
-  Java testing patterns and conventions for SDET work.
+  Patrones y convenciones de testing Java para trabajo SDET.
   Trigger: Java testing, JUnit, TestNG, patrones Java, automatización Java
 license: Apache-2.0
 metadata:
@@ -10,11 +10,11 @@ metadata:
   category: qa-sdet
 ---
 
-# Java Testing Patterns for SDET
+# Patrones de testing Java para SDET
 
-JUnit 5 and TestNG patterns, assertion libraries, mocking, and project structure for Java test automation.
+Patrones de JUnit 5 y TestNG, librerías de aserciones, mocking y estructura de proyectos para automatización de tests Java.
 
-## Project Structure
+## Estructura del proyecto
 
 ```
 src/
@@ -36,9 +36,9 @@ src/
         └── ApiHelper.java
 ```
 
-## JUnit 5 Patterns
+## Patrones de JUnit 5
 
-### Basic Test Structure
+### Estructura básica de un test
 
 ```java
 import org.junit.jupiter.api.*;
@@ -76,7 +76,7 @@ class UserServiceTest {
 }
 ```
 
-### Parameterized Tests
+### Tests parametrizados
 
 ```java
 import org.junit.jupiter.params.ParameterizedTest;
@@ -127,7 +127,7 @@ class LoginValidationTest {
 }
 ```
 
-### Nested Tests and Lifecycle
+### Tests anidados y ciclo de vida
 
 ```java
 @DisplayName("Order Processing")
@@ -166,7 +166,7 @@ class OrderTest {
 }
 ```
 
-## TestNG Patterns
+## Patrones de TestNG
 
 ```java
 import org.testng.annotations.*;
@@ -224,7 +224,7 @@ public class ApiTest {
 }
 ```
 
-## Assertion Libraries
+## Librerías de aserciones
 
 ### AssertJ (Recommended)
 
@@ -264,7 +264,7 @@ assertThat(users, hasItem(hasProperty("name", equalTo("John"))));
 assertThat(response.body(), containsString("success"));
 ```
 
-## Mockito Patterns
+## Patrones de Mockito
 
 ```java
 import org.mockito.*;
@@ -316,7 +316,7 @@ class OrderServiceTest {
 }
 ```
 
-## API Test Template
+## Plantilla de tests de API
 
 ```java
 import io.restassured.RestAssured;
@@ -362,5 +362,4 @@ class UserApiTest {
     }
 }
 ```
-
 

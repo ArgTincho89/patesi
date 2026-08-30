@@ -2,7 +2,7 @@
 # Patesi — Copilot Adapter Builder
 # Regenerates adapters/copilot/copilot-instructions.md from agent.md + system.md
 #
-# Usage: bash scripts/build-copilot-adapter.sh
+# Uso: bash scripts/build-copilot-adapter.sh
 
 set -e
 
@@ -14,24 +14,24 @@ SYSTEM_MD="$REPO_DIR/system.md"
 OUTPUT="$REPO_DIR/adapters/copilot/copilot-instructions.md"
 CONFIG="$REPO_DIR/config.yaml"
 
-echo "Building Copilot adapter from agent.md + system.md..."
+echo "Construyendo el adaptador de Copilot desde agent.md + system.md..."
 
-# Extract identity (before first ---)
+# Extraer identidad (antes del primer ---)
 IDENTITY=$(sed '/^---$/q' "$AGENT_MD" | sed '$d')
 
-# Extract skill names from config.yaml
+# Extraer nombres de skills desde config.yaml
 SKILL_LIST=$(grep '^- name:' "$CONFIG" | sed 's/^- name: /- `/' | sed 's/$/`/')
 
-# Get today's date
+# Obtener la fecha actual
 TODAY=$(date +%Y-%m-%d)
 
 cat > "$OUTPUT" << HEREDOC
 # Patesi — Adaptador para GitHub Copilot
 
-> **AUTO-GENERATED** por \`scripts/build-copilot-adapter.sh\`
+> **GENERADO AUTOMÁTICAMENTE** por \`scripts/build-copilot-adapter.sh\`
 > **NO EDITAR MANUALMENTE** — ejecutá \`bash scripts/build-copilot-adapter.sh\` para regenerar.
 > Fuente de verdad: \`agent.md\` + \`system.md\`
-> Last generated: $TODAY
+> Última generación: $TODAY
 
 ---
 
@@ -79,7 +79,7 @@ $SKILL_LIST
 **Skills de metodología**: Gherkin/BDD, Cucumber, Maven/Gradle
 
 > **Nota**: \`sdet-project-learning\` requiere Engram MCP (específico de opencode).
-> En Copilot, este skill degradará gracefully — informá al usuario que la memoria
+> En Copilot, este skill funcionará con capacidades reducidas — informá al usuario que la memoria
 > entre sesiones no está disponible sin Engram.
 
 ## Idioma
@@ -87,5 +87,5 @@ $SKILL_LIST
 Combiná el idioma del usuario. Por defecto en castellano.
 HEREDOC
 
-echo "Generated: adapters/copilot/copilot-instructions.md"
-echo "Done."
+echo "Generado: adapters/copilot/copilot-instructions.md"
+echo "Listo."

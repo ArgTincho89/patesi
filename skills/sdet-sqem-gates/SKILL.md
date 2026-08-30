@@ -1,7 +1,7 @@
 ---
 name: sdet-sqem-gates
 description: >
-  SQEM quality gates: QG0-QG7 criteria, F/L/C/N/A matrix by tipologia, QG-Express for hotfixes, gate merge rules, exception management.
+  Quality gates SQEM: criterios QG0-QG7, matriz F/L/C/N/A por tipología, QG-Express para hotfixes, reglas de merge de gates y gestión de excepciones.
   Trigger: puertas de calidad Seidor, QG0-QG7, matriz F/L/C/N/A, evaluación de gates
 license: Apache-2.0
 metadata:
@@ -10,13 +10,13 @@ metadata:
   category: sqem
 ---
 
-# SQEM — Quality Gates
+# SQEM — Quality gates
 
-Defines the 8 operational quality gates, their criteria, the F/L/C/N/A matrix by tipologia, and exception management.
+Define los 8 quality gates operativos, sus criterios, la matriz F/L/C/N/A por tipología y la gestión de excepciones.
 
 ---
 
-## 8 Operational Gates (Section 6.3)
+## 8 gates operativos (sección 6.3)
 
 ```
 QG0 → QG1 → QG2 → QG3 → QG4 → QG5 → QG6 → QG7
@@ -25,8 +25,8 @@ QG0 → QG1 → QG2 → QG3 → QG4 → QG5 → QG6 → QG7
 | Gate | What | Key criteria | Approves |
 |------|------|-------------|----------|
 | **QG0** Inicio/Viabilidad | Start with scope, risks, NAQ, quality plan | NAQ assigned, plan approved, risks mapped, toolchain defined | QA Mgr + Delivery |
-| **QG1** Requisitos (DoR) | Requirements complete, testable, traceable | AC defined, req<->test traceability, NFRs identified | QA Lead + PO |
-| **QG2** Diseno/Arquitectura | Robust design covering F and NF | Design reviewed, ADRs, NFRs sized, Test Strategy approved | Architect + QA Lead |
+| **QG1** Requisitos (DoR) | Requisitos completos, testeables y trazables | AC defined, req<->test traceability, NFRs identified | QA Lead + PO |
+| **QG2** Diseño/Arquitectura | Diseño robusto que cubre F y NF | Diseño revisado, ADRs, NFRs dimensionados, estrategia de testing aprobada | Architect + QA Lead |
 | **QG3** Construccion (DoD) | Code meets standards before testing | Code review OK, static no blockers, coverage in threshold, **QG Sonar SUCCESS** | Tech Lead + QA |
 | **QG4** Pruebas de sistema | Integrated system meets F and NF | Cases executed on target, **0 blocking/critical open**, regression passed, NF passed | QA Lead |
 | **QG5** UAT/Aceptacion | Formal business/client acceptance | UAT cases accepted, residual defects agreed, **client sign-off** | Client/PO |
@@ -35,14 +35,14 @@ QG0 → QG1 → QG2 → QG3 → QG4 → QG5 → QG6 → QG7
 
 ---
 
-## QG-Express (Hotfix/Emergency)
+## QG-Express (hotfix/emergencia)
 
 - **Ex-ante** (before deploy): peer review + directed smoke + rollback tested + Go/No-Go recorded
 - **Ex-post** (24-48h after): complete omitted gate criteria + root cause analysis
 
 ---
 
-## 4 Gate Outcomes
+## 4 resultados de gate
 
 | Decision | Condition | Consequence |
 |----------|-----------|-------------|
@@ -51,7 +51,7 @@ QG0 → QG1 → QG2 → QG3 → QG4 → QG5 → QG6 → QG7
 | **FAIL** | Absent/unverifiable evidence, out-of-threshold, blocker | Does NOT advance — formal exception required |
 | **N/A** | Not applicable by tipologia/NAQ/scope | Excluded from scoring |
 
-### Non-Excepable Criteria (Hard Blocks)
+### Criterios no exceptuables (bloqueos estrictos)
 
 - Open blocking/critical defect
 - Serious security/data/compliance breach
@@ -61,7 +61,7 @@ QG0 → QG1 → QG2 → QG3 → QG4 → QG5 → QG6 → QG7
 
 ---
 
-## Deliverables Per Gate
+## Entregables por gate
 
 | Gate | Mandatory deliverables |
 |------|----------------------|
@@ -76,7 +76,7 @@ QG0 → QG1 → QG2 → QG3 → QG4 → QG5 → QG6 → QG7
 
 ---
 
-## Gates by Tipologia — F/L/C/N/A Matrix
+## Gates por tipología — matriz F/L/C/N/A
 
 | Tipologia | QG0 | QG1 | QG2 | QG3 | QG4 | QG5 | QG6 | QG7 |
 |-----------|-----|-----|-----|-----|-----|-----|-----|-----|
@@ -88,7 +88,7 @@ QG0 → QG1 → QG2 → QG3 → QG4 → QG5 → QG6 → QG7
 | Integrations/APIs | F | F | F | F | F | C | F | F |
 | Digital Product | F | F | F | F | F | F | F | F |
 | Packaged (SAP/SF) | F | F | C | F if dev | F | F | F | F |
-| Market Product | F | F | F | F | F | F | F | F |
+| Producto de mercado | F | F | F | F | F | F | F | F |
 | AI/ML/GenAI | F | F | F | F if code/pipeline | F | F | F | F |
 | Data & Analytics | F | F | F | F | F | F | F | F |
 | Infra/DevOps | F | F | F | F | F | C | F | F |
@@ -100,7 +100,7 @@ QG0 → QG1 → QG2 → QG3 → QG4 → QG5 → QG6 → QG7
 
 ---
 
-## Exception Management (Section 8)
+## Gestión de excepciones (sección 8)
 
 | Exception severity | NAQ | Minimum approver |
 |-------------------|-----|-----------------|
@@ -110,5 +110,3 @@ QG0 → QG1 → QG2 → QG3 → QG4 → QG5 → QG6 → QG7
 | High (blocking/critical, security, data, compliance) | Any | **Direction/Sponsor + QA Manager** |
 
 ---
-
-

@@ -1,9 +1,9 @@
 # Patesi - Adaptador para GitHub Copilot
 
-> **AUTO-GENERATED** por `scripts/build-copilot-adapter.ps1`
+> **GENERADO AUTOMÁTICAMENTE** por `scripts/build-copilot-adapter.ps1`
 > **NO EDITAR MANUALMENTE** - ejecutá `.\scripts\build-copilot-adapter.ps1` para regenerar.
 > Fuente de verdad: `agent.md` + `system.md`
-> Last generated: 2026-08-25
+> Última generación: 2026-08-30
 
 ---
 
@@ -132,7 +132,7 @@ Los skills se cargan bajo demanda. No cargues proactivamente.
 **Skills de metodología**: Gherkin/BDD, Cucumber, Maven/Gradle
 
 > **Nota**: `sdet-project-learning` requiere Engram MCP (específico de opencode).
-> En Copilot, este skill degradará gracefully — informá al usuario que la memoria
+> En Copilot, este skill funcionará con capacidades reducidas — informá al usuario que la memoria
 > entre sesiones no está disponible sin Engram.
 
 ## Idioma

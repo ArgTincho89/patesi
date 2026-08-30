@@ -1,7 +1,7 @@
 ---
 name: sdet-sqem-controls
 description: >
-  SQEM operational controls: control catalog by gate x NAQ, code coverage thresholds, SonarQube profiles, key indicators, dashboards, and reporting levels.
+  Controles operativos SQEM: catálogo de controles por gate x NAQ, umbrales de cobertura de código, perfiles de SonarQube, indicadores clave, dashboards y niveles de reporting.
   Trigger: controles operativos Seidor, umbrales de cobertura, perfiles SonarQube, indicadores
 license: Apache-2.0
 metadata:
@@ -10,36 +10,36 @@ metadata:
   category: sqem
 ---
 
-# SQEM — Operational Controls
+# SQEM — Controles operativos
 
-Defines the catalog of operational controls, thresholds by NAQ, indicators, and reporting requirements.
+Define el catálogo de controles operativos, umbrales por NAQ, indicadores y requisitos de reporting.
 
 ---
 
-## Operational Controls Catalog — Control x Gate x NAQ (Section 10.6)
+## Catálogo de controles operativos — Control x Gate x NAQ (sección 10.6)
 
 | Control | Gate | NAQ Bajo | NAQ Medio | NAQ Alto |
 |---------|------|----------|-----------|----------|
-| **Code Review** | QG3 | 1 reviewer (recommended) | 1 reviewer mandatory | >=2 senior reviewers |
+| **Code Review** | QG3 | 1 reviewer (recomendado) | 1 reviewer obligatorio | >=2 reviewers senior |
 | **Unit Tests (coverage)** | QG3 | See thresholds | See thresholds | See thresholds |
-| **Static Analysis / QG** | QG3 | Profile Bajo | Profile Medio | Profile Alto + manual review |
-| **Functional / API-UI Testing** | QG4-5 | Smoke | Mandatory (API/UI) | Full + automated E2E critical flows |
+| **Static Analysis / QG** | QG3 | Perfil Bajo | Perfil Medio | Perfil Alto + revisión manual |
+| **Functional / API-UI Testing** | QG4-5 | Smoke | Obligatorio (API/UI) | Completo + flujos E2E críticos automatizados |
 | **Integration Tests** | QG4 | Partial per scope | Mandatory | Full coverage |
 | **Regression** | QG4-5 | Smoke | Partial | Full (100% automated in critical areas) |
 | **Mutation Testing** | QG3 | — | Recommended | Mandatory in critical areas |
 | **Performance** | QG4 | Not mandatory | Basic test | Load + stress + soak + scalability |
 | **Security** | QG3+6 | SCA dependencies | SAST + dependencies | SAST+DAST+secrets (+pentest in mision critica) |
 | **Accessibility WCAG** | QG4-5 | Recommended if web | Mandatory public channel | WCAG audited (mandatory public/ENS) |
-| **Documentation** | QG6-7 | Basic | Updated | Complete and audited |
-| **UAT** | QG5 | Optional | Recommended | Mandatory (formal approval) |
+| **Documentation** | QG6-7 | Básica | Actualizada | Completa y auditada |
+| **UAT** | QG5 | Opcional | Recomendado | Obligatorio (aprobación formal) |
 | **Rollback** | QG6 | Recommended/basic plan | Mandatory plan | Mandatory plan + **rehearsed** |
-| **Observability** | QG6 | Basic (logs) | Standard (metrics+logs) | Dashboards + alerts + traces |
+| **Observability** | QG6 | Básica (logs) | Estándar (métricas+logs) | Dashboards + alertas + trazas |
 | **Disaster Recovery** | QG6 | — | Per risk | **Validated** (recovery rehearsal) |
-| **Go-Live Review** | QG6 | Self-service/lightweight | QA Lead | QA + Business (Committee/CAB in mision critica) |
+| **Go-Live Review** | QG6 | Autoservicio/ligera | QA Lead | QA + negocio (Comité/CAB en misión crítica) |
 
 ---
 
-## Code Coverage Thresholds (Section 10.3)
+## Umbrales de cobertura de código (sección 10.3)
 
 | NAQ | New code (new/modified) | Overall (full codebase) |
 |-----|------------------------|------------------------|
@@ -50,9 +50,9 @@ Defines the catalog of operational controls, thresholds by NAQ, indicators, and 
 
 ---
 
-## SonarQube Quality Gate by NAQ (Section 10.2)
+## Quality Gate de SonarQube por NAQ (sección 10.2)
 
-| NAQ + Scope | Blocker | Critical | Reliability | Security | Maintainability | Duplicated |
+| NAQ + alcance | Bloqueante | Crítico | Confiabilidad | Seguridad | Mantenibilidad | Duplicado |
 |-------------|---------|----------|-------------|----------|-----------------|------------|
 | Bajo — New (Overall) | 0 | <=10 | >=C | >=C | >=C (<=20%) | — |
 | Bajo — Legacy (New code) | 0 | — | >=C | >=C | — | — |
@@ -67,7 +67,7 @@ Defines the catalog of operational controls, thresholds by NAQ, indicators, and 
 
 ---
 
-## Key Indicators and Thresholds by NAQ (Section 7.1.1)
+## Indicadores clave y umbrales por NAQ (sección 7.1.1)
 
 | Indicator | NAQ Bajo | NAQ Medio | NAQ Alto |
 |-----------|----------|-----------|----------|
@@ -84,7 +84,7 @@ Defines the catalog of operational controls, thresholds by NAQ, indicators, and 
 
 ---
 
-## Dashboards and Reporting — 4 Levels (Section 7.3)
+## Dashboards y reporting — 4 niveles (sección 7.3)
 
 | Level | Type | Audience | Frequency | Content |
 |-------|------|----------|-----------|---------|
@@ -93,19 +93,19 @@ Defines the catalog of operational controls, thresholds by NAQ, indicators, and 
 | **Cuadro de mando portfolio** | Executive | Comite de Calidad | Monthly | Consolidated KPIs: IQ aggregate, NAQ distribution, critical defects, automation % |
 | **Reporting de proyecto** | Project-level | PM + QA Lead + Tech Lead | Weekly / Biweekly | Quality progress, open defects, gate milestones |
 
-### Barometro de Calidad — 7 Dimensions
+### Barómetro de Calidad — 7 dimensiones
 
 | Dimension | Meaning |
 |-----------|---------|
 | Estrategia de testing | Coverage and robustness of the test strategy |
 | Riesgos de calidad | Identified quality risks and mitigation status |
 | No conformidades | Gate failures, exceptions, and deviation trends |
-| Observabilidad | Monitoring, alerts, and traceability in production |
+| Observabilidad | Monitoreo, alertas y trazabilidad en producción |
 | Readiness de release | Release preparation completeness |
 | OPS & Operacion | Operational health and incident patterns |
 | Costes de no calidad | Cost of defects, rework, escapes to production |
 
-### Scoring Scale
+### Escala de puntuación
 
 | Score | Status | Action |
 |-------|--------|--------|
@@ -116,7 +116,7 @@ Defines the catalog of operational controls, thresholds by NAQ, indicators, and 
 
 ---
 
-## Minimum Deliverables by NAQ (Section 9)
+## Entregables mínimos por NAQ (sección 9)
 
 | Deliverable | NAQ Bajo | NAQ Medio | NAQ Alto |
 |-------------|----------|-----------|----------|
@@ -124,9 +124,9 @@ Defines the catalog of operational controls, thresholds by NAQ, indicators, and 
 | Plan/checklist de calidad | Minimum checklist | Simplified plan | Complete plan |
 | Estrategia de Pruebas | Brief (in checklist) | Simplified | Full, risk-based |
 | Analisis de riesgos | Basic | Recommended | Mandatory |
-| Matriz requisito-prueba | Critical only | Main requirements | 100% relevant |
+| Matriz requisito-prueba | Solo críticos | Requisitos principales | 100% relevantes |
 | Casos/escenarios | Minimum flows | Main flows | Main + alternatives + critical |
-| Informe de ejecucion | Results checklist | Per cycle/release | Formal per cycle/gate |
+| Informe de ejecución | Checklist de resultados | Por ciclo/release | Formal por ciclo/gate |
 | Informe de defectos | Basic log | With severity | With severity, trend, risk |
 | Informe calidad de codigo | If technical risk | Mandatory if code | Mandatory, no criticals |
 | Evidencia UAT | Simple approval | Functional evidence | Formal UAT with results |
@@ -136,5 +136,3 @@ Defines the catalog of operational controls, thresholds by NAQ, indicators, and 
 | Lecciones aprendidas | Recommended | Mandatory | Mandatory |
 
 ---
-
-

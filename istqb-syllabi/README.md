@@ -1,30 +1,30 @@
-# Patesi Syllabi
+# Syllabi de Patesi
 
-ISTQB syllabi PDFs used as reference for the `sdet-istqb` skill.
+PDF de los syllabi ISTQB usados como referencia para el skill `sdet-istqb`.
 
-## How to Download
+## Cómo descargar
 
-Visit [istqb.org](https://www.istqb.org/certifications/) and download the latest versions of:
+Visitá [istqb.org](https://www.istqb.org/certifications/) y descargá las últimas versiones de:
 
-### Foundation Level
+### Nivel Foundation
 - [CTFL v4.0](https://www.istqb.org/certifications/certified-tester-foundation-level/) — Foundation Level Syllabus
 
-### Advanced Core Level
+### Nivel Advanced Core
 - [CTAL-TA](https://www.istqb.org/certifications/certified-tester-advanced-level-test-analyst/) — Test Analyst
 - [CTAL-TTA](https://www.istqb.org/certifications/certified-tester-advanced-level-technical-test-analyst/) — Technical Test Analyst
 - [CTAL-TM](https://www.istqb.org/certifications/certified-tester-advanced-level-test-manager/) — Test Manager
 - [CTAL-TAE](https://www.istqb.org/certifications/certified-tester-advanced-level-test-automation-engineer/) — Test Automation Engineer
 
-### Expert Level
+### Nivel Expert
 - [CTEL-TM](https://www.istqb.org/certifications/certified-tester-expert-level-test-management-strategic-test-management-ctel-tm-sm/) — Test Management
 - [CTEL-ITP](https://www.istqb.org/certifications/certified-tester-expert-level-improving-test-process-improvement-ctel-itp-itpi/) — Improving the Test Process
 
-### Specialist
+### Especializaciones
 - [CT-TAS](https://www.istqb.org/certifications/) — Test Automation Strategy
 - [CT-UT](https://www.istqb.org/certifications/) — Usability Testing
 
-## Notes
+## Notas
 
-- Syllabi are updated periodically — always check for the latest version
-- The `sdet-istqb` skill contains condensed knowledge from these syllabi
-- For full details, refer to the official PDFs
+- Los syllabi se actualizan periódicamente: verificá siempre la última versión
+- El skill `sdet-istqb` contiene conocimiento condensado de estos syllabi
+- Para conocer todos los detalles, consultá los PDF oficiales

@@ -1,7 +1,7 @@
 ---
 name: sdet-automation-appium
 description: >
-  Generates Appium mobile test automation for iOS and Android.
+  Genera automatización de tests móviles con Appium para iOS y Android.
   Trigger: Appium, tests móviles, automatización móvil, iOS, Android
 license: Apache-2.0
 metadata:
@@ -10,11 +10,11 @@ metadata:
   category: qa-sdet
 ---
 
-# Appium Mobile Test Automation Framework Generator
+# Generador de frameworks de automatización móvil con Appium
 
-Generates Appium-based mobile test automation frameworks for iOS and Android, supporting both Java and Python. Use this when the user needs to automate mobile app testing.
+Genera frameworks de automatización móvil basados en Appium para iOS y Android, con soporte para Java y Python. Usalo cuando el usuario necesite automatizar tests de aplicaciones móviles.
 
-## Framework Structure
+## Estructura del framework
 
 ```
 mobile-tests/
@@ -40,7 +40,7 @@ mobile-tests/
 └── README.md
 ```
 
-## Desired Capabilities
+## Capabilities deseadas
 
 ### Android
 
@@ -71,7 +71,7 @@ mobile-tests/
 }
 ```
 
-## Page Object Pattern (Java)
+## Patrón Page Object (Java)
 
 ### BasePage.java
 
@@ -154,7 +154,7 @@ public class LoginPage extends BasePage {
 }
 ```
 
-## Page Object Pattern (Python)
+## Patrón Page Object (Python)
 
 ### base_page.py
 
@@ -208,7 +208,7 @@ class LoginPage(BasePage):
         return self.get_text(self.ERROR_MESSAGE)
 ```
 
-## Example Test (Java)
+## Ejemplo de test (Java)
 
 ```java
 import org.testng.annotations.*;
@@ -247,7 +247,7 @@ public class LoginTest {
 }
 ```
 
-## Example Test (Python)
+## Ejemplo de test (Python)
 
 ```python
 import pytest
@@ -276,5 +276,4 @@ class TestLogin:
         login_page.login("invalid@test.com", "WrongPass")
         assert login_page.get_error_message() == "Invalid credentials"
 ```
-
 

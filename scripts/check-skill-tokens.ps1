@@ -1,11 +1,11 @@
 ﻿# Patesi — Skill Token Validator
-# Checks that each SKILL.md is under 4K tokens (approximate).
-# Uses word count as a proxy: ~1.3 tokens per word for English/Spanish mixed content.
+# Verifica que cada SKILL.md tenga menos de 4K tokens (aproximadamente).
+# Usa el recuento de palabras como proxy: ~1.3 tokens por palabra en contenido técnico mixto.
 #
-# Usage:
+# Uso:
 #   .\scripts\check-skill-tokens.ps1            — show token estimates for all skills
-#   .\scripts\check-skill-tokens.ps1 --max 4000 — fail if any skill exceeds max tokens
-#   .\scripts\check-skill-tokens.ps1 --check    — same as --max 4000, exit 1 if any exceed
+#   .\scripts\check-skill-tokens.ps1 --max 4000 — falla si algún skill supera el máximo
+#   .\scripts\check-skill-tokens.ps1 --check    — igual que --max 4000, sale con 1 si alguno supera el máximo
 
 param(
     [int]$max = 4000,
@@ -18,7 +18,7 @@ $ScriptDir = Split-Path -Parent $MyInvocation.MyCommand.Path
 $RepoDir = Split-Path -Parent $ScriptDir
 $SkillsDir = Join-Path $RepoDir "skills"
 
-# Approximate tokens per word for mixed English/Spanish technical content
+# Tokens aproximados por palabra para contenido técnico mixto en inglés y castellano
 $TOKENS_PER_WORD = 1.3
 
 $skillDirs = Get-ChildItem -Path $SkillsDir -Directory -Filter "sdet-*" | Sort-Object Name
@@ -44,12 +44,12 @@ foreach ($skillDir in $skillDirs) {
     }
 }
 
-# Sort by estimated tokens descending
+# Ordenar por tokens estimados de forma descendente
 $results = $results | Sort-Object EstTokens -Descending
 
-# Display
+# Mostrar
 Write-Host ""
-Write-Host "Skill Token Estimates (max: $max)" -ForegroundColor Cyan
+Write-Host "Estimaciones de tokens por skill (máximo: $max)" -ForegroundColor Cyan
 Write-Host ("-" * 55)
 Write-Host ("{0,-35} {1,6} {2,8} {3,6}" -f "Skill", "Lines", "Est.Tok", "Status")
 Write-Host ("-" * 55)
@@ -60,10 +60,10 @@ foreach ($r in $results) {
 }
 
 Write-Host ("-" * 55)
-Write-Host "Total skills: $($results.Count) | Exceeded: $exceeded" -ForegroundColor $(if ($exceeded -gt 0) { "Red" } else { "Green" })
+Write-Host "Total de skills: $($results.Count) | Excedidos: $exceeded" -ForegroundColor $(if ($exceeded -gt 0) { "Red" } else { "Green" })
 
 if ($check -and $exceeded -gt 0) {
     Write-Host ""
-    Write-Host "$exceeded skill(s) exceed ${max} token budget." -ForegroundColor Red
+    Write-Host "$exceeded skill(s) superan el presupuesto de ${max} tokens." -ForegroundColor Red
     exit 1
 }

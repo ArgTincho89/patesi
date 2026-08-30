@@ -1,7 +1,7 @@
 ---
 name: sdet-sqem-ia
 description: >
-  SQEM Annex IA: AI/ML/GenAI project controls including data quality, golden dataset, groundedness, hallucination rate, red-teaming, fairness, drift, and EU AI Act compliance.
+  Anexo IA de SQEM: controles para proyectos AI/ML/GenAI, incluyendo calidad de datos, golden dataset, groundedness, tasa de alucinaciones, red-teaming, equidad, drift y cumplimiento del EU AI Act.
   Trigger: proyectos IA/ML/GenAI, calidad de datos, golden dataset, red-teaming, EU AI Act
 license: Apache-2.0
 metadata:
@@ -10,31 +10,31 @@ metadata:
   category: sqem
 ---
 
-# SQEM — Annex IA: AI/ML/GenAI Controls
+# SQEM — Anexo IA: controles AI/ML/GenAI
 
-Controls specific to AI/ML/GenAI projects. Applies when the project's primary or secondary tipologia is "IA / ML / GenAI" (tipologia #10).
+Controles específicos para proyectos AI/ML/GenAI. Aplica cuando la tipología primaria o secundaria del proyecto es "IA / ML / GenAI" (tipología #10).
 
 ---
 
-## Controls by Gate x NAQ
+## Controles por gate x NAQ
 
 | Control | Gate | NAQ Bajo | NAQ Medio | NAQ Alto |
 |---------|------|----------|-----------|----------|
-| **Data quality** (dataset/pipeline) | QG1/QG2 | Basic validation (schema, nulls, duplicates) | Data quality gate in critical dimensions + train/test leak control | Data quality gate >=98% + audited labeling + 0 train/test leak |
-| **Golden dataset + offline eval** | QG2/QG4 | Recommended (>=50 cases) | Mandatory (>=200 cases, baseline recorded) | Mandatory (>=500 cases, champion vs challenger) |
+| **Data quality** (dataset/pipeline) | QG1/QG2 | Validación básica (schema, nulos, duplicados) | Quality gate de datos en dimensiones críticas + control de filtración train/test | Quality gate de datos >=98% + etiquetado auditado + 0 filtraciones train/test |
+| **Golden dataset + offline eval** | QG2/QG4 | Recomendado (>=50 casos) | Obligatorio (>=200 casos, baseline registrado) | Obligatorio (>=500 casos, champion frente a challenger) |
 | **Groundedness/Faithfulness** (RAG) | QG4 | — | >=0.80 (RAGAS or equivalent) | >=0.90 + human sample review |
-| **Hallucination rate** | QG4 | Measured and reported | <=threshold agreed with business | <=strict threshold + source traceability mandatory |
+| **Hallucination rate** | QG4 | Medida e informada | <=umbral acordado con negocio | <=umbral estricto + trazabilidad de fuentes obligatoria |
 | **Red-teaming** (prompt injection + jailbreak) | QG5/QG6 | Basic battery | Standard battery, 0 critical findings | Formal red-teaming + AI pentest, 0 Critical/High open |
 | **Fairness/bias** (decisions affecting people) | QG4 | — | Disaggregated metrics documented | Delta between subgroups <=threshold agreed with legal |
-| **Task completion** (agents/GenAI) | QG5 | — | >=90% E2E scenarios | >=95% + loop limits and permissions tested |
-| **Drift** (data/model) | QG7 | — | Monitoring configured | Thresholds + runbook + AMS owner |
-| **EU AI Act classification** | QG0 | Registered in NAQ sheet | Registered in NAQ sheet | If high risk: technical dossier + human oversight + logging (mandatory) |
+| **Task completion** (agents/GenAI) | QG5 | — | >=90% de escenarios E2E | >=95% + límites de loop y permisos testeados |
+| **Drift** (datos/modelo) | QG7 | — | Monitoreo configurado | Umbrales + runbook + responsable de AMS |
+| **EU AI Act classification** | QG0 | Registrada en la ficha NAQ | Registrada en la ficha NAQ | Si es de alto riesgo: dossier técnico + supervisión humana + logging (obligatorio) |
 
 ---
 
-## AI-Specific Test Types
+## Tipos de tests específicos de IA
 
-### Data Quality Testing
+### Testing de calidad de datos
 - Schema validation (fields, types, constraints)
 - Null/missing value handling
 - Duplicate detection
@@ -42,40 +42,40 @@ Controls specific to AI/ML/GenAI projects. Applies when the project's primary or
 - Train/test separation validation (no leakage)
 - Label quality audit (for supervised learning)
 
-### Model Evaluation
+### Evaluación de modelos
 - Offline metrics (accuracy, F1, precision, recall, AUC)
 - Baseline recording and comparison
 - Champion vs challenger evaluation
 - Slice analysis (performance across subgroups)
 
-### LLM/RAG Evaluation
+### Evaluación de LLM/RAG
 - Groundedness/Faithfulness (RAGAS or equivalent)
 - Hallucination rate measurement
 - Answer relevance scoring
 - Context precision and recall
 - Source attribution verification
 
-### Agent Evaluation
+### Evaluación de agentes
 - Task completion rate (E2E scenarios)
 - Loop limit testing (prevent infinite agent loops)
 - Permission boundary testing
 - Tool usage correctness
 - Multi-step reasoning validation
 
-### Red-Teaming
+### Red-teaming
 - Prompt injection attacks
 - Jailbreak attempts
 - Data extraction attempts
 - Adversarial input robustness
 - Boundary condition behavior
 
-### Fairness/Bias
+### Equidad/sesgo
 - Disaggregated metrics by subgroup
 - Statistical parity analysis
 - Equal opportunity assessment
 - Impact assessment for decisions affecting people
 
-### Drift Monitoring
+### Monitoreo de drift
 - Data drift detection (distribution changes)
 - Model performance drift
 - Concept drift identification
@@ -83,27 +83,27 @@ Controls specific to AI/ML/GenAI projects. Applies when the project's primary or
 
 ---
 
-## EU AI Act Compliance (Section 16)
+## Cumplimiento del EU AI Act (sección 16)
 
-### Classification at QG0
+### Clasificación en QG0
 
-Register the AI system's EU AI Act risk classification in the NAQ sheet:
-- **Unacceptable risk** — Prohibited
-- **High risk** — Requires technical dossier, human oversight, logging
-- **Limited risk** — Transparency obligations
-- **Minimal risk** — No specific obligations
+Registrá la clasificación de riesgo del sistema de IA según EU AI Act en la ficha NAQ:
+- **Riesgo inaceptable** — Prohibido
+- **Alto riesgo** — Requiere dossier técnico, supervisión humana y logging
+- **Riesgo limitado** — Obligaciones de transparencia
+- **Riesgo mínimo** — Sin obligaciones específicas
 
-### High-Risk AI System Requirements
+### Requisitos para sistemas de IA de alto riesgo
 
 At QG0, if classified as high risk:
 - Technical dossier preparation
 - Human oversight mechanisms design
-- Logging and audit trail requirements
+- Requisitos de logging y trazabilidad de auditoría
 - Registration in EU AI database
 
 ---
 
-## Tooling Reference
+## Referencia de herramientas
 
 | Function | Recommended Tools |
 |----------|------------------|
@@ -115,5 +115,3 @@ At QG0, if classified as high risk:
 | Observability | Langfuse, LangSmith, Phoenix |
 
 ---
-
-

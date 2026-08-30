@@ -3,10 +3,10 @@
 # Checks that each SKILL.md is under 4K tokens (approximate).
 # Uses word count as a proxy: ~1.3 tokens per word for English/Spanish mixed content.
 #
-# Usage:
+# Uso:
 #   bash scripts/check-skill-tokens.sh            — show token estimates for all skills
-#   bash scripts/check-skill-tokens.sh --max 4000 — fail if any skill exceeds max tokens
-#   bash scripts/check-skill-tokens.sh --check    — same as --max 4000, exit 1 if any exceed
+#   bash scripts/check-skill-tokens.sh --max 4000 — falla si algún skill supera el máximo
+#   bash scripts/check-skill-tokens.sh --check    — igual que --max 4000, sale con 1 si alguno supera el máximo
 
 set -euo pipefail
 
@@ -17,7 +17,7 @@ SKILLS_DIR="$REPO_DIR/skills"
 MAX_TOKENS=4000
 CHECK_MODE=false
 
-# Parse arguments
+# Analizar argumentos
 while [[ $# -gt 0 ]]; do
     case "$1" in
         --max) MAX_TOKENS="$2"; shift 2 ;;
@@ -31,7 +31,7 @@ EXCEEDED=0
 COUNT=0
 
 echo ""
-echo "Skill Token Estimates (max: $MAX_TOKENS)"
+echo "Estimaciones de tokens por skill (máximo: $MAX_TOKENS)"
 echo "-------------------------------------------------------"
 printf "%-35s %6s %8s %6s\n" "Skill" "Lines" "Est.Tok" "Status"
 echo "-------------------------------------------------------"
@@ -61,13 +61,13 @@ done
 
 echo "-------------------------------------------------------"
 if [ "$EXCEEDED" -gt 0 ]; then
-    echo -e "\033[0;31mTotal skills: $COUNT | Exceeded: $EXCEEDED\033[0m"
+    echo -e "\033[0;31mTotal de skills: $COUNT | Excedidos: $EXCEEDED\033[0m"
 else
-    echo -e "\033[0;32mTotal skills: $COUNT | Exceeded: 0\033[0m"
+    echo -e "\033[0;32mTotal de skills: $COUNT | Excedidos: 0\033[0m"
 fi
 
 if $CHECK_MODE && [ "$EXCEEDED" -gt 0 ]; then
     echo ""
-    echo -e "\033[0;31m$EXCEEDED skill(s) exceed $MAX_TOKENS token budget.\033[0m"
+    echo -e "\033[0;31m$EXCEEDED skill(s) superan el presupuesto de $MAX_TOKENS tokens.\033[0m"
     exit 1
 fi

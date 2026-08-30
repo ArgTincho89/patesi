@@ -1,7 +1,7 @@
 ---
 name: sdet-automation-robot
 description: >
-  Generates Robot Framework test suites for web, API, and desktop testing.
+  Genera suites de tests de Robot Framework para testing web, de API y de escritorio.
   Trigger: Robot Framework, tests RF, keyword-driven, .robot files
 license: Apache-2.0
 metadata:
@@ -10,11 +10,11 @@ metadata:
   category: qa-sdet
 ---
 
-# Robot Framework Test Suite Generator
+# Generador de suites de tests de Robot Framework
 
-Generates Robot Framework test suites for web, API, and desktop testing. Use this when the user needs keyword-driven, data-driven tests using Robot Framework.
+Genera suites de tests de Robot Framework para testing web, de API y de escritorio. Usalo cuando el usuario necesite tests keyword-driven y data-driven con Robot Framework.
 
-## Framework Structure
+## Estructura del framework
 
 ```
 robot-tests/
@@ -35,13 +35,13 @@ robot-tests/
 │   │   ├── setup.resource           # Shared setup/teardown
 │   │   └── assertions.resource      # Custom assertions
 │   └── variables/
-│       ├── env.robot                # Environment variables
+│       ├── env.robot                # Variables de entorno
 │       └── credentials.robot        # Test credentials (use secrets in CI)
 ├── output/                          # Test execution output
 └── README.md
 ```
 
-## Variables File
+## Archivo de variables
 
 ### variables/env.robot
 
@@ -64,7 +64,7 @@ ${INVALID_EMAIL}    invalid@test.com
 ${INVALID_PASSWORD} WrongPass
 ```
 
-## Resource Keyword Pattern
+## Patrón de keywords de recursos
 
 ### resources/pages/login.resource
 
@@ -76,28 +76,28 @@ Resource   ../common/setup.resource
 
 *** Keywords ***
 Open Login Page
-    [Documentation]    Navigates to the login page
+    [Documentation]    Navega a la página de login
     Go To    ${BASE_URL}/login
     Wait Until Element Is Visible    id:email    timeout=${TIMEOUT}
 
 Login With Credentials
-    [Documentation]    Fills login form and submits
+    [Documentation]    Completa el formulario de login y lo envía
     [Arguments]    ${email}    ${password}
     Input Text    id:email    ${email}
     Input Text    id:password    ${password}
     Click Button    css:[data-testid='submit-btn']
 
 Login As Valid User
-    [Documentation]    Convenience keyword for valid login
+    [Documentation]    Keyword auxiliar para login válido
     Login With Credentials    ${VALID_EMAIL}    ${VALID_PASSWORD}
 
 Get Login Error Message
-    [Documentation]    Returns the login error text
+    [Documentation]    Devuelve el texto del error de login
     ${message}=    Get Text    css:[role='alert']
     [Return]    ${message}
 
 Login Page Should Show Error
-    [Documentation]    Asserts error message is displayed
+    [Documentation]    Verifica que se muestre el mensaje de error
     [Arguments]    ${expected}
     ${actual}=    Get Login Error Message
     Should Be Equal    ${actual}    ${expected}
@@ -112,7 +112,7 @@ Library    OperatingSystem
 
 *** Keywords ***
 Setup Browser
-    [Documentation]    Opens browser with configured options
+    [Documentation]    Abre el navegador con las opciones configuradas
     ${options}=    Evaluate    sys.modules['selenium.webdriver'].ChromeOptions()    sys
     Call Method    ${options}    add_argument    --start-maximized
     Call Method    ${options}    add_argument    --headless
@@ -120,16 +120,16 @@ Setup Browser
     Set Selenium Implicit Wait    ${IMPLICIT_WAIT}
 
 Teardown Browser
-    [Documentation]    Closes all browsers
+    [Documentation]    Cierra todos los navegadores
     Close All Browsers
 
 Setup Test Data
-    [Documentation]    Loads test data from file
+    [Documentation]    Carga datos de test desde un archivo
     ${data}=    Load JSON From File    ${CURDIR}/../test-data.json
     [Return]    ${data}
 ```
 
-## Web Test Suite Example
+## Ejemplo de suite de tests web
 
 ### tests/web/login.robot
 
@@ -144,35 +144,35 @@ Test Teardown     Go To    ${BASE_URL}/login
 
 *** Test Cases ***
 Login With Valid Credentials
-    [Documentation]    Verify successful login with valid email and password
+    [Documentation]    Verifica el login exitoso con email y contraseña válidos
     [Tags]    login    smoke    regression
     Open Login Page
     Login As Valid User
     Location Should Be    ${BASE_URL}/dashboard
 
 Login With Invalid Email
-    [Documentation]    Verify error message for invalid email format
+    [Documentation]    Verifica el mensaje de error para un formato de email inválido
     [Tags]    login    regression
     Open Login Page
     Login With Credentials    not-an-email    ${VALID_PASSWORD}
     Login Page Should Show Error    Please enter a valid email
 
 Login With Wrong Password
-    [Documentation]    Verify error for incorrect password
+    [Documentation]    Verifica el error para una contraseña incorrecta
     [Tags]    login    regression
     Open Login Page
     Login With Credentials    ${VALID_EMAIL}    ${INVALID_PASSWORD}
     Login Page Should Show Error    Invalid email or password
 
 Login With Empty Fields
-    [Documentation]    Verify validation for required fields
+    [Documentation]    Verifica la validación de campos obligatorios
     [Tags]    login    validation
     Open Login Page
     Login With Credentials    ${EMPTY}    ${EMPTY}
     Login Page Should Show Error    Email is required
 ```
 
-## API Test Suite Example
+## Ejemplo de suite de tests de API
 
 ### tests/api/healthcheck.robot
 
@@ -186,8 +186,8 @@ Library    JSONLibrary
 ${API_URL}    http://localhost:3001
 
 *** Test Cases ***
-Health Check Returns 200
-    [Documentation]    Verify health endpoint returns 200
+El health check devuelve 200
+    [Documentation]    Verifica que el endpoint de salud devuelva 200
     [Tags]    api    smoke
     Create Session    api    ${API_URL}
     ${response}=    GET On Session    api    /health    expected_status=200
@@ -195,8 +195,8 @@ Health Check Returns 200
     Dictionary Should Contain Key    ${response.json()}    status
     Should Be Equal    ${response.json()['status']}    ok
 
-Get Users Returns Array
-    [Documentation]    Verify users endpoint returns list
+Obtener usuarios devuelve un array
+    [Documentation]    Verifica que el endpoint de usuarios devuelva una lista
     [Tags]    api    users
     Create Session    api    ${API_URL}
     ${response}=    GET On Session    api    /users    expected_status=200
@@ -205,7 +205,7 @@ Get Users Returns Array
     Should Be True    ${length} >= 0
 ```
 
-## Data-Driven Test Example
+## Ejemplo de test data-driven
 
 ### tests/data-driven/login_data.robot
 
@@ -219,7 +219,7 @@ Suite Teardown    Teardown Browser
 
 *** Test Cases ***
 Login With Various Credentials
-    [Documentation]    Parametrized login test using template
+    [Documentation]    Test de login parametrizado usando una plantilla
     [Template]    Login With Credentials And Verify Result
     ${VALID_EMAIL}    ${VALID_PASSWORD}    success
     invalid@test.com  WrongPass            error
@@ -237,7 +237,7 @@ Login With Credentials And Verify Result
     ...    Element Should Be Visible    css:[role='alert']
 ```
 
-## Configuration Files
+## Archivos de configuración
 
 ### requirements.txt (Python)
 
@@ -248,7 +248,7 @@ robotframework-requests==0.9.7
 robotframework-jsonlibrary==0.5.0
 ```
 
-### Running Tests
+### Ejecución de tests
 
 ```bash
 # Run all tests
@@ -266,5 +266,3 @@ robot --outputdir output tests/
 # Dry run (validate syntax only)
 robot --dryrun tests/
 ```
-
-

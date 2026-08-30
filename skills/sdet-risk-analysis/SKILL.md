@@ -1,7 +1,7 @@
 ---
 name: sdet-risk-analysis
 description: >
-  Analyzes user stories, features, and code changes for testing risks using a weighted risk matrix.
+  Analiza user stories, features y cambios de código para detectar riesgos de testing usando una matriz de riesgos ponderada.
   Trigger: análisis de riesgos, testing basado en riesgos, riesgo de user story, priorización
 license: Apache-2.0
 metadata:
@@ -10,23 +10,23 @@ metadata:
   category: qa-sdet
 ---
 
-# Risk Analysis Engine
+# Motor de análisis de riesgos
 
-Analyzes features and user stories to identify testing risks and prioritize test effort. Use this when the user needs to understand what's risky and where to focus testing.
+Analiza features y user stories para identificar riesgos de testing y priorizar el esfuerzo. Usalo cuando el usuario necesite entender qué es riesgoso y dónde enfocar el testing.
 
-## Risk Matrix
+## Matriz de riesgos
 
-Score each factor from 1 (lowest) to 5 (highest):
+Puntuá cada factor de 1 (menor) a 5 (mayor):
 
-| Factor | Weight | What It Measures | 1 | 3 | 5 |
+| Factor | Peso | Qué mide | 1 | 3 | 5 |
 |--------|--------|-----------------|---|---|---|
-| **Business Impact** | 30% | Revenue, users, reputation if it fails | Internal tool | Customer-facing feature | Payment/auth core |
-| **Technical Complexity** | 25% | Code complexity, integrations, novel tech | Simple CRUD | Multiple integrations | New algorithm, distributed |
-| **Change Frequency** | 20% | How often this area changes | Stable (months) | Moderate (weeks) | Constant (daily) |
-| **Test Coverage Gap** | 15% | Existing test coverage | Well tested (>80%) | Partial (40-80%) | Untested (<40%) |
-| **Dependency Risk** | 10% | External dependencies, third-party | Self-contained | 1-2 dependencies | Many external deps |
+| **Impacto de negocio** | 30% | Ingresos, usuarios y reputación si falla | Herramienta interna | Feature orientada al cliente | Núcleo de pagos/autenticación |
+| **Complejidad técnica** | 25% | Complejidad del código, integraciones y tecnología nueva | CRUD simple | Múltiples integraciones | Algoritmo nuevo, distribuido |
+| **Frecuencia de cambio** | 20% | Cada cuánto cambia esta área | Estable (meses) | Moderada (semanas) | Constante (diaria) |
+| **Brecha de cobertura de tests** | 15% | Cobertura existente de tests | Bien testeada (>80%) | Parcial (40-80%) | Sin tests (<40%) |
+| **Riesgo de dependencias** | 10% | Dependencias externas y de terceros | Autosuficiente | 1-2 dependencias | Muchas dependencias externas |
 
-## Risk Score Calculation
+## Cálculo del puntaje de riesgo
 
 > **Nota**: Esta matriz es para análisis estratégico de features/user stories.
 > Para análisis de MRs/PRs específicos (scope limitado al cambio), usá `sdet-mr-analysis`
@@ -36,20 +36,20 @@ Score each factor from 1 (lowest) to 5 (highest):
 Score = (Business × 0.30) + (Complexity × 0.25) + (Change × 0.20) + (Gap × 0.15) + (Dependency × 0.10)
 ```
 
-| Score Range | Risk Level | Action |
+| Rango de puntaje | Nivel de riesgo | Acción |
 |-------------|------------|--------|
-| **4.0 - 5.0** | 🔴 HIGH | Comprehensive testing required. Add integration + regression tests. Consider contract testing for dependencies. Block merge if tests missing. |
-| **2.5 - 3.9** | 🟡 MEDIUM | Standard testing. Feature + regression tests. Include in CI/CD pipeline. |
-| **1.0 - 2.4** | 🟢 LOW | Minimal testing. Smoke test sufficient. Automate only if repeated. |
+| **4.0 - 5.0** | 🔴 ALTO | Se requiere testing exhaustivo. Agregá tests de integración y regresión. Considerá contract testing para dependencias. Bloqueá el merge si faltan tests. |
+| **2.5 - 3.9** | 🟡 MEDIO | Testing estándar. Tests de la feature y regresión. Incluilos en el pipeline CI/CD. |
+| **1.0 - 2.4** | 🟢 BAJO | Testing mínimo. Un smoke test es suficiente. Automatizá solo si se repite. |
 
-## Output Format
+## Formato de salida
 
 ```markdown
-# Risk Analysis: {Feature/User Story}
+# Análisis de riesgos: {Feature/User Story}
 
-## Summary
+## Resumen
 
-| Factor | Score (1-5) | Weight | Weighted |
+| Factor | Puntaje (1-5) | Peso | Ponderado |
 |--------|-------------|--------|----------|
 | Business Impact | {X} | 30% | {X × 0.30} |
 | Technical Complexity | {X} | 25% | {X × 0.25} |
@@ -58,31 +58,31 @@ Score = (Business × 0.30) + (Complexity × 0.25) + (Change × 0.20) + (Gap × 0
 | Dependency Risk | {X} | 10% | {X × 0.10} |
 | **Total** | | | **{sum}** |
 
-## Risk Level: {🔴 HIGH / 🟡 MEDIUM / 🟢 LOW}
+## Nivel de riesgo: {🔴 ALTO / 🟡 MEDIO / 🟢 BAJO}
 
-## Recommended Test Approach
+## Enfoque de testing recomendado
 
 {Specific testing recommendations based on the risk level and factor scores}
 
-## Key Risks Identified
+## Riesgos clave identificados
 
 | # | Risk | Factor | Severity | Mitigation |
 |---|------|--------|----------|------------|
 | 1 | {Risk description} | {Which factor flagged it} | High/Medium/Low | {How to mitigate} |
 | 2 | {Risk description} | {Which factor flagged it} | High/Medium/Low | {How to mitigate} |
 
-## Test Prioritization
+## Priorización de tests
 
-| Priority | Test Type | Rationale |
+| Prioridad | Tipo de test | Justificación |
 |----------|-----------|-----------|
-| P1 | {What to test first} | {Why} |
-| P2 | {What to test next} | {Why} |
-| P3 | {What to test if time permits} | {Why} |
+| P1 | {Qué probar primero} | {Por qué} |
+| P2 | {Qué probar después} | {Por qué} |
+| P3 | {Qué probar si hay tiempo} | {Por qué} |
 ```
 
-## Example Analysis
+## Ejemplo de análisis
 
-### Input
+### Entrada
 
 ```
 Feature: Payment processing with Stripe integration
@@ -92,12 +92,12 @@ Feature: Payment processing with Stripe integration
 - No existing test coverage (new feature)
 ```
 
-### Output
+### Salida
 
 ```markdown
-# Risk Analysis: Payment Processing
+# Análisis de riesgos: Procesamiento de pagos
 
-## Summary
+## Resumen
 
 | Factor | Score (1-5) | Weight | Weighted |
 |--------|-------------|--------|----------|
@@ -108,21 +108,21 @@ Feature: Payment processing with Stripe integration
 | Dependency Risk | 4 | 10% | 0.40 |
 | **Total** | | | **4.25** |
 
-## Risk Level: 🔴 HIGH
+## Nivel de riesgo: 🔴 ALTO
 
-## Recommended Test Approach
+## Enfoque de testing recomendado
 
-COMPREHENSIVE TESTING REQUIRED:
-1. Unit tests for payment logic (mock Stripe)
-2. Integration tests with Stripe test mode
-3. Contract tests for Stripe API interactions
-4. E2E tests for complete payment flow
-5. Error handling tests (declined cards, network failures)
-6. Security tests (card data handling, PCI compliance)
+SE REQUIERE TESTING EXHAUSTIVO:
+1. Tests unitarios para la lógica de pagos (mock de Stripe)
+2. Tests de integración con el modo de test de Stripe
+3. Tests de contrato para las interacciones con la API de Stripe
+4. Tests E2E para el flujo completo de pago
+5. Tests de manejo de errores (tarjetas rechazadas, fallos de red)
+6. Tests de seguridad (manejo de datos de tarjetas, cumplimiento PCI)
 
-BLOCK MERGE: No payment code merges without corresponding tests.
+BLOQUEAR MERGE: ningún código de pagos debe integrarse sin sus tests correspondientes.
 
-## Key Risks Identified
+## Riesgos clave identificados
 
 | # | Risk | Factor | Severity | Mitigation |
 |---|------|--------|----------|------------|
@@ -131,9 +131,9 @@ BLOCK MERGE: No payment code merges without corresponding tests.
 | 3 | No existing test coverage | Coverage Gap | High | Write tests before implementation (TDD) |
 | 4 | Complex error handling scenarios | Technical Complexity | Medium | Map all Stripe error codes, test each |
 
-## Test Prioritization
+## Priorización de tests
 
-| Priority | Test Type | Rationale |
+| Prioridad | Tipo de test | Justificación |
 |----------|-----------|-----------|
 | P1 | Unit tests for payment calculation | Core logic, must be correct |
 | P1 | Stripe integration tests (test mode) | Critical integration point |
@@ -143,5 +143,3 @@ BLOCK MERGE: No payment code merges without corresponding tests.
 | P3 | Performance under load | Payment peak times |
 | P3 | Security audit | PCI compliance |
 ```
-
-

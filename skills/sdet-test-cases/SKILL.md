@@ -1,7 +1,7 @@
 ---
 name: sdet-test-cases
 description: >
-  Generates structured test cases with proper format, priority, and traceability.
+  Genera casos de prueba estructurados con formato, prioridad y trazabilidad adecuados.
   Trigger: casos de prueba, escenarios de testing, diseño de tests, especificaciones
 license: Apache-2.0
 metadata:
@@ -10,90 +10,90 @@ metadata:
   category: qa-sdet
 ---
 
-# Test Case Generator
+# Generador de casos de prueba
 
-Creates structured, traceable test cases following ISTQB best practices. Use this when the user needs test cases for a feature, user story, or requirement.
+Crea casos de prueba estructurados y trazables siguiendo buenas prácticas de ISTQB. Usalo cuando el usuario necesite casos para una feature, user story o requisito.
 
-## Test Case Format
+## Formato de caso de prueba
 
-Every test case MUST follow this structure:
+Cada caso de prueba DEBE seguir esta estructura:
 
 ```markdown
-| Field | Required | Description |
+| Campo | Obligatorio | Descripción |
 |-------|----------|-------------|
-| `id` | Yes | Unique identifier (TC-XXX format) |
-| `title` | Yes | Short, descriptive name |
-| `priority` | Yes | P1 (critical), P2 (high), P3 (medium), P4 (low) |
-| `preconditions` | Yes | What must be true before execution |
-| `steps` | Yes | Ordered list of actions |
-| `expected_results` | Yes | Expected outcome per step |
-| `test_data` | No | Specific data values needed |
-| `automation_candidate` | Yes | true/false with rationale |
-| `requirements_trace` | No | Linked requirement ID |
+| `id` | Sí | Identificador único (formato TC-XXX) |
+| `title` | Sí | Nombre breve y descriptivo |
+| `priority` | Sí | P1 (crítica), P2 (alta), P3 (media), P4 (baja) |
+| `preconditions` | Sí | Qué debe cumplirse antes de la ejecución |
+| `steps` | Sí | Lista ordenada de acciones |
+| `expected_results` | Sí | Resultado esperado por paso |
+| `test_data` | No | Valores de datos específicos necesarios |
+| `automation_candidate` | Sí | true/false con justificación |
+| `requirements_trace` | No | ID del requisito vinculado |
 ```
 
-## Priority Definitions
+## Definiciones de prioridad
 
-| Priority | Definition | When to Use |
+| Prioridad | Definición | Cuándo usarla |
 |----------|------------|-------------|
-| **P1** | Critical path, blocks release | Core functionality, security, data integrity |
-| **P2** | High priority, should be in release | Important features, common user flows |
-| **P3** | Medium priority, can defer | Edge cases, secondary features |
-| **P4** | Low priority, nice to have | Cosmetic, rare scenarios |
+| **P1** | Camino crítico, bloquea el release | Funcionalidad principal, seguridad, integridad de datos |
+| **P2** | Prioridad alta, debería incluirse en el release | Features importantes, flujos habituales |
+| **P3** | Prioridad media, puede postergarse | Edge cases, features secundarias |
+| **P4** | Prioridad baja, conveniente pero no esencial | Aspectos cosméticos, escenarios poco frecuentes |
 
-## Test Case Generation Rules
+## Reglas de generación de casos de prueba
 
-### Happy Path (Always Include)
-- At least one test case for the main success scenario
-- Use valid, typical data
-- Follow the expected user flow
+### Happy Path (incluir siempre)
+- Al menos un caso de prueba para el escenario principal de éxito
+- Usá datos válidos y habituales
+- Seguí el flujo de usuario esperado
 
-### Negative Tests (Always Include)
-- Invalid inputs (wrong type, format, range)
-- Missing required fields
-- Unauthorized access attempts
-- Boundary violations
+### Tests negativos (incluir siempre)
+- Entradas inválidas (tipo, formato o rango incorrectos)
+- Campos obligatorios faltantes
+- Intentos de acceso no autorizados
+- Violaciones de límites
 
-### Edge Cases (Include When Relevant)
-- Empty inputs
-- Maximum/minimum values
-- Special characters
-- Concurrent operations
-- Network failures (for integrations)
+### Edge cases (incluir cuando corresponda)
+- Entradas vacías
+- Valores máximos y mínimos
+- Caracteres especiales
+- Operaciones concurrentes
+- Fallos de red (para integraciones)
 
-### Data-Driven Tests (When Applicable)
-- Multiple valid inputs
-- Boundary values (BVA)
-- Equivalence partitions
+### Tests data-driven (cuando corresponda)
+- Múltiples entradas válidas
+- Valores límite (BVA)
+- Particiones de equivalencia
 
-## Output Format
+## Formato de salida
 
-Generate test cases as a structured table:
+Generá los casos de prueba como una tabla estructurada:
 
 ```markdown
-# Test Cases: {Feature Name}
+# Casos de prueba: {Feature Name}
 
-## Summary
+## Resumen
 
-| Total | P1 | P2 | P3 | P4 | Auto Candidate |
+| Total | P1 | P2 | P3 | P4 | Candidato a automatización |
 |-------|----|----|----|----|----------------|
 | {N} | {X} | {X} | {X} | {X} | {Y}/{N} |
 
-## Test Cases
+## Casos de prueba
 
 ### TC-001: {Title}
 
 - **Priority**: P{X}
-- **Preconditions**: {What must be true}
-- **Automation**: {true/false} — {Rationale}
-- **Requirements**: {REQ-XXX}
+- **Precondiciones**: {Qué debe cumplirse}
+- **Automatización**: {true/false} — {Justificación}
+- **Requisitos**: {REQ-XXX}
 
 **Steps**:
 1. {Action 1}
 2. {Action 2}
 3. {Action 3}
 
-**Expected Results**:
+**Resultados esperados**:
 1. {Result 1}
 2. {Result 2}
 3. {Result 3}
@@ -108,66 +108,66 @@ Generate test cases as a structured table:
 ...
 ```
 
-## Example Input
+## Ejemplo de entrada
 
 ```
-Feature: User registration with email validation
+Feature: Registro de usuario con validación de email
 
-Acceptance criteria:
-- User can register with email, password, and name
-- Email must be valid format
-- Password must be at least 8 characters with 1 uppercase, 1 number
-- System sends verification email
-- User cannot register with existing email
+Criterios de aceptación:
+- El usuario puede registrarse con email, contraseña y nombre
+- El email debe tener un formato válido
+- La contraseña debe tener al menos 8 caracteres, 1 mayúscula y 1 número
+- El sistema envía un email de verificación
+- El usuario no puede registrarse con un email existente
 ```
 
-## Example Output
+## Ejemplo de salida
 
 ```markdown
-# Test Cases: User Registration
+# Casos de prueba: Registro de usuario
 
-## Summary
+## Resumen
 
 | Total | P1 | P2 | P3 | P4 | Auto Candidate |
 |-------|----|----|----|----|----------------|
 | 8 | 3 | 3 | 2 | 0 | 7/8 |
 
-## Test Cases
+## Casos de prueba
 
-### TC-001: Successful registration with valid data
+### TC-001: Registro exitoso con datos válidos
 
-- **Priority**: P1
-- **Preconditions**: User does not have an existing account
-- **Automation**: true — Core happy path, repeatable
-- **Requirements**: REQ-REG-001
+- **Prioridad**: P1
+- **Precondiciones**: El usuario no tiene una cuenta existente
+- **Automatización**: true — Happy path principal y repetible
+- **Requisitos**: REQ-REG-001
 
-**Steps**:
-1. Navigate to registration page
-2. Enter valid email: "newuser@example.com"
-3. Enter valid password: "SecurePass1"
-4. Enter name: "Test User"
-5. Click "Register" button
+**Pasos**:
+1. Navegar a la página de registro
+2. Ingresar un email válido: "newuser@example.com"
+3. Ingresar una contraseña válida: "SecurePass1"
+4. Ingresar el nombre: "Test User"
+5. Hacer clic en el botón "Register"
 
-**Expected Results**:
-1. Registration page loads correctly
-2. Email field accepts input
-3. Password field accepts input (masked)
-4. Name field accepts input
-5. System creates account, sends verification email, redirects to "Check your email" page
+**Resultados esperados**:
+1. La página de registro carga correctamente
+2. El campo de email acepta la entrada
+3. El campo de contraseña acepta la entrada (enmascarada)
+4. El campo de nombre acepta la entrada
+5. El sistema crea la cuenta, envía el email de verificación y redirige a la página "Check your email"
 
-**Test Data**:
+**Datos de test**:
 - Email: newuser@example.com
-- Password: SecurePass1
-- Name: Test User
+- Contraseña: SecurePass1
+- Nombre: Test User
 
 ---
 
-### TC-002: Registration rejected - invalid email format
+### TC-002: Registro rechazado - formato de email inválido
 
 - **Priority**: P1
 - **Preconditions**: Registration page is accessible
 - **Automation**: true — Data-driven, easy to automate
-- **Requirements**: REQ-REG-002
+- **Requisitos**: REQ-REG-002
 
 **Steps**:
 1. Navigate to registration page
@@ -176,7 +176,7 @@ Acceptance criteria:
 4. Enter name: "Test User"
 5. Click "Register" button
 
-**Expected Results**:
+**Resultados esperados**:
 1. Registration page loads correctly
 2. Email field accepts input
 3. Password field accepts input
@@ -185,12 +185,12 @@ Acceptance criteria:
 
 ---
 
-### TC-003: Registration rejected - weak password
+### TC-003: Registro rechazado - contraseña débil
 
 - **Priority**: P1
 - **Preconditions**: Registration page is accessible
 - **Automation**: true — Data-driven, easy to automate
-- **Requirements**: REQ-REG-003
+- **Requisitos**: REQ-REG-003
 
 **Steps**:
 1. Navigate to registration page
@@ -199,7 +199,7 @@ Acceptance criteria:
 4. Enter name: "Test User"
 5. Click "Register" button
 
-**Expected Results**:
+**Resultados esperados**:
 1. Registration page loads correctly
 2. Email field accepts input
 3. Password field accepts input
@@ -208,12 +208,12 @@ Acceptance criteria:
 
 ---
 
-### TC-004: Registration rejected - duplicate email
+### TC-004: Registro rechazado - email duplicado
 
 - **Priority**: P2
 - **Preconditions**: User "existing@example.com" already exists
 - **Automation**: true — Requires test data setup
-- **Requirements**: REQ-REG-004
+- **Requisitos**: REQ-REG-004
 
 **Steps**:
 1. Navigate to registration page
@@ -222,7 +222,7 @@ Acceptance criteria:
 4. Enter name: "Duplicate User"
 5. Click "Register" button
 
-**Expected Results**:
+**Resultados esperados**:
 1. Registration page loads correctly
 2. Email field accepts input
 3. Password field accepts input
@@ -236,7 +236,7 @@ Acceptance criteria:
 - **Priority**: P2
 - **Preconditions**: Registration page is accessible
 - **Automation**: true — Edge case, easy to automate
-- **Requirements**: REQ-REG-005
+- **Requisitos**: REQ-REG-005
 
 **Steps**:
 1. Navigate to registration page
@@ -245,7 +245,7 @@ Acceptance criteria:
 4. Leave name field empty
 5. Click "Register" button
 
-**Expected Results**:
+**Resultados esperados**:
 1. Registration page loads correctly
 2. Email field accepts input
 3. Password field accepts input
@@ -254,19 +254,19 @@ Acceptance criteria:
 
 ---
 
-### TC-006: Verification email contains valid reset link
+### TC-006: El email de verificación contiene un enlace válido
 
 - **Priority**: P2
 - **Preconditions**: User has just registered
 - **Automation**: true — Requires email service mock
-- **Requirements**: REQ-REG-006
+- **Requisitos**: REQ-REG-006
 
 **Steps**:
 1. Complete successful registration (TC-001)
 2. Open verification email
 3. Click verification link
 
-**Expected Results**:
+**Resultados esperados**:
 1. Registration completes successfully
 2. Email received within 5 minutes with subject "Verify your email"
 3. Link opens page showing "Email verified successfully"
@@ -278,7 +278,7 @@ Acceptance criteria:
 - **Priority**: P3
 - **Preconditions**: Registration page is accessible
 - **Automation**: true — Boundary testing
-- **Requirements**: REQ-REG-007
+- **Requisitos**: REQ-REG-007
 
 **Steps**:
 1. Navigate to registration page
@@ -287,7 +287,7 @@ Acceptance criteria:
 4. Enter name with 100 characters
 5. Click "Register" button
 
-**Expected Results**:
+**Resultados esperados**:
 1. Registration page loads correctly
 2-4. Fields accept maximum length inputs
 5. System processes registration (success or appropriate error)
@@ -299,7 +299,7 @@ Acceptance criteria:
 - **Priority**: P3
 - **Preconditions**: Registration page is accessible
 - **Automation**: false — UX behavior, manual verification preferred
-- **Requirements**: REQ-REG-008
+- **Requisitos**: REQ-REG-008
 
 **Steps**:
 1. Navigate to registration page
@@ -309,11 +309,9 @@ Acceptance criteria:
 5. Click "Register" button
 6. Observe form after error message
 
-**Expected Results**:
+**Resultados esperados**:
 1. Registration page loads correctly
 2-4. Fields accept input
 5. System shows password error
 6. Email and name fields retain their values (user doesn't need to re-enter)
 ```
-
-

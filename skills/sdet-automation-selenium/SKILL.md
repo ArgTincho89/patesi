@@ -1,7 +1,7 @@
 ---
 name: sdet-automation-selenium
 description: >
-  Generates Selenium WebDriver test frameworks for Java and Python.
+  Genera frameworks de tests con Selenium WebDriver para Java y Python.
   Trigger: Selenium, WebDriver, tests Selenium, automatización Selenium
 license: Apache-2.0
 metadata:
@@ -10,15 +10,15 @@ metadata:
   category: qa-sdet
 ---
 
-# Selenium WebDriver Test Framework Generator
+# Generador de frameworks de tests con Selenium WebDriver
 
-Generates Selenium WebDriver test frameworks for Java (Maven + TestNG) and Python (pytest + Selenium) following industry best practices. Use this when the user needs to automate tests with Selenium.
+Genera frameworks de tests con Selenium WebDriver para Java (Maven + TestNG) y Python (pytest + Selenium) siguiendo buenas prácticas de la industria. Usalo cuando el usuario necesite automatizar tests con Selenium.
 
 ---
 
 ## Java (Maven + TestNG)
 
-### Framework Structure
+### Estructura del framework
 
 ```
 src/
@@ -230,7 +230,7 @@ public class {Feature}Page extends BasePage {
 }
 ```
 
-### Example Test (Java)
+### Ejemplo de test (Java)
 
 ```java
 import org.testng.annotations.*;
@@ -274,7 +274,7 @@ public class LoginTest {
 
 ## Python (pytest + Selenium)
 
-### Framework Structure
+### Estructura del framework
 
 ```
 tests/
@@ -285,7 +285,7 @@ tests/
 │   └── users.json            # Test data
 ├── conftest.py               # pytest fixtures
 ├── test_login.py             # Test files
-└── requirements.txt          # Dependencies
+└── requirements.txt          # Dependencias
 ```
 
 ### requirements.txt
@@ -379,7 +379,7 @@ def login_page(driver):
     return page
 ```
 
-### Example Test (Python)
+### Ejemplo de test (Python)
 
 ```python
 import pytest
@@ -397,5 +397,3 @@ class TestLogin:
         login_page.login("", "")
         assert login_page.get_error_message() == "Email is required"
 ```
-
-

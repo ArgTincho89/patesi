@@ -1,141 +1,141 @@
-# Changelog
+# Registro de cambios
 
-All notable changes to Patesi will be documented in this file.
+Todos los cambios relevantes de Patesi se documentarán en este archivo.
 
-Format based on [Keep a Changelog](https://keepachangelog.com/).
+Formato basado en [Keep a Changelog](https://keepachangelog.com/).
 
 ## [2.2.0] - 2026-08-25
 
-### Changed
-- Environment-agnostic core: `agent.md`, `system.md`, and `config.yaml` are now tool-agnostic, shared across opencode/Copilot/Cursor adapters
-- Trigger language standardization across all skills (consistent frontmatter descriptions)
-- Registry generator rewrite: `scripts/generate-registry.ps1` / `.sh` now writes directly into `config.yaml` and `system.md` between markers (no more `skills-block.yaml` intermediate)
-- Copilot adapter builder rewritten: line-by-line concatenation instead of here-strings (fixes PS5.1 Unicode corruption); added date stamp
+### Cambiado
+- Núcleo independiente del entorno: `agent.md`, `system.md` y `config.yaml` ahora son independientes de las herramientas y compartidos por los adaptadores de opencode/Copilot/Cursor
+- Estandarización del idioma de los triggers en todos los skills (descripciones de frontmatter consistentes)
+- Reescritura del generador de registry: `scripts/generate-registry.ps1` / `.sh` ahora escribe directamente en `config.yaml` y `system.md` entre markers (sin archivo intermedio `skills-block.yaml`)
+- Reescritura del constructor del adaptador Copilot: concatenación línea por línea en lugar de here-strings (corrige la corrupción Unicode de PS5.1); se agregó la fecha de generación
 
-### Fixed
-- Copilot adapter encoding: replaced here-string (`@"..."`) with line-by-line string building to prevent PS5.1 Unicode corruption; added UTF-8 BOM to all PS1 scripts
-- Memory template YAML syntax: `fixture preferredStyle` → `fixture_preferred_style`
-- Generator now writes directly into `config.yaml` (between `# SKILLS_BLOCK_START/END` markers) and `system.md` §8 (between `<!-- SKILL_TABLE_START/END -->` markers) — no manual copy-paste needed
-- `--check` mode now validates 3 outputs: `.atl/skill-registry.md`, `config.yaml` skills block, and `system.md` §8 table
+### Corregido
+- Codificación del adaptador Copilot: se reemplazó el here-string (`@"..."`) por construcción línea por línea para evitar la corrupción Unicode de PS5.1; se agregó BOM UTF-8 a todos los scripts PS1
+- Sintaxis YAML de la plantilla de memoria: `fixture preferredStyle` → `fixture_preferred_style`
+- El generador ahora escribe directamente en `config.yaml` (entre los markers `# SKILLS_BLOCK_START/END`) y en §8 de `system.md` (entre los markers `<!-- SKILL_TABLE_START/END -->`); ya no hace falta copiar y pegar manualmente
+- El modo `--check` ahora valida 3 salidas: `.atl/skill-registry.md`, el bloque de skills de `config.yaml` y la tabla §8 de `system.md`
 
-### Added
-- Token validation script: `scripts/check-skill-tokens.ps1` / `.sh` — estimates token count per skill and flags those exceeding 4K budget
-- UTF-8 BOM on all PS1 scripts (required for PS5.1 to read accented string literals correctly)
+### Agregado
+- Script de validación de tokens: `scripts/check-skill-tokens.ps1` / `.sh` — estima la cantidad de tokens por skill y marca los que superan el presupuesto de 4K
+- BOM UTF-8 en todos los scripts PS1 (necesario para que PS5.1 lea correctamente literales con tildes)
 
 ## [2.1.0] - 2026-08-25
 
-### Added
-- **10 new skills**: Automation frameworks (Cypress, Selenium, Appium, Robot Framework), languages (Python, Java, JavaScript/TypeScript), methodologies (Gherkin/BDD, Cucumber), build tools (Maven/Gradle)
-- **Skill registry generator**: `scripts/generate-registry.ps1` / `.sh` — reads SKILL.md frontmatter and generates `.atl/skill-registry.md` (single source of truth)
-- **Copilot adapter builder**: `scripts/build-copilot-adapter.ps1` / `.sh` — regenerates `adapters/copilot/copilot-instructions.md` from `agent.md` + `system.md`
-- **Skill eval set**: `tests/skill-eval-set.md` — 18 test prompts with expected skill triggers for validation
-- **Total skills**: 23 (was 13)
+### Agregado
+- **10 skills nuevos**: frameworks de automatización (Cypress, Selenium, Appium, Robot Framework), lenguajes (Python, Java, JavaScript/TypeScript), metodologías (Gherkin/BDD, Cucumber) y herramientas de build (Maven/Gradle)
+- **Generador del skill registry**: `scripts/generate-registry.ps1` / `.sh` — lee el frontmatter de SKILL.md y genera `.atl/skill-registry.md` (fuente única de verdad)
+- **Constructor del adaptador Copilot**: `scripts/build-copilot-adapter.ps1` / `.sh` — regenera `adapters/copilot/copilot-instructions.md` desde `agent.md` + `system.md`
+- **Conjunto de evaluación de skills**: `tests/skill-eval-set.md` — 18 prompts de tests con triggers esperados para validación
+- **Total de skills**: 23 (antes 13)
 
-### Fixed
-- **Permissions model**: `tools/README.md` now correctly states that config.yaml is the authority; no commands are pre-approved
-- **Risk matrix cross-reference**: `sdet-risk-analysis` and `sdet-mr-analysis` now cross-reference each other with notes on when to use which
-- **Engram scoping**: `sdet-project-learning` and `tools/README.md` explicitly note Engram is opencode-only
-- **Skill trigger deduplication**: Primary source of truth is now `config.yaml` + `system.md`; generator script produces `.atl/skill-registry.md`
+### Corregido
+- **Modelo de permisos**: `tools/README.md` ahora indica correctamente que `config.yaml` es la autoridad; ningún comando está preaprobado
+- **Referencia cruzada de la matriz de riesgos**: `sdet-risk-analysis` y `sdet-mr-analysis` ahora se referencian mutuamente e indican cuándo usar cada uno
+- **Alcance de Engram**: `sdet-project-learning` y `tools/README.md` indican explícitamente que Engram es exclusivo de opencode
+- **Eliminación de duplicados de triggers**: la fuente única de verdad ahora es `config.yaml` + `system.md`; el script genera `.atl/skill-registry.md`
 
-### Changed
-- Config bumped to v2.1.0
-- README skill table expanded from 13 to 23 entries
-- system.md skill loading section expanded with combined-skill examples
+### Cambiado
+- Configuración actualizada a v2.1.0
+- La tabla de skills del README se amplió de 13 a 23 entradas
+- La sección de carga de skills de system.md se amplió con ejemplos de skills combinados
 
 ## [2.0.0] - 2026-08-25
 
-### Added
+### Agregado
 
-#### Architecture
-- **Agent restructure**: Separated monolithic `patesi.md` into modular architecture
-  - `agent.md` — Agent identity, personality, core principles
-  - `system.md` — Complete behavioral spec: session protocol, framework hierarchy, risk orientation, planning flow, generation rules, auto-review checklist, QA workflow
-  - `config.yaml` — Agent configuration, permissions, skill registry
-- **Tools documentation**: `tools/README.md` with complete tool reference
-- **Memory templates**: Project memory structure
-  - `memory/_template/context.yaml` — Project context template
-  - `memory/_template/patterns.md` — Pattern storage template
-  - `memory/_template/decisions.md` — Decision logging template
-- **Adapters**: IDE-specific integration files
-  - `adapters/opencode/patesi.md` — opencode adapter with `{file:}` composition
-  - `adapters/copilot/copilot-instructions.md` — GitHub Copilot adapter
+#### Arquitectura
+- **Reestructuración del agente**: se separó el monolito `patesi.md` en una arquitectura modular
+  - `agent.md` — identidad, personalidad y principios del agente
+  - `system.md` — especificación completa de comportamiento: protocolo de sesión, jerarquía de frameworks, orientación a riesgos, flujo de planificación, reglas de generación, checklist de auto-revisión y workflow de QA
+  - `config.yaml` — configuración del agente, permisos y registry de skills
+- **Documentación de herramientas**: `tools/README.md` con referencia completa de herramientas
+- **Plantillas de memoria**: estructura de memoria del proyecto
+  - `memory/_template/context.yaml` — plantilla de contexto del proyecto
+  - `memory/_template/patterns.md` — plantilla de almacenamiento de patrones
+  - `memory/_template/decisions.md` — plantilla de registro de decisiones
+- **Adaptadores**: archivos de integración específicos para IDE
+  - `adapters/opencode/patesi.md` — adaptador de opencode con composición `{file:}`
+  - `adapters/copilot/copilot-instructions.md` — adaptador de GitHub Copilot
 
-#### SQEM Skills (4 new)
-- **sdet-sqem-classification**: NAQ calculation, tipologia selection, delivery target derivation, nucleo comun, governance roles
-- **sdet-sqem-gates**: QG0-QG7 criteria, F/L/C/N/A matrix by tipologia, QG-Express, exception management
-- **sdet-sqem-controls**: Control catalog by gate x NAQ, coverage thresholds, SonarQube profiles, indicators, dashboards
-- **sdet-sqem-ia**: Annex IA controls for AI/ML/GenAI: data quality, golden dataset, hallucination rate, red-teaming, EU AI Act
+#### Skills SQEM (4 nuevos)
+- **sdet-sqem-classification**: cálculo de NAQ, selección de tipología, derivación del delivery target, núcleo común y roles de gobernanza
+- **sdet-sqem-gates**: criterios QG0-QG7, matriz F/L/C/N/A por tipología, QG-Express y gestión de excepciones
+- **sdet-sqem-controls**: catálogo de controles por gate x NAQ, umbrales de cobertura, perfiles de SonarQube, indicadores y dashboards
+- **sdet-sqem-ia**: controles del Anexo IA para AI/ML/GenAI: calidad de datos, golden dataset, tasa de alucinaciones, red-teaming y EU AI Act
 
-#### Multi-project Support
-- Elicitation flow: Session start detects project type (Seidor/Personal/Client-governed)
-- NAQ classification with override rules
-- Project-scoped memory isolation via `~/.config/opencode/patesi-memory/{project}/`
-- Framework hierarchy: Mode A (SQEM), Mode B (ISTQB), Mode C (Client-governed)
+#### Compatibilidad con múltiples proyectos
+- Flujo de elicitación: al iniciar la sesión se detecta el tipo de proyecto (Seidor/Personal/Gobernado por cliente)
+- Clasificación NAQ con reglas de override
+- Aislamiento de memoria por proyecto mediante `~/.config/opencode/patesi-memory/{project}/`
+- Jerarquía de frameworks: Modo A (SQEM), Modo B (ISTQB), Modo C (Gobernado por cliente)
 
-### Changed
-- Skills auto-discovered from `skills/` directory (13 total: 9 original + 4 SQEM)
-- opencode system prompt composed via `{file:agent.md}\n\n---\n\n{file:system.md}`
-- README updated with new architecture and installation instructions
-- Skill registry updated with SQEM skills
+### Cambiado
+- Skills autodetectados desde el directorio `skills/` (13 en total: 9 originales + 4 SQEM)
+- system prompt de opencode compuesto mediante `{file:agent.md}\n\n---\n\n{file:system.md}`
+- README actualizado con la nueva arquitectura e instrucciones de instalación
+- Skill registry actualizado con los skills SQEM
 
-### Removed
-- **Cursor support** (`.cursorrules` deleted)
-- `agents/patesi.md` (replaced by `agent.md` + `system.md` at repo root)
-- `patesi.md` monolith (replaced by `agent.md` + `system.md`)
-- `prompts/` directory (merged into `system.md`)
-- `workflows/` directory (merged into `system.md`)
-- `knowledge/` directory (redundant with skills)
-- Old `.github/copilot-instructions.md` (replaced by `adapters/copilot/copilot-instructions.md`)
-- All Shagaluf references (personal project removed from agent scope)
+### Eliminado
+- **Soporte de Cursor** (`.cursorrules` eliminado)
+- `agents/patesi.md` (reemplazado por `agent.md` + `system.md` en la raíz del repo)
+- Monolito `patesi.md` (reemplazado por `agent.md` + `system.md`)
+- Directorio `prompts/` (integrado en `system.md`)
+- Directorio `workflows/` (integrado en `system.md`)
+- Directorio `knowledge/` (redundante con los skills)
+- Antiguo `.github/copilot-instructions.md` (reemplazado por `adapters/copilot/copilot-instructions.md`)
+- Todas las referencias a Shagaluf (proyecto personal eliminado del alcance del agente)
 
 ---
 
 ## [1.0.0] - 2026-07-14
 
-### Added
+### Agregado
 
-#### Agent
-- SDET agent `patesi` with ISTQB-aligned QA methodology
-- Direct, no-BS writing style without profanity
-- Case awareness: mandatory happy/unhappy/corner case coverage
-- Risk and coverage orientation: explicit metrics in every proposal
-- Best practices backing: ISTQB/industry/rationale required for every recommendation
-- Company quality protocol support (placeholder for future integration)
-- Multi-project support via global skills + per-project overrides
+#### Agente
+- Agente SDET `patesi` con metodología de QA alineada con ISTQB
+- Estilo de escritura directo y sin rodeos, sin groserías
+- Awareness de casos: cobertura obligatoria de casos happy/unhappy/corner
+- Orientación a riesgos y cobertura: métricas explícitas en cada propuesta
+- Respaldo de buenas prácticas: ISTQB/industria/justificación requeridos para cada recomendación
+- Soporte para protocolo de calidad empresarial (placeholder para integración futura)
+- Soporte para múltiples proyectos mediante skills globales + overrides por proyecto
 
-#### Skills (9 total)
-- **sdet-istqb**: ISTQB Foundation v4.0 + Advanced Core condensed reference
-- **sdet-test-strategy**: Test strategy generator from user stories with 9-section template
-- **sdet-risk-analysis**: Weighted risk matrix (Business 30%, Complexity 25%, Change 20%, Gap 15%, Dependency 10%)
-- **sdet-test-cases**: Structured test case generator with TC-XXX format, priority P1-P4
-- **sdet-test-classification**: S/M/L/XL test suite classifier for CI/CD integration
-- **sdet-automation**: Playwright + TypeScript framework generator with Page Object Model
-- **sdet-cicd**: CI/CD pipeline generator (GitHub Actions, GitLab CI, Jenkins)
-- **sdet-mr-analysis**: Merge request analyzer for test impact and breakage potential
-- **sdet-project-learning**: Per-project QA pattern learning via Engram persistent memory
+#### Skills (9 en total)
+- **sdet-istqb**: referencia condensada de ISTQB Foundation v4.0 + Advanced Core
+- **sdet-test-strategy**: generador de estrategias de testing desde user stories con plantilla de 9 secciones
+- **sdet-risk-analysis**: matriz de riesgos ponderada (Business 30%, Complexity 25%, Change 20%, Gap 15%, Dependency 10%)
+- **sdet-test-cases**: generador estructurado de casos de prueba con formato TC-XXX y prioridad P1-P4
+- **sdet-test-classification**: clasificador de suites S/M/L/XL para integración CI/CD
+- **sdet-automation**: generador de frameworks Playwright + TypeScript con Page Object Model
+- **sdet-cicd**: generador de pipelines CI/CD (GitHub Actions, GitLab CI, Jenkins)
+- **sdet-mr-analysis**: analizador de merge requests para impacto y potencial de roturas en tests
+- **sdet-project-learning**: aprendizaje de patrones de QA por proyecto mediante memoria persistente de Engram
 
 #### Scripts
-- `install.ps1`: Windows installer
-- `install.sh`: Linux/macOS installer
-- `update.ps1`: Windows updater (git pull + copy)
-- `update.sh`: Linux/macOS updater (git pull + copy)
+- `install.ps1`: instalador para Windows
+- `install.sh`: instalador para Linux/macOS
+- `update.ps1`: actualizador para Windows (git pull + copy)
+- `update.sh`: actualizador para Linux/macOS (git pull + copy)
 
-#### Documentation
-- README in Spanish (castellano) with full installation and usage guide
-- Example `opencode.json` configuration
-- ISTQB syllabi download links
-- Apache 2.0 License
+#### Documentación
+- README en castellano con guía completa de instalación y uso
+- Configuración de ejemplo `opencode.json`
+- Enlaces de descarga de los syllabi ISTQB
+- Licencia Apache 2.0
 
-### Decisions
-- Agent named "Patesi" (not "sdet") to avoid confusion with file-based auto-discovery
-- Agent file named `patesi.md` (not `sdet.md`) for clean opencode agent list
-- Skills use `sdet-` prefix for namespace consistency
-- ISTQB knowledge condensed inline (under 4K tokens) for context efficiency
-- File-based agent (in `agents/` directory) for maintainability over inline config
+### Decisiones
+- El agente se llama "Patesi" (no "sdet") para evitar confusión con el auto-descubrimiento basado en archivos
+- El archivo del agente se llama `patesi.md` (no `sdet.md`) para mantener limpia la lista de agentes de opencode
+- Los skills usan el prefijo `sdet-` para mantener consistencia en el namespace
+- El conocimiento ISTQB está condensado inline (menos de 4K tokens) para optimizar el contexto
+- Agente basado en archivos (en el directorio `agents/`) para facilitar el mantenimiento frente a una configuración inline
 
 ---
 
-## How to Update
+## Cómo actualizar
 
 **Windows:**
 ```powershell
@@ -147,4 +147,4 @@ Format based on [Keep a Changelog](https://keepachangelog.com/).
 bash scripts/update.sh
 ```
 
-Then restart opencode.
+Después reiniciá opencode.

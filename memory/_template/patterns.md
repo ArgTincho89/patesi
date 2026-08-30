@@ -14,8 +14,8 @@ Se organizan por categoría para fácil referencia.
 
 ## Preferencias de Framework
 
-<!-- Ejemplo: Fixtures, no page objects -->
-<!-- Ejemplo: API-first testing, no UI-first -->
+<!-- Ejemplo: fixtures, no page objects -->
+<!-- Ejemplo: testing API-first, no UI-first -->
 <!-- Ejemplo: Jest para unit, Playwright para E2E -->
 
 ---
@@ -23,15 +23,15 @@ Se organizan por categoría para fácil referencia.
 ## Gaps de Cobertura
 
 <!-- Ejemplo: Módulo de pagos no tiene tests unitarios -->
-<!-- Ejemplo: API de notificaciones no tiene integration tests -->
+<!-- Ejemplo: API de notificaciones no tiene tests de integración -->
 
 ---
 
 ## Patrones CI/CD
 
-<!-- Ejemplo: Unit tests corren en cada commit -->
+<!-- Ejemplo: los tests unitarios corren en cada commit -->
 <!-- Ejemplo: E2E tests solo corren en PRs a main -->
-<!-- Ejemplo: Linting falla el build si hay warnings -->
+<!-- Ejemplo: el linting falla el build si hay warnings -->
 
 ---
 
@@ -47,4 +47,4 @@ Se organizan por categoría para fácil referencia.
 
 <!-- Ejemplo: Commits en inglés, no español -->
 <!-- Ejemplo: PR titles siguen convención conventional commits -->
-<!-- Ejemplo: Branches usan formato feature/NOMBRE -->
+<!-- Ejemplo: las branches usan el formato feature/NOMBRE -->

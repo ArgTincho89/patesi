@@ -1,7 +1,7 @@
 ---
 name: sdet-sqem-classification
 description: >
-  SQEM project classification: NAQ calculation, tipologia selection, delivery target derivation, nucleo comun, and governance roles.
+  Clasificación de proyectos SQEM: cálculo de NAQ, selección de tipología, derivación del delivery target, núcleo común y roles de gobernanza.
   Trigger: clasificación de proyecto Seidor, cálculo NAQ, tipología, delivery target
 license: Apache-2.0
 metadata:
@@ -10,13 +10,13 @@ metadata:
   category: sqem
 ---
 
-# SQEM — Project Classification
+# SQEM — Clasificación de proyectos
 
-Classifies Seidor projects using the SQEM (Seidor Quality Engineering Model) framework. This is the entry point for all Seidor quality work.
+Clasifica proyectos Seidor usando el framework SQEM (Seidor Quality Engineering Model). Es el punto de entrada para todo trabajo de calidad Seidor.
 
 ---
 
-## The Two Decision Axes
+## Los dos ejes de decisión
 
 ```
 Axis 1: NAQ (Quality Assurance Level) → Bajo / Medio / Alto
@@ -27,16 +27,16 @@ OUTPUT: Delivery Target → Basico / Integrado / Continuo
 
 ---
 
-## Axis 1 — NAQ (Section 5.1)
+## Eje 1 — NAQ (sección 5.1)
 
-### NAQ Formula
+### Fórmula de NAQ
 
-Weighted average, each factor scored 0-4:
+Promedio ponderado, con cada factor puntuado de 0 a 4:
 
-| Factor | Weight |
+| Factor | Peso |
 |--------|--------|
 | Business Criticality | 8 |
-| Visibility / Usage | 4 |
+| Visibilidad / uso | 4 |
 | Interoperability | 4 |
 | Data Sensitivity | 4 |
 | Technical Maturity | 2 (suspended until data available) |
@@ -44,22 +44,22 @@ Weighted average, each factor scored 0-4:
 
 `NAQ = Sum(score_i x weight_i) / Sum(active_weights)`
 
-### NAQ Bands
+### Bandas de NAQ
 
-| Value | Level | Intent | QA Effort |
+| Valor | Nivel | Intención | Esfuerzo de QA |
 |-------|-------|--------|-----------|
-| >=0 and <1.5 | **Bajo** | Speed — do not slow delivery | Low |
-| >=1.5 and <3 | **Medio** | Balance — cost vs risk | Medium |
-| >=3 | **Alto** | Minimize business risk | High (very high for mision critica) |
+| >=0 y <1.5 | **Bajo** | Velocidad: no ralentizar la entrega | Bajo |
+| >=1.5 y <3 | **Medio** | Equilibrio: costo frente a riesgo | Medio |
+| >=3 | **Alto** | Minimizar el riesgo de negocio | Alto (muy alto para misión crítica) |
 
-### Override Rules (Non-Negotiable)
+### Reglas de override (no negociables)
 
 - Business Criticality=4 **OR** Data Sensitivity=4 → **NAQ Alto** forced
 - Business Criticality>=3 **AND** Data Sensitivity>=3 → minimum **NAQ Medio**
 - Impacts on person safety / serious legal breach / critical ops continuity → **NAQ Alto**
 - AI system classified as "high risk" under EU AI Act → **NAQ Alto** + Annex IA (Section 16)
 
-### Mision Critica Sub-Band (within Alto)
+### Sub-banda de misión crítica (dentro de Alto)
 
 Activates when override rules trigger:
 
@@ -72,19 +72,19 @@ Activates when override rules trigger:
 | DR/rollback | SLO defined | + **validated in rehearsal + MTTR verified** |
 | Deliverables | NAQ Alto minimums | + **formal risk report + Go/No-Go with Direction** |
 
-### NAQ Re-Evaluation Triggers
+### Triggers de reevaluación de NAQ
 
 - >=3 Sev1/Sev2 incidents in production within 3 months on same application
 - DER above band threshold for 2 consecutive releases
-- Material change in scope, integrations, or compliance requirements
+- Cambio sustancial en el alcance, las integraciones o los requisitos de cumplimiento
 
 ---
 
-## Axis 2 — Tipologias (Section 5.2)
+## Eje 2 — Tipologías (sección 5.2)
 
-15 types, composable (one primary + secondary components):
+15 tipos componibles (uno primario + componentes secundarios):
 
-| # | Tipologia | Key tests / controls |
+| # | Tipología | Tests / controles clave |
 |---|-----------|---------------------|
 | 1 | **New Development** | Unit, static analysis, code review, integration, E2E, UAT, smoke, NF by NAQ |
 | 2 | **Evolutionary Maintenance (AMS)** | Impact analysis, selective regression, defect confirmation, smoke |
@@ -94,7 +94,7 @@ Activates when override rules trigger:
 | 6 | **Integrations / APIs / Data** | Contract testing, integration, negative tests, data validation, resilience, perf, security |
 | 7 | **Digital Product / User Channel** | E2E, usability, accessibility (WCAG), compatibility, performance, security |
 | 8 | **Packaged (SAP/Salesforce/...)** | Functional config, integration, E2E regression, UAT, role security, batch perf |
-| 9 | **Market Product (COTS/SaaS)** | Requirements vs product standard, config review, integration, functional UAT, NF by NAQ |
+| 9 | **Producto de mercado (COTS/SaaS)** | Requisitos frente al estándar del producto, revisión de configuración, integración, UAT funcional, NF según NAQ |
 | 10 | **AI / ML / GenAI** | Data/model quality, LLM/RAG, agents, Responsible AI, continuous evaluation — Annex IA Section 16 |
 | 11 | **Data & Analytics / BI** | Data quality (completeness, accuracy, uniqueness, lineage), reconciliation, rules, perf |
 | 12 | **Infrastructure / DevOps / Cloud** | IaC linting/policy-as-code, deploy/idempotency, hardening/CIS, DR, observability |
@@ -106,7 +106,7 @@ Activates when override rules trigger:
 
 ---
 
-## Output — Delivery Target (Section 5.3.4)
+## Salida — Delivery Target (sección 5.3.4)
 
 | Target | Minimum capabilities |
 |--------|---------------------|
@@ -118,12 +118,12 @@ Activates when override rules trigger:
 
 ---
 
-## Nucleo Comun NO NEGOCIABLE (Section 5.4)
+## Núcleo común NO NEGOCIABLE (sección 5.4)
 
-These 9 items apply to EVERY Seidor project regardless of NAQ, tipologia, or delivery target:
+Estos 9 ítems aplican a TODOS los proyectos Seidor, sin importar NAQ, tipología o delivery target:
 
 1. NAQ assigned + project/application sheet completed
-2. Acceptance criteria defined for deliverable scope
+2. Criterios de aceptación definidos para el alcance del entregable
 3. Defect management with standard severity in ALM tool
 4. **Smoke test pre and post-deploy**
 5. **Zero blocking/critical defects open** to pass to production
@@ -134,7 +134,7 @@ These 9 items apply to EVERY Seidor project regardless of NAQ, tipologia, or del
 
 ---
 
-## Governance Roles (Section 3.2)
+## Roles de gobernanza (sección 3.2)
 
 | Role | Responsibility |
 |------|---------------|
@@ -142,10 +142,8 @@ These 9 items apply to EVERY Seidor project regardless of NAQ, tipologia, or del
 | **QA Lead** | Adapts model to project, defines Test Strategy, controls gates, reports quality and risks. |
 | **QA Engineer** | Designs/executes tests, automates, manages defects and evidence. |
 | **Tech Lead / Architect** | Technical quality, code and design review, NFRs, technical debt, ADRs. |
-| **PM / Delivery Manager** | Integrates quality in planning, ensures resources and evidence, manages dependencies. |
+| **PM / Delivery Manager** | Integra la calidad en la planificación, asegura recursos y evidencias, y gestiona dependencias. |
 | **Product Owner / Client** | Defines acceptance criteria, prioritizes defects, approves UAT and Go-Live. |
 | **DevOps / Release Manager** | CI/CD, automatic quality gates, deployment, rollback, smoke, observability. |
 
 ---
-
-

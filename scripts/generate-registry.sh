@@ -1,16 +1,16 @@
 #!/bin/bash
-# Patesi — Skill Registry Generator (Single Source of Truth)
-# Reads all skills/sdet-*/SKILL.md frontmatter and generates:
-#   1. .atl/skill-registry.md      — markdown table
-#   2. config.yaml skills block    — directly between SKILLS_BLOCK markers
-#   3. system.md §8 table           — directly between SKILL_TABLE markers
+# Patesi — Generador del registro de skills (fuente única de verdad)
+# Lee el frontmatter de todos los skills/sdet-*/SKILL.md y genera:
+#   1. .atl/skill-registry.md      — tabla Markdown
+#   2. bloque de skills de config.yaml — directamente entre markers SKILLS_BLOCK
+#   3. tabla de system.md §8           — directamente entre markers SKILL_TABLE
 #
-# Usage:
-#   bash scripts/generate-registry.sh            — generate all outputs
-#   bash scripts/generate-registry.sh --check    — compare only, exit 1 if different
+# Uso:
+#   bash scripts/generate-registry.sh            — generar todas las salidas
+#   bash scripts/generate-registry.sh --check    — comparar únicamente, salir con 1 si difieren
 #
-# Dependencies: bash 4+, sed, grep, date
-# Encoding: All file writes use UTF-8 (no BOM)
+# Dependencias: bash 4+, sed, grep, date
+# Codificación: todas las escrituras usan UTF-8 (sin BOM)
 
 set -euo pipefail
 
@@ -18,8 +18,8 @@ SCRIPT_DIR="$(cd "$(dirname "${BASH_SOURCE[0]}")" && pwd)"
 REPO_DIR="$(dirname "$SCRIPT_DIR")"
 SKILLS_DIR="$REPO_DIR/skills"
 
-# --- Manual mapping: human-curated "Solicitud del usuario" phrases ---
-# Format: "skill-name|User phrase"
+# --- Mapeo manual: frases de "Solicitud del usuario" curadas por humanos ---
+# Formato: "nombre-del-skill|Frase del usuario"
 declare -a HUMAN_PHRASES=(
     "sdet-istqb|Pregunta sobre ISTQB"
     "sdet-test-strategy|Estrategia de testing"
@@ -29,10 +29,10 @@ declare -a HUMAN_PHRASES=(
     "sdet-mr-analysis|Analizar MR/PR"
     "sdet-cicd|Pipelines CI/CD"
     "sdet-project-learning|Aprender del proyecto"
-    "sdet-automation|Framework Playwright"
-    "sdet-automation-cypress|Framework Cypress"
+    "sdet-automation|Framework de Playwright"
+    "sdet-automation-cypress|Framework de Cypress"
     "sdet-automation-selenium|Selenium (Java/Python)"
-    "sdet-automation-appium|Appium / testing movil"
+    "sdet-automation-appium|Appium / testing móvil"
     "sdet-automation-robot|Robot Framework"
     "sdet-lang-python|Patrones Python / pytest"
     "sdet-lang-java|Patrones Java / JUnit / TestNG"
@@ -46,18 +46,18 @@ declare -a HUMAN_PHRASES=(
     "sdet-sqem-ia|IA/ML/GenAI testing"
 )
 
-# --- Output categories for config.yaml grouping ---
-# Format: "category_key|display_label|skill1,skill2,..."
+# --- Categorías de salida para agrupar config.yaml ---
+# Formato: "clave_de_categoría|etiqueta_visible|skill1,skill2,..."
 declare -a CATEGORY_DEFS=(
-    "qa-core|QA Core|sdet-istqb,sdet-test-strategy,sdet-test-cases,sdet-test-classification,sdet-risk-analysis,sdet-mr-analysis,sdet-project-learning"
+    "qa-core|Núcleo de QA|sdet-istqb,sdet-test-strategy,sdet-test-cases,sdet-test-classification,sdet-risk-analysis,sdet-mr-analysis,sdet-project-learning"
     "pipelines|Pipelines|sdet-cicd"
-    "automation|Automatizacion|sdet-automation,sdet-automation-cypress,sdet-automation-selenium,sdet-automation-appium,sdet-automation-robot"
+    "automation|Automatización|sdet-automation,sdet-automation-cypress,sdet-automation-selenium,sdet-automation-appium,sdet-automation-robot"
     "languages|Lenguajes|sdet-lang-python,sdet-lang-java,sdet-lang-javascript"
-    "methodologies|Metodologias y Build|sdet-methodology-gherkin,sdet-methodology-cucumber,sdet-build-maven"
+    "methodologies|Metodologías y Build|sdet-methodology-gherkin,sdet-methodology-cucumber,sdet-build-maven"
     "sqem|SQEM (Seidor)|sdet-sqem-classification,sdet-sqem-gates,sdet-sqem-controls,sdet-sqem-ia"
 )
 
-# --- Extract frontmatter fields from a SKILL.md file ---
+# --- Extraer campos del frontmatter de un archivo SKILL.md ---
 extract_frontmatter() {
     local skill_file="$1"
     sed -n '/^---$/,/^---$/p' "$skill_file" | sed '1d;$d'
@@ -78,15 +78,15 @@ extract_description() {
     echo "$frontmatter" | grep '^  ' | grep -viE '^\s*(Trigger:|name:|description:|license:|metadata:|category:|author:|version:)' | head -1 | sed 's/^  *//' | tr -d '\r'
 }
 
-# --- Parse mode argument ---
+# --- Analizar el argumento de modo ---
 CHECK_MODE=false
 if [[ "${1:-}" == "--check" ]]; then
     CHECK_MODE=true
 fi
 
-echo "Generating skill registry from SKILL.md frontmatter..."
+echo "Generando el registro de skills desde el frontmatter de SKILL.md..."
 
-# --- Parse all skills ---
+# --- Analizar todos los skills ---
 declare -a SKILL_NAMES=()
 declare -a SKILL_TRIGGERS=()
 declare -a SKILL_DESCRIPTIONS=()
@@ -132,9 +132,9 @@ for skill_dir in "$SKILLS_DIR"/sdet-*; do
 done
 
 echo ""
-echo "Parsed $COUNT skills ($SKIPPED skipped)"
+echo "Procesados $COUNT skills ($SKIPPED omitidos)"
 
-# --- Helper: find skill index by name ---
+# --- Helper: encontrar el índice de un skill por nombre ---
 find_skill_index() {
     local search_name="$1"
     for i in "${!SKILL_NAMES[@]}"; do
@@ -146,7 +146,7 @@ find_skill_index() {
     return 1
 }
 
-# --- Helper: replace content between markers in a file ---
+# --- Helper: reemplazar contenido entre markers en un archivo ---
 update_marked_section() {
     local file_path="$1"
     local start_marker="$2"
@@ -159,11 +159,11 @@ update_marked_section() {
     fi
 
     if ! grep -q "$start_marker" "$file_path" || ! grep -q "$end_marker" "$file_path"; then
-        echo "  STALE: $file_path -- markers not found"
+        echo "  DESACTUALIZADO: $file_path -- no se encontraron los markers"
         return 1
     fi
 
-    # Extract: before start marker + new content + after end marker
+    # Extraer: antes del marker inicial + contenido nuevo + después del marker final
     local tmp_file="${file_path}.tmp"
     local in_section=false
     local found_end=false
@@ -186,7 +186,7 @@ update_marked_section() {
 
     if [ "$found_end" = false ]; then
         rm -f "$tmp_file"
-        echo "  STALE: $file_path -- end marker not found"
+        echo "  DESACTUALIZADO: $file_path -- no se encontró el marker final"
         return 1
     fi
 
@@ -194,16 +194,16 @@ update_marked_section() {
     return 0
 }
 
-# --- Output 1: .atl/skill-registry.md ---
+# --- Salida 1: .atl/skill-registry.md ---
 DATE=$(date +%Y-%m-%d)
 
 {
-    echo "# Skill Registry -- patesi"
+    echo "# Registro de skills -- patesi"
     echo ""
-    echo "<!-- AUTO-GENERATED by scripts/generate-registry.sh -- DO NOT EDIT MANUALLY -->"
-    echo "<!-- Run: bash scripts/generate-registry.sh -->"
+    echo "<!-- GENERADO AUTOMÁTICAMENTE por scripts/generate-registry.sh -- NO EDITAR MANUALMENTE -->"
+    echo "<!-- Ejecutar: bash scripts/generate-registry.sh -->"
     echo ""
-    echo "Last updated: $DATE"
+    echo "Última actualización: $DATE"
     echo ""
     echo "## Skills"
     echo ""
@@ -220,15 +220,15 @@ DATE=$(date +%Y-%m-%d)
     done
 
     echo ""
-    echo "## Loading protocol"
+    echo "## Protocolo de carga"
     echo ""
-    echo "1. Match task context and target files against the \`Trigger / description\` column."
-    echo "2. Pass only the matching \`Path\` values to the subagent under \`## Skills to load before work\`."
-    echo "3. Instruct the subagent to read those exact \`SKILL.md\` files before reading, writing, reviewing, testing, or creating artifacts."
-    echo "4. If no matching skill exists, proceed without project skill injection and report \`skill_resolution: none\`."
+    echo "1. Compará el contexto de la tarea y los archivos objetivo con la columna \`Trigger / description\`."
+    echo "2. Pasá únicamente los valores \`Path\` coincidentes al subagente bajo \`## Skills to load before work\`."
+    echo "3. Indicá al subagente que lea esos archivos \`SKILL.md\` exactos antes de leer, escribir, revisar, testear o crear artefactos."
+    echo "4. Si no existe un skill coincidente, continuá sin inyección de skills del proyecto e informá \`skill_resolution: none\`."
 } > /tmp/patesi_registry_content.md
 
-# --- Output 2: config.yaml skills block (between markers) ---
+# --- Salida 2: bloque de skills de config.yaml (entre markers) ---
 CONFIG_SKILLS_CONTENT="skills:"
 first_category=true
 for cat_def in "${CATEGORY_DEFS[@]}"; do
@@ -259,8 +259,8 @@ for cat_def in "${CATEGORY_DEFS[@]}"; do
     done
 done
 
-# --- Output 3: system.md §8 table (between markers) ---
-SYS_TABLE_CONTENT="<!-- SKILL_TABLE_START -- auto-generated by scripts/generate-registry.sh -- DO NOT EDIT MANUALLY -->"
+# --- Salida 3: tabla §8 de system.md (entre markers) ---
+SYS_TABLE_CONTENT="<!-- SKILL_TABLE_START -- generado automáticamente por scripts/generate-registry.sh -- NO EDITAR MANUALMENTE -->"
 SYS_TABLE_CONTENT+=$'\n'"| Solicitud del usuario | Skill a cargar |"
 SYS_TABLE_CONTENT+=$'\n'"|----------------------|----------------|"
 for cat_def in "${CATEGORY_DEFS[@]}"; do
@@ -346,47 +346,47 @@ if $CHECK_MODE; then
 
     echo ""
     if [ "$MISMATCHES" -gt 0 ]; then
-        echo "$MISMATCHES file(s) stale. Run generate-registry.sh to refresh."
+        echo "$MISMATCHES archivo(s) desactualizado(s). Ejecutá generate-registry.sh para actualizar."
         exit 1
     else
-        echo "All files fresh."
+        echo "Todos los archivos están actualizados."
         exit 0
     fi
 fi
 
-# --- Write mode: generate files ---
+# --- Modo de escritura: generar archivos ---
 echo ""
-echo "=== GENERATING ==="
+echo "=== GENERANDO ==="
 
-# Ensure .atl directory exists
+# Asegurar que exista el directorio .atl
 mkdir -p "$REPO_DIR/.atl"
 
-# Write 1: .atl/skill-registry.md
+# Escribir 1: .atl/skill-registry.md
 cp /tmp/patesi_registry_content.md "$REPO_DIR/.atl/skill-registry.md"
-echo "Generated: .atl/skill-registry.md ($COUNT skills)"
+echo "Generado: .atl/skill-registry.md ($COUNT skills)"
 
-# Write 2: config.yaml skills block (between markers)
+# Escribir 2: bloque de skills de config.yaml (entre markers)
 if update_marked_section "$REPO_DIR/config.yaml" "# SKILLS_BLOCK_START" "# SKILLS_BLOCK_END" "$CONFIG_SKILLS_CONTENT"; then
-    echo "Generated: config.yaml skills block (between markers)"
+    echo "Generado: bloque de skills de config.yaml (entre markers)"
 else
-    echo "FAILED: config.yaml -- could not update skills block"
+    echo "FALLÓ: config.yaml -- no se pudo actualizar el bloque de skills"
 fi
 
-# Write 3: system.md §8 table (between markers)
+# Escribir 3: tabla §8 de system.md (entre markers)
 if update_marked_section "$REPO_DIR/system.md" "SKILL_TABLE_START" "SKILL_TABLE_END" "$SYS_TABLE_CONTENT"; then
-    echo "Generated: system.md §8 table (between markers)"
+    echo "Generado: tabla de system.md §8 (entre markers)"
 else
-    echo "FAILED: system.md -- could not update skill table"
+    echo "FALLÓ: system.md -- no se pudo actualizar la tabla de skills"
 fi
 
-# Cleanup legacy skills-block.yaml if it exists
+# Limpiar skills-block.yaml heredado si existe
 if [ -f "$REPO_DIR/skills-block.yaml" ]; then
     rm -f "$REPO_DIR/skills-block.yaml"
-    echo "Removed legacy: skills-block.yaml"
+    echo "Eliminado el archivo heredado: skills-block.yaml"
 fi
 
 # Cleanup temp files
 rm -f /tmp/patesi_registry_content.md
 
 echo ""
-echo "Done. $COUNT skills processed. 3 files updated."
+echo "Listo. $COUNT skills procesados. 3 archivos actualizados."

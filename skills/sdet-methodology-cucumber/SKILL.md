@@ -1,7 +1,7 @@
 ---
 name: sdet-methodology-cucumber
 description: >
-  Cucumber framework integration with Gherkin for BDD test automation.
+  Integración del framework Cucumber con Gherkin para automatización de tests BDD.
   Trigger: Cucumber, Cucumber-JVM, step definitions, BDD automation
 license: Apache-2.0
 metadata:
@@ -10,11 +10,11 @@ metadata:
   category: qa-sdet
 ---
 
-# Cucumber BDD Framework Integration
+# Integración del framework Cucumber BDD
 
-Cucumber-JVM (Java) and Cucumber.js/TypeScript patterns for turning Gherkin features into executable tests.
+Patrones de Cucumber-JVM (Java) y Cucumber.js/TypeScript para convertir features Gherkin en tests ejecutables.
 
-## Project Structure
+## Estructura del proyecto
 
 ### Java (Cucumber-JVM)
 
@@ -59,7 +59,7 @@ tests/
 └── cucumber.js               # Cucumber config
 ```
 
-## Java: Step Definitions
+## Java: step definitions
 
 ```java
 import io.cucumber.java.en.*;
@@ -115,7 +115,7 @@ public class LoginSteps {
 }
 ```
 
-### DataTable Steps
+### Steps con DataTable
 
 ```java
 @When("I submit the following user details:")
@@ -128,7 +128,7 @@ public void submitUserDetails(DataTable table) {
 }
 ```
 
-### Custom Parameter Types
+### Tipos de parámetros personalizados
 
 ```java
 import io.cucumber.java.ParameterType;
@@ -144,7 +144,7 @@ public void userWithStatus(UserStatus status) {
 }
 ```
 
-## Java: Cucumber Runner (JUnit 5 Platform)
+## Java: runner de Cucumber (plataforma JUnit 5)
 
 ```java
 import io.cucumber.junit.platform.engine.Constants;
@@ -164,7 +164,7 @@ import org.junit.platform.suite.api.*;
 public class CucumberTestSuite {}
 ```
 
-## Java: Hooks
+## Java: hooks
 
 ```java
 import io.cucumber.java.Before;
@@ -205,7 +205,7 @@ public class TestHooks {
 }
 ```
 
-## TypeScript: Step Definitions
+## TypeScript: step definitions
 
 ```typescript
 import { Given, When, Then, Before, After } from '@cucumber/cucumber';
@@ -237,7 +237,7 @@ Then('the user should see {string}', async function (this: CustomWorld, message:
 });
 ```
 
-## TypeScript: World Context
+## TypeScript: contexto World
 
 ```typescript
 import { World, setWorldConstructor } from '@cucumber/cucumber';
@@ -252,7 +252,7 @@ export class CustomWorld extends World {
 setWorldConstructor(CustomWorld);
 ```
 
-## TypeScript: Cucumber Config
+## TypeScript: configuración de Cucumber
 
 ```typescript
 // cucumber.js
@@ -268,14 +268,12 @@ module.exports = {
 };
 ```
 
-## Common Libraries
+## Librerías habituales
 
-| Library | Language | Purpose |
+| Librería | Lenguaje | Propósito |
 |---------|----------|---------|
 | `io.cucumber:cucumber-java` | Java | Step definitions |
 | `io.cucumber:cucumber-junit-platform-engine` | Java | JUnit 5 integration |
 | `@cucumber/cucumber` | JS/TS | Core Cucumber.js |
 | `@cucumber/pretty-formatter` | JS/TS | Improved output |
 | `cucumber-html-reporter` | JS/TS | HTML reports |
-
-

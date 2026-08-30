@@ -1,16 +1,16 @@
-﻿# Patesi — Skill Registry Generator (Single Source of Truth)
-# Reads all skills/sdet-*/SKILL.md frontmatter and generates:
-#   1. .atl/skill-registry.md      — markdown table
-#   2. config.yaml skills block    — directly between SKILLS_BLOCK markers
-#   3. system.md §8 table           — directly between SKILL_TABLE markers
+﻿# Patesi — Generador del registro de skills (fuente única de verdad)
+# Lee el frontmatter de todos los skills/sdet-*/SKILL.md y genera:
+#   1. .atl/skill-registry.md      — tabla Markdown
+#   2. bloque de skills de config.yaml — directamente entre markers SKILLS_BLOCK
+#   3. tabla de system.md §8           — directamente entre markers SKILL_TABLE
 #
-# Usage:
-#   .\scripts\generate-registry.ps1            — generate all outputs
+# Uso:
+#   .\scripts\generate-registry.ps1            — generar todas las salidas
 #   .\scripts\generate-registry.ps1 --check    — compare only, exit 1 if different
 #
-# Requires: PowerShell 5.1+
-# Encoding: This script MUST be saved as UTF-8 WITH BOM so PS5.1 reads
-#           accented string literals correctly. Output files are UTF-8 WITHOUT BOM.
+# Requiere: PowerShell 5.1+
+# Codificación: este script DEBE guardarse como UTF-8 CON BOM para que PS5.1 lea
+#               correctamente los literales con tildes. La salida es UTF-8 SIN BOM.
 
 param(
     [switch]$check
@@ -22,7 +22,7 @@ $ScriptDir = Split-Path -Parent $MyInvocation.MyCommand.Path
 $RepoDir = Split-Path -Parent $ScriptDir
 $SkillsDir = Join-Path $RepoDir "skills"
 
-# --- Manual mapping: human-curated "Solicitud del usuario" phrases ---
+# --- Mapeo manual: frases de "Solicitud del usuario" curadas por humanos ---
 $humanPhrases = @{
     "sdet-istqb"                  = "Pregunta sobre ISTQB"
     "sdet-test-strategy"          = "Estrategia de testing"
@@ -32,10 +32,10 @@ $humanPhrases = @{
     "sdet-mr-analysis"            = "Analizar MR/PR"
     "sdet-cicd"                   = "Pipelines CI/CD"
     "sdet-project-learning"       = "Aprender del proyecto"
-    "sdet-automation"             = "Framework Playwright"
-    "sdet-automation-cypress"     = "Framework Cypress"
+    "sdet-automation"             = "Framework de Playwright"
+    "sdet-automation-cypress"     = "Framework de Cypress"
     "sdet-automation-selenium"    = "Selenium (Java/Python)"
-    "sdet-automation-appium"      = "Appium / testing movil"
+    "sdet-automation-appium"      = "Appium / testing móvil"
     "sdet-automation-robot"       = "Robot Framework"
     "sdet-lang-python"            = "Patrones Python / pytest"
     "sdet-lang-java"              = "Patrones Java / JUnit / TestNG"
@@ -49,7 +49,7 @@ $humanPhrases = @{
     "sdet-sqem-ia"                = "IA/ML/GenAI testing"
 }
 
-# --- Output categories for config.yaml grouping ---
+# --- Categorías de salida para agrupar config.yaml ---
 $categories = [ordered]@{
     "qa-core"      = @("sdet-istqb", "sdet-test-strategy", "sdet-test-cases", "sdet-test-classification", "sdet-risk-analysis", "sdet-mr-analysis", "sdet-project-learning")
     "pipelines"    = @("sdet-cicd")
@@ -60,16 +60,16 @@ $categories = [ordered]@{
 }
 
 $categoryLabels = @{
-    "qa-core"       = "QA Core"
+    "qa-core"       = "Núcleo de QA"
     "pipelines"     = "Pipelines"
-    "automation"    = "Automatizacion"
+    "automation"    = "Automatización"
     "languages"     = "Lenguajes"
-    "methodologies" = "Metodologias y Build"
+    "methodologies" = "Metodologías y Build"
     "sqem"          = "SQEM (Seidor)"
 }
 
-# --- Parse all skills ---
-Write-Host "Generating skill registry from SKILL.md frontmatter..." -ForegroundColor Cyan
+# --- Analizar todos los skills ---
+Write-Host "Generando el registro de skills desde el frontmatter de SKILL.md..." -ForegroundColor Cyan
 
 $skillDirs = Get-ChildItem -Path $SkillsDir -Directory -Filter "sdet-*" | Sort-Object Name
 $allSkills = @()
@@ -83,10 +83,10 @@ foreach ($skillDir in $skillDirs) {
         continue
     }
 
-    # Read as UTF-8 explicitly (PS5.1 defaults to system ANSI, corrupts accented chars)
+    # Leer explícitamente como UTF-8 (PS5.1 usa ANSI del sistema por defecto y corrompe tildes)
     $content = [System.IO.File]::ReadAllText($skillFile, [System.Text.UTF8Encoding]::new($false))
 
-    # Extract frontmatter between --- delimiters
+    # Extraer el frontmatter entre delimitadores ---
     if ($content -match '(?s)^---\s*\r?\n(.*?)\r?\n---') {
         $frontmatter = $matches[1]
     } else {
@@ -97,25 +97,25 @@ foreach ($skillDir in $skillDirs) {
 
     $fmLines = $frontmatter -split '\r?\n'
 
-    # Extract name
+    # Extraer nombre
     $name = ""
     if ($frontmatter -match '(?m)^name:\s*(.+)$') { $name = $matches[1].Trim() }
     if (-not $name) { $name = $skillDir.Name }
 
-    # Extract Trigger: from frontmatter (search all lines)
+    # Extraer Trigger: del frontmatter (buscar en todas las líneas)
     $trigger = ""
     $triggerLine = $fmLines | Where-Object { $_ -match 'Trigger:' } | Select-Object -First 1
     if ($triggerLine) {
         $trigger = ($triggerLine -replace '(?i)Trigger:\s*', '').Trim()
     }
 
-    # Extract first description line (indented, not Trigger/name/description/metadata/license/category/author/version)
+    # Extraer la primera línea de descripción (indentada, excepto Trigger/name/description/metadata/license/category/author/version)
     $skipPattern = '^\s*(Trigger:|name:|description:|license:|metadata:|category:|author:|version:)'
     $descLine = $fmLines | Where-Object { $_ -match '^\s{2}\S' -and $_ -notmatch $skipPattern } | Select-Object -First 1
     $description = if ($descLine) { $descLine.Trim() } else { $trigger }
 
     if (-not $trigger) {
-        Write-Host "  WARN: $name -- no Trigger: found, using description as trigger" -ForegroundColor Yellow
+        Write-Host "  AVISO: $name -- no se encontró Trigger:, se usará la descripción como trigger" -ForegroundColor Yellow
         $trigger = $description
     }
 
@@ -132,21 +132,21 @@ foreach ($skillDir in $skillDirs) {
 }
 
 Write-Host ""
-Write-Host "Parsed $($allSkills.Count) skills ($skipped skipped)" -ForegroundColor Cyan
+Write-Host "Procesados $($allSkills.Count) skills ($skipped omitidos)" -ForegroundColor Cyan
 
-# Build lookup: name -> skill object
+# Construir búsqueda: nombre -> objeto del skill
 $skillMap = @{}
 foreach ($s in $allSkills) { $skillMap[$s.Name] = $s }
 
-# --- Output 1: .atl/skill-registry.md ---
+# --- Salida 1: .atl/skill-registry.md ---
 $date = Get-Date -Format "yyyy-MM-dd"
 $registryLines = @()
-$registryLines += "# Skill Registry -- patesi"
+$registryLines += "# Registro de skills -- patesi"
 $registryLines += ""
-$registryLines += "<!-- AUTO-GENERATED by scripts/generate-registry.ps1 -- DO NOT EDIT MANUALLY -->"
-$registryLines += "<!-- Run: .\scripts\generate-registry.ps1 -->"
+$registryLines += "<!-- GENERADO AUTOMÁTICAMENTE por scripts/generate-registry.ps1 -- NO EDITAR MANUALMENTE -->"
+$registryLines += "<!-- Ejecutar: .\scripts\generate-registry.ps1 -->"
 $registryLines += ""
-$registryLines += "Last updated: $date"
+$registryLines += "Última actualización: $date"
 $registryLines += ""
 $registryLines += "## Skills"
 $registryLines += ""
@@ -163,16 +163,16 @@ foreach ($catKey in $categories.Keys) {
 }
 
 $registryLines += ""
-$registryLines += "## Loading protocol"
+$registryLines += "## Protocolo de carga"
 $registryLines += ""
-$registryLines += "1. Match task context and target files against the ``Trigger / description`` column."
-$registryLines += "2. Pass only the matching ``Path`` values to the subagent under ``## Skills to load before work``."
-$registryLines += "3. Instruct the subagent to read those exact ``SKILL.md`` files before reading, writing, reviewing, testing, or creating artifacts."
-$registryLines += "4. If no matching skill exists, proceed without project skill injection and report ``skill_resolution: none``."
+$registryLines += "1. Compará el contexto de la tarea y los archivos objetivo con la columna ``Trigger / description``."
+$registryLines += "2. Pasá únicamente los valores ``Path`` coincidentes al subagente bajo ``## Skills to load before work``."
+$registryLines += "3. Indicá al subagente que lea esos archivos ``SKILL.md`` exactos antes de leer, escribir, revisar, testear o crear artefactos."
+$registryLines += "4. Si no existe un skill coincidente, continuá sin inyección de skills del proyecto e informá ``skill_resolution: none``."
 
 $registryContent = ($registryLines -join "`n") + "`n"
 
-# --- Output 2: config.yaml skills block (between markers) ---
+# --- Salida 2: bloque de skills de config.yaml (entre markers) ---
 $configLines = @()
 $firstCategory = $true
 
@@ -197,9 +197,9 @@ foreach ($catKey in $categories.Keys) {
 
 $configSkillsBlock = ($configLines -join "`n") + "`n"
 
-# --- Output 3: system.md §8 table (between markers) ---
+# --- Salida 3: tabla §8 de system.md (entre markers) ---
 $sysLines = @()
-$sysLines += "<!-- SKILL_TABLE_START -- auto-generated by scripts/generate-registry.ps1 -- DO NOT EDIT MANUALLY -->"
+$sysLines += "<!-- SKILL_TABLE_START -- generado automáticamente por scripts/generate-registry.ps1 -- NO EDITAR MANUALMENTE -->"
 $sysLines += "| Solicitud del usuario | Skill a cargar |"
 $sysLines += "|----------------------|----------------|"
 
@@ -214,7 +214,7 @@ foreach ($catKey in $categories.Keys) {
 $sysLines += "<!-- SKILL_TABLE_END -->"
 $sysTableContent = ($sysLines -join "`n") + "`n"
 
-# --- Helper: replace content between markers in a file ---
+# --- Helper: reemplazar contenido entre markers en un archivo ---
 function Update-MarkedSection {
     param(
         [string]$FilePath,
@@ -233,7 +233,7 @@ function Update-MarkedSection {
     $endIdx = $fullContent.IndexOf($EndMarker)
 
     if ($startIdx -lt 0 -or $endIdx -lt 0) {
-        Write-Host "  STALE: $FilePath -- markers not found ($StartMarker / $EndMarker)" -ForegroundColor Red
+        Write-Host "  DESACTUALIZADO: $FilePath -- no se encontraron los markers ($StartMarker / $EndMarker)" -ForegroundColor Red
         return $false
     }
 
@@ -280,7 +280,7 @@ if ($check) {
         $cfgStart = $existingConfig.IndexOf($startTag)
         $cfgEnd = $existingConfig.IndexOf($endTag)
         if ($cfgStart -ge 0 -and $cfgEnd -ge 0) {
-            # Extract existing block between markers (exclusive of markers)
+            # Extraer el bloque existente entre markers (sin incluir los markers)
             $afterStart = $existingConfig.Substring($cfgStart + $startTag.Length)
             $blockEnd = $afterStart.IndexOf("`n$endTag")
             if ($blockEnd -ge 0) {
@@ -293,11 +293,11 @@ if ($check) {
                     Write-Host "  FRESH: config.yaml skills block" -ForegroundColor Green
                 }
             } else {
-                Write-Host "  STALE: config.yaml -- end marker not found after start" -ForegroundColor Red
+                Write-Host "  DESACTUALIZADO: config.yaml -- no se encontró el marker final después del inicial" -ForegroundColor Red
                 $mismatches++
             }
         } else {
-            Write-Host "  STALE: config.yaml -- skills block markers not found" -ForegroundColor Red
+            Write-Host "  DESACTUALIZADO: config.yaml -- no se encontraron los markers del bloque de skills" -ForegroundColor Red
             $mismatches++
         }
     } else {
@@ -326,11 +326,11 @@ if ($check) {
                     Write-Host "  FRESH: system.md §8 table" -ForegroundColor Green
                 }
             } else {
-                Write-Host "  STALE: system.md -- end marker not found" -ForegroundColor Red
+                Write-Host "  DESACTUALIZADO: system.md -- no se encontró el marker final" -ForegroundColor Red
                 $mismatches++
             }
         } else {
-            Write-Host "  STALE: system.md -- skill table markers not found" -ForegroundColor Red
+            Write-Host "  DESACTUALIZADO: system.md -- no se encontraron los markers de la tabla de skills" -ForegroundColor Red
             $mismatches++
         }
     } else {
@@ -340,11 +340,11 @@ if ($check) {
 
     if ($mismatches -gt 0) {
         Write-Host ""
-        Write-Host "$mismatches file(s) stale. Run generate-registry.ps1 to refresh." -ForegroundColor Red
+        Write-Host "$mismatches archivo(s) desactualizado(s). Ejecutá generate-registry.ps1 para actualizar." -ForegroundColor Red
         exit 1
     } else {
         Write-Host ""
-        Write-Host "All files fresh." -ForegroundColor Green
+        Write-Host "Todos los archivos están actualizados." -ForegroundColor Green
         exit 0
     }
 }
@@ -362,12 +362,12 @@ if (-not (Test-Path $atlDir)) {
 # Write 1: .atl/skill-registry.md
 $registryPath = Join-Path $RepoDir ".atl\skill-registry.md"
 [System.IO.File]::WriteAllText($registryPath, $registryContent, [System.Text.UTF8Encoding]::new($false))
-Write-Host "Generated: .atl/skill-registry.md ($($allSkills.Count) skills)" -ForegroundColor Green
+    Write-Host "Generado: .atl/skill-registry.md ($($allSkills.Count) skills)" -ForegroundColor Green
 
 # Write 2: config.yaml skills block (between markers)
 $configFile = Join-Path $RepoDir "config.yaml"
 if (Update-MarkedSection -FilePath $configFile -StartMarker "# SKILLS_BLOCK_START" -EndMarker "# SKILLS_BLOCK_END" -NewContent "# SKILLS_BLOCK_START`nskills:`n$configSkillsBlock# SKILLS_BLOCK_END") {
-    Write-Host "Generated: config.yaml skills block (between markers)" -ForegroundColor Green
+    Write-Host "Generado: bloque de skills de config.yaml (entre markers)" -ForegroundColor Green
 } else {
     Write-Host "FAILED: config.yaml -- could not update skills block" -ForegroundColor Red
 }
@@ -375,7 +375,7 @@ if (Update-MarkedSection -FilePath $configFile -StartMarker "# SKILLS_BLOCK_STAR
 # Write 3: system.md §8 table (between markers)
 $systemFile = Join-Path $RepoDir "system.md"
 if (Update-MarkedSection -FilePath $systemFile -StartMarker "<!-- SKILL_TABLE_START" -EndMarker "<!-- SKILL_TABLE_END -->" -NewContent $sysTableContent) {
-    Write-Host "Generated: system.md §8 table (between markers)" -ForegroundColor Green
+    Write-Host "Generado: tabla de system.md §8 (entre markers)" -ForegroundColor Green
 } else {
     Write-Host "FAILED: system.md -- could not update skill table" -ForegroundColor Red
 }
@@ -388,4 +388,4 @@ if (Test-Path $legacyBlock) {
 }
 
 Write-Host ""
-Write-Host "Done. $($allSkills.Count) skills processed. 3 files updated." -ForegroundColor Cyan
+Write-Host "Listo. $($allSkills.Count) skills procesados. 3 archivos actualizados." -ForegroundColor Cyan

@@ -1,7 +1,7 @@
 ---
 name: sdet-istqb
 description: >
-  ISTQB Foundation and Advanced Core knowledge reference.
+  Referencia de conocimiento de ISTQB Foundation y Advanced Core.
   Trigger: terminología ISTQB, niveles de testing, técnicas, certificación, estándares
 license: Apache-2.0
 metadata:
@@ -10,61 +10,61 @@ metadata:
   category: qa-sdet
 ---
 
-# ISTQB Knowledge Reference
+# Referencia de conocimiento ISTQB
 
-Condensed reference from ISTQB Foundation Level v4.0 and Advanced Core syllabi. Use this to answer questions about testing methodology, terminology, and techniques.
+Referencia condensada de los syllabi ISTQB Foundation Level v4.0 y Advanced Core. Usala para responder preguntas sobre metodología, terminología y técnicas de testing.
 
-## Test Process
+## Proceso de testing
 
-The ISTQB test process consists of test planning, monitoring, control, analysis, design, implementation, execution, and completion activities. These are iterative and can overlap.
+El proceso de testing de ISTQB consta de actividades de planificación, monitoreo, control, análisis, diseño, implementación, ejecución y finalización. Son iterativas y pueden superponerse.
 
-| Activity | Purpose | Key Outputs |
+| Actividad | Propósito | Salidas clave |
 |----------|---------|-------------|
-| **Planning** | Define scope, approach, resources | Test plan, entry/exit criteria |
-| **Monitoring** | Track progress against plan | Status reports, metrics |
-| **Control** | Take corrective action | Rework, re-prioritization |
-| **Analysis** | Understand what to test | Test conditions, requirements |
-| **Design** | Determine how to test | Test cases, test procedures |
-| **Implementation** | Prepare for execution | Test scripts, test data, environment |
-| **Execution** | Run tests and record results | Test results, defects |
-| **Completion** | Finalize and lessons learned | Summary reports, closure |
+| **Planificación** | Define alcance, enfoque y recursos | Plan de tests, criterios de entrada/salida |
+| **Monitoreo** | Seguir el progreso frente al plan | Informes de estado, métricas |
+| **Control** | Tomar acciones correctivas | Retrabajo, repriorización |
+| **Análisis** | Entender qué probar | Condiciones de test, requisitos |
+| **Diseño** | Determinar cómo probar | Casos de prueba, procedimientos de test |
+| **Implementación** | Preparar la ejecución | Scripts de tests, datos de test, entorno |
+| **Ejecución** | Ejecutar tests y registrar resultados | Resultados de tests, defectos |
+| **Finalización** | Finalizar y registrar lecciones aprendidas | Informes resumidos, cierre |
 
-## Test Levels
+## Niveles de testing
 
-| Level | Scope | Who Tests | Typical Activities |
+| Nivel | Alcance | Quién prueba | Actividades habituales |
 |-------|-------|-----------|-------------------|
 | **Component** | Individual software component/module | Developers | Unit tests, component integration tests |
 | **Integration** | Interactions between integrated components | Developers + Testers | API tests, interface tests, contract tests |
 | **System** | Complete integrated system | Testers | End-to-end tests, functional tests, system tests |
-| **Acceptance** | System against business requirements | Users + Testers | UAT, alpha/beta testing, acceptance tests |
+| **Aceptación** | Sistema frente a los requisitos de negocio | Usuarios + testers | UAT, testing alfa/beta, tests de aceptación |
 
-## Test Types
+## Tipos de testing
 
-| Type | What It Tests | Examples |
+| Tipo | Qué prueba | Ejemplos |
 |------|--------------|----------|
-| **Functional** | What the system does | Login, search, checkout, calculations |
-| **Non-functional** | How well the system performs | Performance, security, usability, reliability |
-| **Structural** | Internal code structure | Code coverage, path testing, branch testing |
-| **Change-related** | Impact of changes | Regression, confirmation, confirmation testing |
+| **Funcional** | Qué hace el sistema | Login, búsqueda, checkout, cálculos |
+| **No funcional** | Qué tan bien funciona el sistema | Rendimiento, seguridad, usabilidad, confiabilidad |
+| **Estructural** | Estructura interna del código | Cobertura de código, testing de caminos y ramas |
+| **Relacionada con cambios** | Impacto de los cambios | Regresión, confirmación, testing de confirmación |
 
-## Black-Box Techniques
+## Técnicas de caja negra
 
 ### Equivalence Partitioning (EP)
 
 Divide input data into partitions where all values in a partition are treated equivalently by the system.
 
-**Example**: Age field accepting 18-65
-- Invalid: < 18 (partition 1)
-- Valid: 18-65 (partition 2)
-- Invalid: > 65 (partition 3)
+**Ejemplo**: campo de edad que acepta 18-65
+- Inválido: < 18 (partición 1)
+- Válido: 18-65 (partición 2)
+- Inválido: > 65 (partición 3)
 
 ### Boundary Value Analysis (BVA)
 
 Test at boundaries between partitions, where defects cluster.
 
-**Example**: Age field accepting 18-65
-- Test values: 17, 18, 19, 64, 65, 66
-- For multi-dimensional: test combinations at boundaries
+**Ejemplo**: campo de edad que acepta 18-65
+- Valores de test: 17, 18, 19, 64, 65, 66
+- Para casos multidimensionales: probar combinaciones en los límites
 
 ### Decision Tables
 
@@ -90,16 +90,16 @@ Model system behavior as states with transitions triggered by events.
 
 Derive test cases from use cases or user stories. Focus on main success scenario, alternative flows, and exception flows.
 
-## White-Box Techniques
+## Técnicas de caja blanca
 
-| Technique | Coverage Criterion | What It Measures |
+| Técnica | Criterio de cobertura | Qué mide |
 |-----------|-------------------|------------------|
 | **Statement** | Every executable statement | Minimum coverage |
 | **Decision (Branch)** | Every decision outcome (T/F) | Branch coverage |
 | **MC/DC** | Each condition independently affects decision | Modified Condition/Decision Coverage |
 | **Path** | Every possible execution path | Maximum coverage (often impractical) |
 
-## Test Design Techniques
+## Técnicas de diseño de tests
 
 ### Error Guessing
 
@@ -117,12 +117,12 @@ Simultaneous learning, test design, and execution. Use charters to guide explora
 
 ### Checklist-Based Testing
 
-Use checklists derived from:
+Usá checklists derivados de:
 - Common defect categories
-- Regulatory requirements
+- Requisitos regulatorios
 - Heuristics (e.g., FEW HICCUPPS)
 
-## Test Automation Considerations
+## Consideraciones de automatización de tests
 
 | Factor | Automate | Don't Automate |
 |--------|----------|----------------|
@@ -134,7 +134,7 @@ Use checklists derived from:
 | One-time tests | | ❌ No |
 | Creative/judgment | | ❌ No |
 
-## Defect Management
+## Gestión de defectos
 
 | Phase | Activity |
 |-------|----------|
@@ -149,15 +149,15 @@ Use checklists derived from:
 
 | Category | Examples |
 |----------|----------|
-| Requirements | Ambiguous, missing, contradictory |
+| Requisitos | Ambiguos, faltantes, contradictorios |
 | Architecture | Design flaws, integration issues |
 | Code | Logic errors, runtime exceptions |
-| Environment | Configuration, compatibility |
+| Entorno | Configuración, compatibilidad |
 | Data | Corruption, format, migration |
 
-## Test Estimation Techniques
+## Técnicas de estimación de tests
 
-| Technique | Description | When to Use |
+| Técnica | Descripción | Cuándo usarla |
 |-----------|-------------|-------------|
 | **Wideband Delphi** | Expert consensus through iterative estimation | Complex features, team estimation |
 | **Three-point** | Optimistic + Most Likely + Pessimistic | When uncertainty is high |

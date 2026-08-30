@@ -67,19 +67,19 @@ Todos los comandos requieren confirmación según la política de `config.yaml`.
 
 ## Generador de Skill Registry
 
-El script `scripts/generate-registry.ps1` (o `.sh` en Linux/macOS) lee los frontmatter de cada `skills/sdet-*/SKILL.md` y genera **3 outputs directamente en sus archivos finales**:
+El script `scripts/generate-registry.ps1` (o `.sh` en Linux/macOS) lee los frontmatter de cada `skills/sdet-*/SKILL.md` y genera **3 salidas directamente en sus archivos finales**:
 
 | Output | Path | Qué genera |
 |--------|------|------------|
 | Skill registry | `.atl/skill-registry.md` | Documento legible con todos los skills y triggers |
-| Config skills block | `config.yaml` (entre markers) | Bloque `skills:` actualizado in-place |
-| System.md table | `system.md` §8 (entre markers) | Tabla solicitud→skill actualizada in-place |
+| Bloque de skills de config | `config.yaml` (entre markers) | Bloque `skills:` actualizado en el archivo |
+| Tabla de system.md | `system.md` §8 (entre markers) | Tabla solicitud→skill actualizada en el archivo |
 
 > **No hay archivo intermedio** `skills-block.yaml`. El generador escribe directamente en `config.yaml` y `system.md` entre markers `# SKILLS_BLOCK_START/END` y `<!-- SKILL_TABLE_START/END -->`.
 
 ### Verificación de Frescura (`--check`)
 
-Usá `--check` para verificar si los 3 outputs están actualizados. Sale con código **1** si están stale, **0** si están frescos.
+Usá `--check` para verificar si las 3 salidas están actualizadas. Sale con código **1** si están desactualizadas, **0** si están frescas.
 
 ```powershell
 .\scripts\generate-registry.ps1 --check
@@ -98,20 +98,20 @@ Usá `check-skill-tokens.ps1` para verificar que cada skill esté bajo el budget
 .\scripts\check-skill-tokens.ps1 --check   # fallar si alguno excede 4K
 ```
 
-### Pre-commit Hook
+### Hook de pre-commit
 
-Podés usar `--check` como pre-commit hook para evitar que se suban skills sin regenerar los artefactos:
+Podés usar `--check` como hook de pre-commit para evitar que se suban skills sin regenerar los artefactos:
 
 ```bash
-# Add to .git/hooks/pre-commit or use pre-commit framework
-./scripts/generate-registry.sh --check || (echo "Skill registry is stale! Run: ./scripts/generate-registry.sh" && exit 1)
+# Agregar a .git/hooks/pre-commit o usar un framework de pre-commit
+./scripts/generate-registry.sh --check || (echo "El skill registry está desactualizado! Ejecutá: ./scripts/generate-registry.sh" && exit 1)
 ```
 
 ---
 
 ## Reglas de Uso
 
-1. **Permisos first** — Antes de cualquier acción, consultá la política de permisos en config.yaml
+1. **Permisos primero** — Antes de cualquier acción, consultá la política de permisos en config.yaml
 2. **Leer antes de escribir** — Siempre leé un archivo antes de editarlo
 3. **Preferir edición sobre escritura** — Si el archivo existe, editalo en vez de sobreescribir
 4. **Confirmar antes de borrar** — Siempre preguntá antes de eliminar archivos

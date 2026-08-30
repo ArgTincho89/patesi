@@ -1,7 +1,7 @@
 ---
 name: sdet-methodology-gherkin
 description: >
-  Gherkin/BDD methodology for writing executable specifications.
+  Metodología Gherkin/BDD para escribir especificaciones ejecutables.
   Trigger: Gherkin, BDD, feature files, Given/When/Then, behavior-driven development
 license: Apache-2.0
 metadata:
@@ -10,11 +10,11 @@ metadata:
   category: qa-sdet
 ---
 
-# Gherkin / BDD Methodology
+# Metodología Gherkin / BDD
 
-Writing executable specifications with Gherkin syntax. Covers feature file structure, scenario design, and best practices.
+Escritura de especificaciones ejecutables con sintaxis Gherkin. Cubre estructura de feature files, diseño de escenarios y buenas prácticas.
 
-## Feature File Structure
+## Estructura de feature files
 
 ```gherkin
 @feature-tag
@@ -44,7 +44,7 @@ Feature: User Registration
     Then I should see "Email already registered"
 ```
 
-## Scenario Outline (Data-Driven)
+## Scenario Outline (data-driven)
 
 ```gherkin
 Scenario Outline: Login validation
@@ -61,7 +61,7 @@ Scenario Outline: Login validation
     | valid@test.com     | WrongPass    | Invalid credentials   |
 ```
 
-## Data Tables
+## Tablas de datos
 
 ```gherkin
 Scenario: Create user with full profile
@@ -82,7 +82,7 @@ Scenario: Filter products by multiple criteria
 
 ## Background
 
-Use `Background` for preconditions shared across ALL scenarios in a feature:
+Usá `Background` para precondiciones compartidas por TODOS los escenarios de una feature:
 
 ```gherkin
 Feature: Shopping Cart
@@ -108,7 +108,7 @@ Feature: Shopping Cart
 
 ```gherkin
 @smoke              # Quick sanity checks
-@regression         # Full regression suite
+@regression         # Suite completa de regresión
 @api                # API-only tests
 @ui                 # UI/browser tests
 @slow               # Long-running tests
@@ -129,7 +129,7 @@ Run by tag:
 --tags @api and not @slow
 ```
 
-## Scenario Reuse with Examples
+## Reutilización de escenarios con Examples
 
 ```gherkin
 Feature: Password reset
@@ -148,7 +148,7 @@ Feature: Password reset
     Then I should see "Invalid email format"
 ```
 
-## Multi-language Support
+## Soporte multilingüe
 
 ```gherkin
 # Spanish example
@@ -168,7 +168,7 @@ Feature: Cadastro de usuário
     Then I should see "Cadastro realizado"
 ```
 
-## Best Practices
+## Buenas prácticas
 
 ### 1. One Scenario = One Behavior
 
@@ -247,15 +247,13 @@ features/
     └── settings.feature
 ```
 
-## Anti-Patterns
+## Antipatrones
 
 | Anti-Pattern | Problem | Fix |
 |---|---|---|
-| **Step Reuse Overload** | Steps too generic, hard to maintain | Write specific, purposeful steps |
-| **Implementation Steps** | `Given the database has a row` | Use business language instead |
+| **Sobrecarga de reutilización de steps** | Steps demasiado genéricos, difíciles de mantener | Escribir steps específicos y con propósito |
+| **Steps de implementación** | `Given the database has a row` | Usar lenguaje de negocio en su lugar |
 | **Giant Scenarios** | 20+ steps in one scenario | Split into smaller scenarios |
 | **Shared State** | Scenarios depend on each other | Each scenario sets up its own state |
 | **UI Steps for API** | `Given the API returns 200` | Keep API scenarios API-focused |
 | **Vague Assertions** | `Then everything should work` | Be explicit about expected outcomes |
-
-

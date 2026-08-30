@@ -1,7 +1,7 @@
 ---
 name: sdet-test-strategy
 description: >
-  Generates test strategies and test plans from user stories, requirements, or project context.
+  Genera estrategias y planes de testing a partir de user stories, requisitos o contexto del proyecto.
   Trigger: estrategia de testing, plan de testing, estrategia de calidad, approach de testing
 license: Apache-2.0
 metadata:
@@ -10,135 +10,135 @@ metadata:
   category: qa-sdet
 ---
 
-# Test Strategy Generator
+# Generador de estrategias de testing
 
-Creates comprehensive test strategies aligned with ISTQB methodology. Use this when the user needs to define how testing will be approached for a feature, sprint, or project.
+Crea estrategias de testing completas alineadas con la metodología ISTQB. Usalo cuando el usuario necesite definir cómo abordar el testing de una feature, sprint o proyecto.
 
-## Input
+## Entrada
 
-The user may provide:
-- **User stories** with acceptance criteria
-- **Requirements documents**
-- **Feature descriptions**
-- **Project context** (tech stack, team, constraints)
+El usuario puede proporcionar:
+- **User stories** con criterios de aceptación
+- **Documentos de requisitos**
+- **Descripciones de features**
+- **Contexto del proyecto** (stack tecnológico, equipo y restricciones)
 
-If the user provides only a feature name or brief description, ask clarifying questions about scope, constraints, and risk tolerance before generating.
+Si el usuario solo proporciona el nombre de una feature o una descripción breve, hacé preguntas aclaratorias sobre alcance, restricciones y tolerancia al riesgo antes de generar.
 
-## Output Template
+## Plantilla de salida
 
-Generate the test strategy with ALL of the following sections:
+Generá la estrategia de testing con TODAS las secciones siguientes:
 
 ```markdown
-# Test Strategy: {Feature/Project Name}
+# Estrategia de testing: {Feature/Project Name}
 
-## 1. Scope
+## 1. Alcance
 
-### In Scope
-- {List what will be tested}
+### Dentro del alcance
+- {Lista de lo que se probará}
 
-### Out of Scope
-- {List what will NOT be tested and why}
+### Fuera del alcance
+- {Lista de lo que NO se probará y por qué}
 
-## 2. Test Levels
+## 2. Niveles de testing
 
-| Level | Applied | Rationale |
+| Nivel | Aplicado | Justificación |
 |-------|---------|-----------|
-| Component | ✅/❌ | {Why or why not} |
-| Integration | ✅/❌ | {Why or why not} |
-| System | ✅/❌ | {Why or why not} |
-| Acceptance | ✅/❌ | {Why or why not} |
+| Componente | ✅/❌ | {Por qué sí o por qué no} |
+| Integración | ✅/❌ | {Por qué sí o por qué no} |
+| Sistema | ✅/❌ | {Por qué sí o por qué no} |
+| Aceptación | ✅/❌ | {Por qué sí o por qué no} |
 
-## 3. Test Types
+## 3. Tipos de testing
 
-| Type | Applied | Rationale |
+| Tipo | Aplicado | Justificación |
 |------|---------|-----------|
-| Functional | ✅/❌ | {Why or why not} |
+| Funcional | ✅/❌ | {Por qué sí o por qué no} |
 | Non-functional (Performance) | ✅/❌ | {Why or why not} |
 | Non-functional (Security) | ✅/❌ | {Why or why not} |
 | Non-functional (Usability) | ✅/❌ | {Why or why not} |
 | Structural | ✅/❌ | {Why or why not} |
 | Regression | ✅/❌ | {Why or why not} |
 
-## 4. Risk-Based Prioritization
+## 4. Priorización basada en riesgos
 
-| Risk Area | Level | Impact | Test Focus |
+| Área de riesgo | Nivel | Impacto | Enfoque de testing |
 |-----------|-------|--------|------------|
-| {Area 1} | High/Medium/Low | {What happens if it fails} | {What to test} |
-| {Area 2} | High/Medium/Low | {What happens if it fails} | {What to test} |
-| {Area 3} | High/Medium/Low | {What happens if it fails} | {What to test} |
+| {Área 1} | Alto/Medio/Bajo | {Qué ocurre si falla} | {Qué probar} |
+| {Área 2} | Alto/Medio/Bajo | {Qué ocurre si falla} | {Qué probar} |
+| {Área 3} | Alto/Medio/Bajo | {Qué ocurre si falla} | {Qué probar} |
 
-## 5. Entry and Exit Criteria
+## 5. Criterios de entrada y salida
 
-### Entry Criteria
-- [ ] Requirements are documented and reviewed
-- [ ] Test environment is set up and verified
-- [ ] Test data is prepared
-- [ ] Build is deployed to test environment
-- [ ] Smoke tests pass
+### Criterios de entrada
+- [ ] Los requisitos están documentados y revisados
+- [ ] El entorno de testing está configurado y verificado
+- [ ] Los datos de test están preparados
+- [ ] El build está desplegado en el entorno de testing
+- [ ] Los smoke tests pasan
 
-### Exit Criteria
-- [ ] All planned test cases executed
-- [ ] P1/P2 defects resolved or accepted as known issues
-- [ ] P3/P4 defects documented for future sprints
-- [ ] Code coverage meets minimum threshold ({X}%)
-- [ ] Test summary report generated
+### Criterios de salida
+- [ ] Todos los casos de prueba planificados fueron ejecutados
+- [ ] Los defectos P1/P2 fueron resueltos o aceptados como problemas conocidos
+- [ ] Los defectos P3/P4 fueron documentados para futuros sprints
+- [ ] La cobertura de código alcanza el umbral mínimo ({X}%)
+- [ ] Se generó el informe resumido de tests
 
-## 6. Test Environment Requirements
+## 6. Requisitos del entorno de testing
 
-| Environment | Purpose | Configuration |
+| Entorno | Propósito | Configuración |
 |-------------|---------|---------------|
 | Development | Unit/component testing | Local machine |
 | QA/Staging | System/acceptance testing | Mirror of production |
 | Performance | Load/stress testing | Dedicated performance environment |
 
-## 7. Automation Strategy
+## 7. Estrategia de automatización
 
-| Area | Automate? | Framework | Priority |
+| Área | ¿Automatizar? | Framework | Prioridad |
 |------|-----------|-----------|----------|
 | {Feature area 1} | Yes/No | {Framework} | High/Medium/Low |
 | {Feature area 2} | Yes/No | {Framework} | High/Medium/Low |
 
-### Automation Decision Criteria
-- **Automate**: Repetitive tests, regression suite, data-driven tests, smoke tests
-- **Manual only**: Exploratory testing, usability testing, ad-hoc testing, one-time tests
+### Criterios para decidir la automatización
+- **Automatizar**: Tests repetitivos, suite de regresión, tests data-driven y smoke tests
+- **Solo manual**: Testing exploratorio, testing de usabilidad, testing ad-hoc y tests de una sola ejecución
 
-## 8. Roles and Responsibilities
+## 8. Roles y responsabilidades
 
-| Role | Responsibility |
+| Rol | Responsabilidad |
 |------|---------------|
-| {Role 1} | {What they do} |
-| {Role 2} | {What they do} |
+| {Rol 1} | {Qué hace} |
+| {Rol 2} | {Qué hace} |
 
-## 9. Risks and Mitigations
+## 9. Riesgos y mitigaciones
 
-| Risk | Likelihood | Impact | Mitigation |
+| Riesgo | Probabilidad | Impacto | Mitigación |
 |------|------------|--------|------------|
 | {Risk 1} | High/Medium/Low | High/Medium/Low | {How to handle} |
 | {Risk 2} | High/Medium/Low | High/Medium/Low | {How to handle} |
 ```
 
-## Example Input
+## Ejemplo de entrada
 
 ```
-User story: As a registered user, I want to reset my password via email
-so that I can regain access to my account if I forget my password.
+User story: Como usuario registrado, quiero restablecer mi contraseña por email
+para recuperar el acceso a mi cuenta si olvido la contraseña.
 
-Acceptance criteria:
-- User can request password reset from login page
-- System sends reset link via email within 5 minutes
-- Reset link expires after 24 hours
-- New password must meet security requirements
-- User receives confirmation after successful reset
+Criterios de aceptación:
+- El usuario puede solicitar el restablecimiento desde la página de login
+- El sistema envía el enlace de restablecimiento por email en un plazo de 5 minutos
+- El enlace de restablecimiento vence después de 24 horas
+- La nueva contraseña debe cumplir los requisitos de seguridad
+- El usuario recibe una confirmación después del restablecimiento exitoso
 ```
 
-## Example Output
+## Ejemplo de salida
 
 ```markdown
-# Test Strategy: Password Reset
+# Estrategia de testing: restablecimiento de contraseña
 
-## 1. Scope
+## 1. Alcance
 
-### In Scope
+### Dentro del alcance
 - Password reset request flow (email submission)
 - Email delivery and reset link generation
 - Reset link validation and expiration
@@ -146,24 +146,24 @@ Acceptance criteria:
 - Confirmation messaging
 - Security considerations (link uniqueness, rate limiting)
 
-### Out of Scope
+### Fuera del alcance
 - Login functionality (existing, already tested)
 - Account creation flow
 - Email template design (covered by design review)
 - Third-party email service internals
 
-## 2. Test Levels
+## 2. Niveles de testing
 
-| Level | Applied | Rationale |
+| Nivel | Aplicado | Justificación |
 |-------|---------|-----------|
 | Component | ✅ | Test password validation logic, token generation |
 | Integration | ✅ | Test email service integration, database operations |
 | System | ✅ | End-to-end reset flow across UI, API, email |
-| Acceptance | ✅ | User story acceptance criteria validation |
+| Acceptance | ✅ | Validación de los criterios de aceptación de la user story |
 
-## 3. Test Types
+## 3. Tipos de testing
 
-| Type | Applied | Rationale |
+| Tipo | Aplicado | Justificación |
 |------|---------|-----------|
 | Functional | ✅ | Core reset functionality |
 | Security | ✅ | Token security, rate limiting, brute force protection |
@@ -171,7 +171,7 @@ Acceptance criteria:
 | Performance | ❌ | Low-volume feature, not performance-critical |
 | Regression | ✅ | Ensure reset doesn't break login |
 
-## 4. Risk-Based Prioritization
+## 4. Priorización basada en riesgos
 
 | Risk Area | Level | Impact | Test Focus |
 |-----------|-------|--------|------------|
@@ -180,7 +180,7 @@ Acceptance criteria:
 | Password validation | Medium | Weak passwords accepted | Complexity rules, common password check |
 | Link expiration | Low | Old links usable | 24-hour expiration enforcement |
 
-## 5. Entry and Exit Criteria
+## 5. Criterios de entrada y salida
 
 ### Entry Criteria
 - [ ] Password reset API endpoint implemented
@@ -195,14 +195,14 @@ Acceptance criteria:
 - [ ] Rate limiting verified (max 3 requests/hour)
 - [ ] Test summary report generated
 
-## 6. Test Environment Requirements
+## 6. Requisitos del entorno de testing
 
-| Environment | Purpose | Configuration |
+| Entorno | Propósito | Configuración |
 |-------------|---------|---------------|
 | QA | Functional testing | App + Mailhog (email capture) |
 | Security | Token testing | App + database access for token inspection |
 
-## 7. Automation Strategy
+## 7. Estrategia de automatización
 
 | Area | Automate? | Framework | Priority |
 |------|-----------|-----------|----------|
@@ -212,15 +212,15 @@ Acceptance criteria:
 | Email delivery | Semi | Mailhog API checks | Medium |
 | Usability testing | No | Manual only | - |
 
-## 8. Roles and Responsibilities
+## 8. Roles y responsabilidades
 
 | Role | Responsibility |
 |------|---------------|
-| QA Engineer | Design and execute test cases, automate regression |
+| QA Engineer | Diseñar y ejecutar casos de prueba, automatizar la regresión |
 | Developer | Fix defects, review security aspects |
-| Product Owner | Accept/reject story, clarify requirements |
+| Product Owner | Aceptar o rechazar la story, aclarar requisitos |
 
-## 9. Risks and Mitigations
+## 9. Riesgos y mitigaciones
 
 | Risk | Likelihood | Impact | Mitigation |
 |------|------------|--------|------------|

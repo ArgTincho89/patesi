@@ -1,7 +1,7 @@
 ---
 name: sdet-mr-analysis
 description: >
-  Analyzes merge requests and pull requests for test impact and breakage potential.
+  Analiza merge requests y pull requests para detectar impacto en tests y potencial de roturas.
   Trigger: análisis de MR, análisis de PR, review de código para testing, impacto en tests
 license: Apache-2.0
 metadata:
@@ -10,26 +10,26 @@ metadata:
   category: qa-sdet
 ---
 
-# Merge Request Analyzer
+# Analizador de merge requests
 
-Analyzes merge requests/PRs and identifies potential test impact, breakage risk, and recommended actions. Use this when the user wants to understand what tests to run or what might break from a code change.
+Analiza merge requests/PRs e identifica impacto potencial en tests, riesgo de rotura y acciones recomendadas. Usalo cuando el usuario quiera saber qué tests ejecutar o qué podría romperse por un cambio de código.
 
-## Analysis Output
+## Salida del análisis
 
-The analysis MUST produce:
+El análisis DEBE producir:
 
-1. **Changed Files Summary** — List of modified files with change type (added/modified/deleted)
-2. **Impact Assessment** — Which existing tests might be affected
-3. **Risk Level** — Low/Medium/High based on change scope and location
-4. **Recommended Tests** — Which test classes to run for validation
-5. **Missing Coverage** — Areas changed but not covered by existing tests
+1. **Resumen de archivos modificados** — Lista de archivos modificados con tipo de cambio (agregado/modificado/eliminado)
+2. **Evaluación de impacto** — Qué tests existentes podrían verse afectados
+3. **Nivel de riesgo** — Bajo/Medio/Alto según alcance y ubicación del cambio
+4. **Tests recomendados** — Qué clases de tests ejecutar para validar
+5. **Cobertura faltante** — Áreas modificadas que no cubren los tests existentes
 
-## Output Format
+## Formato de salida
 
 ```markdown
-# MR Analysis: {MR/PR Title}
+# Análisis de MR: {MR/PR Title}
 
-## Summary
+## Resumen
 
 | Metric | Value |
 |--------|-------|
@@ -38,25 +38,25 @@ The analysis MUST produce:
 | Lines deleted | {N} |
 | Risk level | {🟢 Low / 🟡 Medium / 🔴 High} |
 
-## Changed Files
+## Archivos modificados
 
 | File | Change Type | Impact Area | Risk |
 |------|------------|-------------|------|
-| {path} | Added/Modified/Deleted | {Module/Feature} | High/Medium/Low |
+| {path} | Agregado/Modificado/Eliminado | {Módulo/Feature} | Alto/Medio/Bajo |
 
-## Impact Assessment
+## Evaluación de impacto
 
-### Affected Modules
+### Módulos afectados
 - **{Module 1}**: {How it's affected}
 - **{Module 2}**: {How it's affected}
 
-### Affected Test Files
+### Archivos de tests afectados
 | Test File | Status | Reason |
 |-----------|--------|--------|
 | {test file} | May need update | {Why} |
 | {test file} | No impact | {Why} |
 
-## Risk Analysis
+## Análisis de riesgos
 
 | Risk Factor | Score | Justification |
 |-------------|-------|---------------|
@@ -67,33 +67,33 @@ The analysis MUST produce:
 
 **Overall Risk: {🔴 HIGH / 🟡 MEDIUM / 🟢 LOW}**
 
-## Recommended Tests
+## Tests recomendados
 
-### Must Run (Before Merge)
+### Deben ejecutarse (antes del merge)
 - {TC-XXX}: {Test name} — {Why}
 
-### Should Run (Before Deploy)
+### Deberían ejecutarse (antes del deploy)
 - {TC-XXX}: {Test name} — {Why}
 
-### Consider Running
+### Considerar ejecutar
 - {TC-XXX}: {Test name} — {Why}
 
-## Missing Coverage
+## Cobertura faltante
 
-| Changed Area | Has Tests? | Recommendation |
+| Área modificada | ¿Tiene tests? | Recomendación |
 |-------------|------------|----------------|
 | {File/Function} | ❌ No | Add tests before merge |
 | {File/Function} | ⚠️ Partial | Expand test coverage |
 | {File/Function} | ✅ Yes | Verify tests pass |
 
-## Recommendations
+## Recomendaciones
 
 1. **{Action 1}**: {Specific recommendation}
 2. **{Action 2}**: {Specific recommendation}
 3. **{Action 3}**: {Specific recommendation}
 ```
 
-## Risk Level Determination
+## Determinación del nivel de riesgo
 
 > **Nota**: Esta matriz es para análisis de MRs/PRs específicos (scope limitado al cambio).
 > Para análisis de features/user stories a nivel estratégico, usá `sdet-risk-analysis`
@@ -104,14 +104,14 @@ The analysis MUST produce:
 | Files changed | 1-3 | 4-10 | 10+ |
 | Critical path | No | Indirect | Direct (auth, payment, data) |
 | Test coverage | >80% | 40-80% | <40% |
-| Dependencies | None | 1-2 modules | 3+ modules |
+| Dependencias | Ninguna | 1-2 módulos | 3+ módulos |
 
 **Score calculation**: Average of all factors
 - 1.0 - 2.0: 🟢 LOW
 - 2.1 - 3.5: 🟡 MEDIUM
 - 3.6 - 5.0: 🔴 HIGH
 
-## Example Analysis
+## Ejemplo de análisis
 
 ### Input
 
@@ -128,7 +128,7 @@ Files changed:
 ### Output
 
 ```markdown
-# MR Analysis: Refactor user authentication to use JWT tokens
+# Análisis de MR: Refactorizar la autenticación de usuarios para usar tokens JWT
 
 ## Summary
 
@@ -139,7 +139,7 @@ Files changed:
 | Lines deleted | ~80 |
 | Risk level | 🔴 High |
 
-## Changed Files
+## Archivos modificados
 
 | File | Change Type | Impact Area | Risk |
 |------|------------|-------------|------|
@@ -151,7 +151,7 @@ Files changed:
 
 ## Impact Assessment
 
-### Affected Modules
+### Módulos afectados
 - **Authentication**: Core login flow refactored — all auth tests must pass
 - **API Routes**: Middleware changes affect ALL protected routes
 - **Session Management**: Token-based auth replaces session-based
@@ -163,7 +163,7 @@ Files changed:
 | tests/auth/middleware.test.ts | Needs update | Middleware behavior changed |
 | tests/routes/api.test.ts | May need update | Protected routes use new middleware |
 
-## Risk Analysis
+## Análisis de riesgos
 
 | Risk Factor | Score | Justification |
 |-------------|-------|---------------|
@@ -176,13 +176,13 @@ Files changed:
 
 ## Recommended Tests
 
-### Must Run (Before Merge)
+### Deben ejecutarse (antes del merge)
 - TC-AUTH-001: Login with valid credentials — Verify JWT token generation
 - TC-AUTH-002: Login with invalid credentials — Verify error handling
 - TC-AUTH-003: Token expiration — Verify expired tokens are rejected
 - TC-AUTH-004: Protected route access — Verify middleware works with JWT
 
-### Should Run (Before Deploy)
+### Deberían ejecutarse (antes del deploy)
 - TC-AUTH-005: Token refresh flow — Verify seamless token renewal
 - TC-API-001: All API endpoints with authentication — Verify no regression
 
@@ -191,7 +191,7 @@ Files changed:
 
 ## Missing Coverage
 
-| Changed Area | Has Tests? | Recommendation |
+| Área modificada | ¿Tiene tests? | Recomendación |
 |-------------|------------|----------------|
 | src/auth/token.ts | ❌ No (new file) | MUST add tests before merge |
 | src/auth/middleware.ts | ⚠️ Partial | Expand tests for edge cases |
@@ -205,5 +205,3 @@ Files changed:
 4. **PERFORMANCE**: Benchmark JWT vs session auth before/after
 5. **SECURITY REVIEW**: JWT implementation should be reviewed for security best practices
 ```
-
-

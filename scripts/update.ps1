@@ -1,9 +1,9 @@
-# Patesi - Update Script for Windows
-# Usage: .\scripts\update.ps1
+﻿# Patesi - Update Script for Windows
+# Uso: .\scripts\update.ps1
 
 $ErrorActionPreference = "Stop"
 
-Write-Host "Updating Patesi..." -ForegroundColor Cyan
+Write-Host "Actualizando Patesi..." -ForegroundColor Cyan
 
 # Find repo root (script is in scripts/, repo is one level up)
 $ScriptDir = Split-Path -Parent $MyInvocation.MyCommand.Path
@@ -12,29 +12,29 @@ $OpenCodeDir = "$env:USERPROFILE\.config\opencode"
 
 # Check if opencode dir exists
 if (-not (Test-Path $OpenCodeDir)) {
-    Write-Host "ERROR: opencode config not found at $OpenCodeDir" -ForegroundColor Red
-    Write-Host "Run install.ps1 first." -ForegroundColor Yellow
+    Write-Host "ERROR: no se encontró la configuración de opencode en $OpenCodeDir" -ForegroundColor Red
+    Write-Host "Ejecutá primero install.ps1." -ForegroundColor Yellow
     exit 1
 }
 
 # Git pull
-Write-Host "Pulling latest changes..." -ForegroundColor Yellow
+Write-Host "Descargando los últimos cambios..." -ForegroundColor Yellow
 Set-Location $RepoDir
 git pull origin main
 if ($LASTEXITCODE -ne 0) {
-    Write-Host "ERROR: git pull failed" -ForegroundColor Red
+    Write-Host "ERROR: falló git pull" -ForegroundColor Red
     exit 1
 }
 
-# Copy agent (v2.0: agent.md + system.md from repo root)
-Write-Host "Copying agent..." -ForegroundColor Yellow
+# Copiar agente (v2.0: agent.md + system.md desde la raíz del repo)
+Write-Host "Copiando agente..." -ForegroundColor Yellow
 Copy-Item -Path "$RepoDir\agent.md" -Destination "$OpenCodeDir\agents\patesi.md" -Force
 Copy-Item -Path "$RepoDir\system.md" -Destination "$OpenCodeDir\agents\system.md" -Force
 Write-Host "   OK agents/patesi.md (from agent.md)" -ForegroundColor Green
 Write-Host "   OK agents/system.md" -ForegroundColor Green
 
-# Copy skills
-Write-Host "Copying skills..." -ForegroundColor Yellow
+# Copiar skills
+Write-Host "Copiando skills..." -ForegroundColor Yellow
 Get-ChildItem -Path "$RepoDir\skills\sdet-*" -Directory | ForEach-Object {
     $skillName = $_.Name
     $destDir = "$OpenCodeDir\skills\$skillName"
@@ -44,5 +44,5 @@ Get-ChildItem -Path "$RepoDir\skills\sdet-*" -Directory | ForEach-Object {
 }
 
 Write-Host ""
-Write-Host "Patesi updated!" -ForegroundColor Green
-Write-Host "Restart opencode to use the new version." -ForegroundColor Cyan
+Write-Host "Patesi actualizado!" -ForegroundColor Green
+Write-Host "Reiniciá opencode para usar la nueva versión." -ForegroundColor Cyan

@@ -1,7 +1,7 @@
 ---
 name: sdet-cicd
 description: >
-  Generates CI/CD pipeline configurations for GitHub Actions, GitLab CI, and Jenkins.
+  Genera configuraciones de pipelines CI/CD para GitHub Actions, GitLab CI y Jenkins.
   Trigger: CI/CD, pipeline, GitHub Actions, GitLab CI, Jenkinsfile
 license: Apache-2.0
 metadata:
@@ -10,30 +10,30 @@ metadata:
   category: qa-sdet
 ---
 
-# CI/CD Pipeline Generator
+# Generador de pipelines CI/CD
 
-Generates pipeline configurations for common CI/CD platforms. Use this when the user needs to integrate testing into their CI/CD pipeline.
+Genera configuraciones de pipelines para plataformas CI/CD habituales. Usalo cuando el usuario necesite integrar testing en su pipeline CI/CD.
 
-## Supported Platforms
+## Plataformas compatibles
 
-| Platform | Config File | Notes |
+| Plataforma | Archivo de configuración | Notas |
 |----------|-------------|-------|
 | GitHub Actions | `.github/workflows/test.yml` | Primary target |
 | GitLab CI | `.gitlab-ci.yml` | Secondary target |
 | Jenkins | `Jenkinsfile` | Tertiary target |
 
-## Pipeline Stages
+## Etapas del pipeline
 
-All pipelines MUST include these stages (platform-appropriate):
+Todos los pipelines DEBEN incluir estas etapas (adaptadas a la plataforma):
 
-1. **Checkout** — Clone repository
-2. **Setup** — Install dependencies, browser binaries
-3. **Lint** — Code quality checks
-4. **Test** — Run test suites (S → M → L based on trigger)
-5. **Report** — Generate and publish test reports
-6. **Artifacts** — Save screenshots, videos, traces on failure
+1. **Checkout** — Clonar el repositorio
+2. **Setup** — Instalar dependencias y binarios de navegador
+3. **Lint** — Comprobaciones de calidad de código
+4. **Test** — Ejecutar suites de tests (S → M → L según el trigger)
+5. **Report** — Generar y publicar informes de tests
+6. **Artifacts** — Guardar capturas, videos y trazas ante fallos
 
-## GitHub Actions Template
+## Plantilla de GitHub Actions
 
 ```yaml
 name: Test Suite
@@ -125,7 +125,7 @@ jobs:
         uses: dorny/test-reporter@v1
         if: always()
         with:
-          name: Test Results
+           name: Resultados de tests
           path: test-results/**/*.xml
           reporter: jest-junit
 ```
@@ -310,14 +310,12 @@ pipeline {
 }
 ```
 
-## Conditional Test Execution Strategy
+## Estrategia de ejecución condicional de tests
 
-| Trigger | Tests Run | Why |
+| Trigger | Tests ejecutados | Por qué |
 |---------|-----------|-----|
-| PR to main | S + M | Catch regressions before merge |
-| Push to main | S + M + L | Verify merge didn't break anything |
-| Tag (release) | S + M + L + XL | Full validation before release |
-| Nightly | S + M + L | Catch environmental or dependency issues |
-| Manual | User choice | Debug or targeted testing |
-
-
+| PR a main | S + M | Detectar regresiones antes del merge |
+| Push a main | S + M + L | Verificar que el merge no haya roto nada |
+| Tag (release) | S + M + L + XL | Validación completa antes del release |
+| Nocturno | S + M + L | Detectar problemas ambientales o de dependencias |
+| Manual | Elección del usuario | Depuración o testing dirigido |

@@ -1,10 +1,10 @@
 #!/bin/bash
 # Patesi - Update Script for Linux/macOS
-# Usage: bash scripts/update.sh
+# Uso: bash scripts/update.sh
 
 set -e
 
-echo "Updating Patesi..."
+echo "Actualizando Patesi..."
 
 # Find repo root (script is in scripts/, repo is one level up)
 SCRIPT_DIR="$(cd "$(dirname "${BASH_SOURCE[0]}")" && pwd)"
@@ -13,25 +13,25 @@ OPENCODE_DIR="$HOME/.config/opencode"
 
 # Check if opencode dir exists
 if [ ! -d "$OPENCODE_DIR" ]; then
-    echo "ERROR: opencode config not found at $OPENCODE_DIR"
-    echo "Run install.sh first."
+    echo "ERROR: no se encontró la configuración de opencode en $OPENCODE_DIR"
+    echo "Ejecutá primero install.sh."
     exit 1
 fi
 
 # Git pull
-echo "Pulling latest changes..."
+echo "Descargando los últimos cambios..."
 cd "$REPO_DIR"
 git pull origin main
 
-# Copy agent (v2.0: agent.md + system.md from repo root)
-echo "Copying agent..."
+# Copiar agente (v2.0: agent.md + system.md desde la raíz del repo)
+echo "Copiando agente..."
 cp "$REPO_DIR/agent.md" "$OPENCODE_DIR/agents/patesi.md"
 cp "$REPO_DIR/system.md" "$OPENCODE_DIR/agents/system.md"
 echo "   OK agents/patesi.md (from agent.md)"
 echo "   OK agents/system.md"
 
-# Copy skills
-echo "Copying skills..."
+# Copiar skills
+echo "Copiando skills..."
 for skill_dir in "$REPO_DIR/skills/sdet-"*; do
     skill_name=$(basename "$skill_dir")
     mkdir -p "$OPENCODE_DIR/skills/$skill_name"
@@ -40,5 +40,5 @@ for skill_dir in "$REPO_DIR/skills/sdet-"*; do
 done
 
 echo ""
-echo "Patesi updated!"
-echo "Restart opencode to use the new version."
+echo "Patesi actualizado!"
+echo "Reiniciá opencode para usar la nueva versión."

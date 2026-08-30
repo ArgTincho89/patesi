@@ -1,7 +1,7 @@
 ---
 name: sdet-lang-python
 description: >
-  Python testing patterns and conventions for SDET work.
+  Patrones y convenciones de testing Python para trabajo SDET.
   Trigger: Python testing, pytest, patrones Python, automatización Python
 license: Apache-2.0
 metadata:
@@ -10,11 +10,11 @@ metadata:
   category: qa-sdet
 ---
 
-# Python Testing Patterns for SDET
+# Patrones de testing Python para SDET
 
-Patterns, fixtures, and conventions for Python test automation. Covers pytest, fixtures, parametrize, and common libraries.
+Patrones, fixtures y convenciones para automatización de tests Python. Cubre pytest, fixtures, parametrize y librerías habituales.
 
-## Project Structure
+## Estructura del proyecto
 
 ```
 tests/
@@ -32,7 +32,7 @@ tests/
 └── requirements.txt
 ```
 
-## pytest.ini Configuration
+## Configuración de pytest.ini
 
 ```ini
 [pytest]
@@ -46,16 +46,16 @@ addopts =
     --strict-markers
     -m "not slow"
 markers =
-    smoke: Quick sanity tests
-    regression: Full regression suite
+     smoke: Tests rápidos de verificación
+     regression: Suite completa de regresión
     slow: Long-running tests
     api: API-only tests
     ui: UI/browser tests
 ```
 
-## Fixture Patterns
+## Patrones de fixtures
 
-### Basic Fixtures
+### Fixtures básicos
 
 ```python
 import pytest
@@ -80,7 +80,7 @@ def authenticated_client(api_client):
     return api_client
 ```
 
-### Scope Control
+### Control del scope
 
 ```python
 @pytest.fixture(scope="session")
@@ -101,7 +101,7 @@ def test_user(db_connection):
     delete_test_user(db_connection, user.id)
 ```
 
-## Parametrize Patterns
+## Patrones de parametrize
 
 ```python
 @pytest.mark.parametrize("email,expected_status", [
@@ -127,12 +127,12 @@ def test_role_permissions(api_client, user_type):
         assert response.status_code == 403
 ```
 
-### Fixtures with Parametrize
+### Fixtures con parametrize
 
 ```python
 @pytest.fixture
 def user_data(request):
-    """Generate test data based on parametrize marker."""
+    """Genera datos de test según el marker de parametrize."""
     users = {
         "admin": {"email": "admin@test.com", "role": "admin"},
         "user": {"email": "user@test.com", "role": "user"},
@@ -144,7 +144,7 @@ def test_user_access(user_data):
     assert user_data["role"] in ["admin", "user"]
 ```
 
-## Markers and Selection
+## Markers y selección
 
 ```python
 import pytest
@@ -171,7 +171,7 @@ def test_symlink_creation():
     os.symlink("/src", "/dst")
 ```
 
-## conftest.py Best Practices
+## Buenas prácticas de conftest.py
 
 ```python
 # conftest.py — shared fixtures across ALL tests in directory
@@ -180,7 +180,7 @@ from httpx import Client
 
 def pytest_configure(config):
     """Register custom markers."""
-    config.addinivalue_line("markers", "smoke: Quick sanity tests")
+     config.addinivalue_line("markers", "smoke: Tests rápidos de verificación")
     config.addinivalue_line("markers", "slow: Long-running tests")
 
 @pytest.fixture(autouse=True)
@@ -199,9 +199,9 @@ def db_connection():
     conn.close()
 ```
 
-## Popular Python Testing Libraries
+## Librerías populares de testing Python
 
-| Library | Purpose |
+| Librería | Propósito |
 |---------|---------|
 | `pytest` | Core test runner |
 | `pytest-cov` | Coverage reporting |
@@ -216,7 +216,7 @@ def db_connection():
 | `factory-boy` | Test object factories |
 | `responses` | Mock `requests` library |
 
-## API Test Pattern
+## Patrón de tests de API
 
 ```python
 import pytest
@@ -252,7 +252,7 @@ class TestUserAPI:
         assert any(e["field"] == expected_field for e in errors)
 ```
 
-## Virtual Environment Setup
+## Configuración del entorno virtual
 
 ```bash
 # Create and activate
@@ -260,13 +260,13 @@ python -m venv .venv
 source .venv/bin/activate        # Linux/macOS
 .venv\Scripts\activate           # Windows
 
-# Install dependencies
+# Instalar dependencias
 pip install -r requirements.txt
 
 # Pin versions
 pip freeze > requirements.txt
 
-# Run tests
+# Ejecutar tests
 pytest                           # All non-slow tests
 pytest -m smoke                  # Only smoke tests
 pytest tests/test_api.py         # Specific file
@@ -274,5 +274,3 @@ pytest -k "test_login"           # By name pattern
 pytest --cov=src --cov-report=html  # With coverage
 pytest -n auto                   # Parallel execution
 ```
-
-

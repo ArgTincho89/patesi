@@ -37,7 +37,7 @@ permission:
 # Para regenerar: .\scripts\generate-registry.ps1
 # SKILLS_BLOCK_START
 skills:
-  # --- QA Core ---
+  # --- Núcleo de QA ---
   - name: sdet-istqb
     trigger: terminología istqb, niveles de testing, técnicas, certificación, estándares
   - name: sdet-test-strategy
@@ -57,7 +57,7 @@ skills:
   - name: sdet-cicd
     trigger: ci/cd, pipeline, github actions, gitlab ci, jenkinsfile
 
-  # --- Automatizacion ---
+  # --- Automatización ---
   - name: sdet-automation
     trigger: automatización de testing, playwright, page object model, e2e tests
   - name: sdet-automation-cypress
@@ -77,7 +77,7 @@ skills:
   - name: sdet-lang-javascript
     trigger: javascript testing, typescript testing, jest, vitest, node.js testing
 
-  # --- Metodologias y Build ---
+  # --- Metodologías y Build ---
   - name: sdet-methodology-gherkin
     trigger: gherkin, bdd, feature files, given/when/then, behavior-driven development
   - name: sdet-methodology-cucumber

@@ -1,41 +1,41 @@
-# Skill Eval Set — Patesi
+# Conjunto de evaluación de skills — Patesi
 
-> Run these prompts against the agent and verify the correct skill loads.
-> For each prompt, the expected primary skill is the one loaded FIRST (before any other).
+> Ejecutá estos prompts contra el agente y verificá que se cargue el skill correcto.
+> Para cada prompt, el skill primario esperado es el que se carga PRIMERO (antes que cualquier otro).
 
-## Eval Cases
+## Casos de evaluación
 
-| # | Prompt (what the user says) | Expected primary skill | Expected secondary skill(s) |
+| # | Prompt (lo que dice el usuario) | Skill primario esperado | Skill(s) secundarios esperados |
 |---|---------------------------|----------------------|---------------------------|
-| 1 | "What's the difference between regression testing and confirmation testing according to ISTQB?" | sdet-istqb | — |
-| 2 | "Create a test strategy for a new payment processing feature" | sdet-test-strategy | — |
-| 3 | "Run a risk analysis on the user authentication module — it handles login, MFA, and session management" | sdet-risk-analysis | — |
-| 4 | "Generate test cases for the shopping cart checkout flow" | sdet-test-cases | — |
-| 5 | "Classify these 40 test cases into S/M/L/XL suites for our CI pipeline" | sdet-test-classification | — |
-| 6 | "Set up a Playwright test automation framework with Page Object Model for our React app" | sdet-automation | — |
-| 7 | "Create a Cypress E2E test suite for the user registration flow" | sdet-automation-cypress | — |
-| 8 | "Generate Selenium WebDriver tests in Java with TestNG for the login page" | sdet-automation-selenium | sdet-lang-java |
-| 9 | "Build an Appium test framework for our Android and iOS banking app" | sdet-automation-appium | — |
-| 10 | "Create Robot Framework test suites for our REST API health checks" | sdet-automation-robot | — |
-| 11 | "Show me pytest fixtures and parametrize patterns for API testing in Python" | sdet-lang-python | — |
-| 12 | "Write Gherkin feature files for the user registration scenario" | sdet-methodology-gherkin | — |
-| 13 | "Create Cucumber step definitions in Java for the login feature" | sdet-methodology-cucumber | sdet-lang-java |
-| 14 | "Configure Maven pom.xml with Surefire plugin for running TestNG suites" | sdet-build-maven | — |
-| 15 | "Set up a GitHub Actions workflow to run our Playwright tests on every PR" | sdet-cicd | — |
-| 16 | "Classify the Seidor ERP project — it's a medium-complexity integration with 15 developers" | sdet-sqem-classification | — |
-| 17 | "Evaluate QG3 criteria for our Seidor project with NAQ Alto" | sdet-sqem-gates | — |
-| 18 | "What data quality controls apply to our GenAI chatbot project under SQEM?" | sdet-sqem-ia | — |
+| 1 | "¿Cuál es la diferencia entre regression testing y confirmation testing según ISTQB?" | sdet-istqb | — |
+| 2 | "Creá una estrategia de testing para una feature nueva de procesamiento de pagos" | sdet-test-strategy | — |
+| 3 | "Hacé un análisis de riesgos del módulo de autenticación; gestiona login, MFA y sesiones" | sdet-risk-analysis | — |
+| 4 | "Generá casos de prueba para el flujo de checkout del carrito" | sdet-test-cases | — |
+| 5 | "Clasificá estos 40 casos de prueba en suites S/M/L/XL para nuestro pipeline CI" | sdet-test-classification | — |
+| 6 | "Configurá un framework de automatización de tests Playwright con Page Object Model para nuestra app React" | sdet-automation | — |
+| 7 | "Creá una suite de tests E2E con Cypress para el registro de usuarios" | sdet-automation-cypress | — |
+| 8 | "Generá tests Selenium WebDriver en Java con TestNG para la página de login" | sdet-automation-selenium | sdet-lang-java |
+| 9 | "Construí un framework de tests Appium para nuestra app bancaria Android e iOS" | sdet-automation-appium | — |
+| 10 | "Creá suites de tests Robot Framework para los health checks de nuestra API REST" | sdet-automation-robot | — |
+| 11 | "Mostrame fixtures y patrones de parametrize de pytest para testing de API en Python" | sdet-lang-python | — |
+| 12 | "Escribí feature files Gherkin para el escenario de registro de usuarios" | sdet-methodology-gherkin | — |
+| 13 | "Creá step definitions de Cucumber en Java para la feature de login" | sdet-methodology-cucumber | sdet-lang-java |
+| 14 | "Configurá pom.xml de Maven con el plugin Surefire para ejecutar suites TestNG" | sdet-build-maven | — |
+| 15 | "Configurá un workflow de GitHub Actions para ejecutar nuestros tests Playwright en cada PR" | sdet-cicd | — |
+| 16 | "Clasificá el proyecto ERP de Seidor; es una integración de complejidad media con 15 desarrolladores" | sdet-sqem-classification | — |
+| 17 | "Evaluá los criterios QG3 de nuestro proyecto Seidor con NAQ Alto" | sdet-sqem-gates | — |
+| 18 | "¿Qué controles de calidad de datos aplican a nuestro chatbot GenAI bajo SQEM?" | sdet-sqem-ia | — |
 
-## How to Run
+## Cómo ejecutar
 
-1. Pick a prompt from the table
-2. Send it to Patesi as if you were the user
-3. Verify the correct skill appears in the response (check for skill-specific content)
-4. Check that NO wrong skills were loaded
+1. Elegí un prompt de la tabla
+2. Enviáselo a Patesi como si fueras el usuario
+3. Verificá que el skill correcto aparezca en la respuesta (comprobá contenido específico del skill)
+4. Comprobá que NO se hayan cargado skills incorrectos
 
-## Expected Behavior Notes
+## Notas sobre el comportamiento esperado
 
-- Cases 8 and 13 should load TWO skills (automation + language/methodology)
-- SQEM cases (16-18) should only trigger in Modo A (Seidor projects)
-- If the agent loads a skill not listed as expected, that's a false positive
-- If the agent fails to load the expected skill, that's a false negative
+- Los casos 8 y 13 deberían cargar DOS skills (automatización + lenguaje/metodología)
+- Los casos SQEM (16-18) solo deberían activarse en Modo A (proyectos Seidor)
+- Si el agente carga un skill no listado como esperado, es un falso positivo
+- Si el agente no carga el skill esperado, es un falso negativo

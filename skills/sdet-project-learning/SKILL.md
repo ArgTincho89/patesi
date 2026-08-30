@@ -1,7 +1,7 @@
 ---
 name: sdet-project-learning
 description: >
-  Stores and retrieves project-specific QA patterns using persistent memory.
+  Almacena y recupera patrones de QA específicos del proyecto usando memoria persistente.
   Trigger: aprender del proyecto, recordar patrones, guardar convenciones QA
 license: Apache-2.0
 metadata:
@@ -10,15 +10,15 @@ metadata:
   category: qa-sdet
 ---
 
-# Project Learning (Persistent Memory)
+# Aprendizaje del proyecto (memoria persistente)
 
-Stores and retrieves project-specific QA patterns. Use this when the user wants to remember conventions, learn from the project, or recall past decisions.
+Almacena y recupera patrones de QA específicos del proyecto. Usalo cuando el usuario quiera recordar convenciones, aprender del proyecto o recuperar decisiones anteriores.
 
-## Storage Format
+## Formato de almacenamiento
 
-### Pattern Categories
+### Categorías de patrones
 
-| Category | Example | When to Store |
+| Categoría | Ejemplo | Cuándo almacenar |
 |----------|---------|---------------|
 | **test-naming** | "Tests use `describe('Feature')` with `it('should X')`" | After analyzing test suite |
 | **framework** | "Project uses Playwright with fixtures, not page objects" | When discovering framework patterns |
@@ -27,9 +27,9 @@ Stores and retrieves project-specific QA patterns. Use this when the user wants 
 | **bug-pattern** | "Auth module frequently has regression in token refresh" | When discovering recurring bugs |
 | **convention** | "All test files end with `.spec.ts`, not `.test.ts`" | When finding naming conventions |
 
-### Storage Command
+### Comando de almacenamiento
 
-Store patterns using the persistence mechanism available in your environment. The key format is always:
+Almacená los patrones usando el mecanismo de persistencia disponible en tu entorno. El formato de la clave siempre es:
 
 ```
 qa-patterns/{project}/{pattern-name}
@@ -37,20 +37,20 @@ qa-patterns/{project}/{pattern-name}
 
 Content structure:
 ```
-## Pattern: {name}
-## Category: {category}
-## Description: {what the pattern is}
-## Example: {concrete example}
-## Applied When: {conditions for using this pattern}
+## Patrón: {name}
+## Categoría: {category}
+## Descripción: {what the pattern is}
+## Ejemplo: {concrete example}
+## Aplicar cuando: {conditions for using this pattern}
 ```
 
-### Retrieval Command
+### Comando de recuperación
 
-Search patterns by key: `qa-patterns/{project}`
+Buscá patrones por clave: `qa-patterns/{project}`
 
-## Workflow
+## Flujo de trabajo
 
-### Learning Phase (When User Says "Learn from Project")
+### Fase de aprendizaje (cuando el usuario dice "Aprendé del proyecto")
 
 1. **Analyze existing test suite** — Read test files, count patterns
 2. **Identify conventions** — Naming, structure, frameworks used
@@ -58,89 +58,87 @@ Search patterns by key: `qa-patterns/{project}`
 4. **Store patterns** — Save each pattern with category tag
 5. **Report findings** — Tell user what was learned
 
-### Application Phase (When Generating Project-Specific Output)
+### Fase de aplicación (al generar una salida específica del proyecto)
 
 1. **Search for patterns** — Look up stored patterns for this project
 2. **Apply patterns** — Follow stored conventions when generating code
-3. **Report adherence** — Tell user which patterns were followed
+3. **Informar adhesión** — Indicar al usuario qué patrones se siguieron
 
-## Example Learning Output
+## Ejemplo de salida de aprendizaje
 
 ```markdown
-# Project Learning: {Project Name}
+# Aprendizaje del proyecto: {Project Name}
 
-## Analysis Complete
+## Análisis completado
 
-### Test Suite Overview
-- Total test files: {N}
-- Test framework: {Jest/Playwright/etc.}
-- Test location: `{directory}`
-- File pattern: `{pattern}`
+### Resumen de la suite de tests
+- Total de archivos de tests: {N}
+- Framework de tests: {Jest/Playwright/etc.}
+- Ubicación de los tests: `{directory}`
+- Patrón de archivos: `{pattern}`
 
-### Patterns Discovered
+### Patrones descubiertos
 
-| Category | Pattern | Example |
+| Categoría | Patrón | Ejemplo |
 |----------|---------|---------|
 | test-naming | {description} | `{example}` |
 | framework | {description} | `{example}` |
 | convention | {description} | `{example}` |
 
-### Coverage Gaps Found
-- {Area 1}: {What's missing}
-- {Area 2}: {What's missing}
+### Brechas de cobertura encontradas
+- {Área 1}: {Qué falta}
+- {Área 2}: {Qué falta}
 
-### Patterns Stored
+### Patrones almacenados
 - ✅ `qa-patterns/{project}/test-naming-convention`
 - ✅ `qa-patterns/{project}/framework-preference`
 - ✅ `qa-patterns/{project}/coverage-gaps`
 ```
 
-## Graceful Degradation
+## Degradación controlada
 
-If persistent memory is not available in the current environment:
-1. **Notify the user**: "Persistent memory is not available — project patterns won't be remembered between sessions"
-2. **Continue working**: All other skills function normally
-3. **Offer alternatives**: Suggest the user manually note important patterns
+Si la memoria persistente no está disponible en el entorno actual:
+1. **Notificar al usuario**: "La memoria persistente no está disponible; los patrones del proyecto no se recordarán entre sesiones"
+2. **Continuar trabajando**: Todos los demás skills funcionan normalmente
+3. **Ofrecer alternativas**: Sugerir al usuario que anote manualmente los patrones importantes
 
-## Example Input
+## Ejemplo de entrada
 
 ```
-User: "Learn from this project's test suite and remember the patterns"
+Usuario: "Aprendé de la suite de tests de este proyecto y recordá los patrones"
 ```
 
-## Example Output
+## Ejemplo de salida
 
 ```markdown
-# Project Learning: E-Commerce App
+# Aprendizaje del proyecto: aplicación de comercio electrónico
 
-## Analysis Complete
+## Análisis completado
 
-### Test Suite Overview
+### Resumen de la suite de tests
 - Total test files: 47
 - Test framework: Playwright + TypeScript
 - Test location: `tests/`
 - File pattern: `*.spec.ts`
 
-### Patterns Discovered
+### Patrones descubiertos
 
-| Category | Pattern | Example |
+| Categoría | Patrón | Ejemplo |
 |----------|---------|---------|
 | test-naming | Tests use `describe('Feature')` with `it('should X')` | `describe('Checkout')` / `it('should calculate total')` |
 | framework | Uses Page Object Model pattern | `pages/LoginPage.ts`, `pages/CartPage.ts` |
 | convention | Tests tagged with `@smoke`, `@functional`, `@regression` | `test.describe '{@smoke} Login', ...)` |
 | cicd | Smoke tests run on every commit, regression on nightly | GitHub Actions workflow |
 
-### Coverage Gaps Found
+### Brechas de cobertura encontradas
 - Payment module: No integration tests with Stripe
 - User profile: No tests for avatar upload
 - Search: No performance tests
 
-### Patterns Stored
+### Patrones almacenados
 - ✅ `qa-patterns/ecommerce/test-naming-convention`
 - ✅ `qa-patterns/ecommerce/framework-patterns`
 - ✅ `qa-patterns/ecommerce/test-tags`
 - ✅ `qa-patterns/ecommerce/cicd-strategy`
 - ✅ `qa-patterns/ecommerce/coverage-gaps`
 ```
-
-

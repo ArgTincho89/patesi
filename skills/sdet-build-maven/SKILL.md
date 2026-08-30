@@ -1,7 +1,7 @@
 ---
 name: sdet-build-maven
 description: >
-  Maven and Gradle build tool patterns for test automation projects.
+  Patrones de Maven y Gradle para proyectos de automatización de tests.
   Trigger: Maven, Gradle, pom.xml, build.gradle, dependencias de testing
 license: Apache-2.0
 metadata:
@@ -10,13 +10,13 @@ metadata:
   category: qa-sdet
 ---
 
-# Maven and Gradle for Test Automation
+# Maven y Gradle para automatización de tests
 
-Build configuration for Java/Python test projects. Covers dependency management, test plugins, profiles, and multi-module setup.
+Configuración de build para proyectos de tests Java/Python. Cubre gestión de dependencias, plugins de tests, perfiles y configuración multi-módulo.
 
-## Maven: pom.xml for Test Projects
+## Maven: pom.xml para proyectos de tests
 
-### Core Dependencies
+### Dependencias principales
 
 ```xml
 <project>
@@ -155,7 +155,7 @@ Build configuration for Java/Python test projects. Covers dependency management,
 </project>
 ```
 
-## Maven: Profiles for Test Types
+## Maven: perfiles para tipos de tests
 
 ```xml
 <profiles>
@@ -229,7 +229,7 @@ Build configuration for Java/Python test projects. Covers dependency management,
 </profiles>
 ```
 
-### Maven Commands
+### Comandos de Maven
 
 ```bash
 # Unit tests only
@@ -338,7 +338,7 @@ tasks.jacocoTestReport {
 // ./gradlew test --parallel — parallel execution
 ```
 
-## Python Build Setup
+## Configuración de build de Python
 
 ### pyproject.toml
 
@@ -372,7 +372,7 @@ testpaths = ["tests"]
 python_files = "test_*.py"
 addopts = "-v --tb=short --strict-markers"
 markers = [
-    "smoke: Quick sanity tests",
+     "smoke: Tests rápidos de verificación",
     "regression: Full regression",
     "slow: Long-running tests",
 ]
@@ -385,7 +385,7 @@ fail_under = 80
 show_missing = true
 ```
 
-## Multi-Module Project
+## Proyecto multi-módulo
 
 ### Parent pom.xml
 
@@ -431,7 +431,7 @@ show_missing = true
 </project>
 ```
 
-## CI/CD Integration
+## Integración CI/CD
 
 ### GitHub Actions
 
@@ -475,5 +475,3 @@ jobs:
           DB_HOST: localhost
           DB_PORT: 5432
 ```
-
-

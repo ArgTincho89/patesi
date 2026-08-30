@@ -1,7 +1,7 @@
 ---
 name: sdet-test-classification
 description: >
-  Classifies test cases into S/M/L/XL suites for CI/CD integration and test organization.
+  Clasifica casos de prueba en suites S/M/L/XL para integración CI/CD y organización de tests.
   Trigger: clasificación de tests, suites S/M/L/XL, estrategia CI/CD, tiers de testing
 license: Apache-2.0
 metadata:
@@ -10,24 +10,24 @@ metadata:
   category: qa-sdet
 ---
 
-# Test Suite Classifier
+# Clasificador de suites de tests
 
-Classifies test cases into size-based suites for optimized CI/CD execution. Use this when the user needs to organize tests for pipeline integration or determine what runs when.
+Clasifica casos de prueba en suites por tamaño para optimizar la ejecución CI/CD. Usalo cuando el usuario necesite organizar tests para integrarlos al pipeline o determinar cuándo se ejecutan.
 
-## Classification Taxonomy
+## Taxonomía de clasificación
 
-| Class | Name | Scope | Execution Time | When to Run |
+| Clase | Nombre | Alcance | Tiempo de ejecución | Cuándo ejecutar |
 |-------|------|-------|---------------|-------------|
-| **S** | Smoke | Core functionality, critical path | < 5 min | Every commit, every deploy |
-| **M** | Functional | Feature-level tests | 5-30 min | Every PR, pre-merge |
+| **S** | Smoke | Funcionalidad principal, camino crítico | < 5 min | Cada commit, cada deploy |
+| **M** | Functional | Tests a nivel de feature | 5-30 min | Cada PR, antes del merge |
 | **L** | Regression | Full feature + integration | 30-120 min | Release candidates, nightly |
 | **XL** | Full Regression | Complete system, end-to-end | 2+ hours | Major releases, quarterly |
 
-## Classification Criteria
+## Criterios de clasificación
 
 ### S (Smoke) Tests
 
-**What**: The absolute minimum to verify the system isn't broken.
+**Qué**: El mínimo absoluto para verificar que el sistema no esté roto.
 
 **Criteria**:
 - Critical path (login, core navigation, key transactions)
@@ -43,7 +43,7 @@ Classifies test cases into size-based suites for optimized CI/CD execution. Use 
 
 ### M (Functional) Tests
 
-**What**: Feature-level tests covering specific user stories or requirements.
+**Qué**: Tests a nivel de feature que cubren user stories o requisitos específicos.
 
 **Criteria**:
 - Covers individual features end-to-end
@@ -59,7 +59,7 @@ Classifies test cases into size-based suites for optimized CI/CD execution. Use 
 
 ### L (Regression) Tests
 
-**What**: Comprehensive tests covering multiple features and their interactions.
+**Qué**: Tests completos que cubren múltiples features y sus interacciones.
 
 **Criteria**:
 - Cross-feature integration tests
@@ -75,7 +75,7 @@ Classifies test cases into size-based suites for optimized CI/CD execution. Use 
 
 ### XL (Full Regression) Tests
 
-**What**: Complete system test including all features, edge cases, and non-functional tests.
+**Qué**: Test completo del sistema que incluye todas las features, edge cases y tests no funcionales.
 
 **Criteria**:
 - Everything in S + M + L
@@ -89,19 +89,19 @@ Classifies test cases into size-based suites for optimized CI/CD execution. Use 
 - Security scan
 - Accessibility audit
 
-## Classification Output Format
+## Formato de salida de clasificación
 
 ```markdown
 # Test Classification: {Feature/Project}
 
-## Summary
+## Resumen
 
-| Class | Count | Est. Time | Trigger | Purpose |
+| Clase | Cantidad | Tiempo estimado | Trigger | Propósito |
 |-------|-------|-----------|---------|---------|
-| S | {N} | {X} min | Every commit | Critical path verification |
-| M | {N} | {X} min | Every PR | Feature-level testing |
-| L | {N} | {X} min | Release candidate | Regression detection |
-| XL | {N} | {X} min | Major release | Full system validation |
+| S | {N} | {X} min | Cada commit | Verificación del camino crítico |
+| M | {N} | {X} min | Cada PR | Testing a nivel de feature |
+| L | {N} | {X} min | Candidato a release | Detección de regresiones |
+| XL | {N} | {X} min | Release mayor | Validación completa del sistema |
 
 ## S Tests (Smoke)
 - {TC-XXX}: {Title}
@@ -119,17 +119,17 @@ Classifies test cases into size-based suites for optimized CI/CD execution. Use 
 - {TC-XXX}: {Title}
 - {TC-XXX}: {Title}
 
-## CI/CD Integration
+## Integración CI/CD
 
-| Pipeline Stage | Tests | Timeout | On Failure |
+| Etapa del pipeline | Tests | Timeout | Ante fallo |
 |---------------|-------|---------|------------|
-| Pre-commit | S | 5 min | Block commit |
-| PR validation | S + M | 30 min | Block merge |
-| Release candidate | S + M + L | 2 hours | Block release |
-| Major release | S + M + L + XL | 4 hours | Manual review |
+| Pre-commit | S | 5 min | Bloquear commit |
+| Validación de PR | S + M | 30 min | Bloquear merge |
+| Candidato a release | S + M + L | 2 horas | Bloquear release |
+| Release mayor | S + M + L + XL | 4 horas | Revisión manual |
 ```
 
-## Classification Heuristics
+## Heurísticas de clasificación
 
 When classifying a test case, consider:
 
@@ -140,7 +140,7 @@ When classifying a test case, consider:
 5. **How long does it take?** → Adjust class if time doesn't fit
 6. **How often does it fail?** → Frequently failing tests should be S or M (catch early)
 
-## Example Input
+## Ejemplo de entrada
 
 ```
 Test cases for an e-commerce checkout:
@@ -158,18 +158,18 @@ Test cases for an e-commerce checkout:
 - TC-012: Checkout performance under load (P3)
 ```
 
-## Example Output
+## Ejemplo de salida
 
 ```markdown
 # Test Classification: E-Commerce Checkout
 
 ## Summary
 
-| Class | Count | Est. Time | Trigger | Purpose |
+| Clase | Cantidad | Tiempo estimado | Trigger | Propósito |
 |-------|-------|-----------|---------|---------|
-| S | 2 | 2 min | Every commit | Cart loads, payment works |
-| M | 6 | 12 min | Every PR | Feature-level checkout |
-| L | 3 | 25 min | Release candidate | Integration flows |
+| S | 2 | 2 min | Cada commit | Carga del carrito, pago funcional |
+| M | 6 | 12 min | Cada PR | Checkout a nivel de feature |
+| L | 3 | 25 min | Candidato a release | Flujos de integración |
 | XL | 1 | 45 min | Major release | Full E2E + performance |
 
 ## S Tests (Smoke)
@@ -194,12 +194,10 @@ Test cases for an e-commerce checkout:
 
 ## CI/CD Integration
 
-| Pipeline Stage | Tests | Timeout | On Failure |
+| Etapa del pipeline | Tests | Timeout | Ante fallo |
 |---------------|-------|---------|------------|
-| Pre-commit | S (TC-001, TC-006) | 5 min | Block commit |
-| PR validation | S + M (8 tests) | 15 min | Block merge |
-| Release candidate | S + M + L (11 tests) | 45 min | Block release |
-| Major release | All (12 tests) | 60 min | Manual review |
+| Pre-commit | S (TC-001, TC-006) | 5 min | Bloquear commit |
+| Validación de PR | S + M (8 tests) | 15 min | Bloquear merge |
+| Candidato a release | S + M + L (11 tests) | 45 min | Bloquear release |
+| Release mayor | Todos (12 tests) | 60 min | Revisión manual |
 ```
-
-

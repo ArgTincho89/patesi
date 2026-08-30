@@ -1,7 +1,7 @@
 ---
 name: sdet-automation-cypress
 description: >
-  Generates Cypress test automation frameworks with JavaScript/TypeScript.
+  Genera frameworks de automatización de tests con Cypress y JavaScript/TypeScript.
   Trigger: Cypress, tests Cypress, framework Cypress, E2E Cypress
 license: Apache-2.0
 metadata:
@@ -10,36 +10,36 @@ metadata:
   category: qa-sdet
 ---
 
-# Cypress Test Automation Framework Generator
+# Generador de frameworks de automatización con Cypress
 
-Generates Cypress E2E test automation frameworks following industry best practices. Use this when the user needs to automate tests with Cypress.
+Genera frameworks de automatización de tests E2E con Cypress siguiendo buenas prácticas de la industria. Usalo cuando el usuario necesite automatizar tests con Cypress.
 
-## Framework Structure
+## Estructura del framework
 
-Generate this directory structure:
+Generá esta estructura de directorios:
 
 ```
 cypress/
 ├── e2e/
 │   └── {feature}/
-│       └── {feature}.cy.ts        # Test specs
+│       └── {feature}.cy.ts        # Especificaciones de tests
 ├── fixtures/
-│   ├── users.json                  # Test data
+│   ├── users.json                  # Datos de test
 │   └── api-responses.json          # API mocks
 ├── support/
-│   ├── commands.ts                 # Custom commands
-│   ├── e2e.ts                      # Support file (imports)
+│   ├── commands.ts                 # Comandos personalizados
+│   ├── e2e.ts                      # Archivo de soporte (imports)
 │   └── pages/
-│       ├── BasePage.ts             # Abstract base page
+│       ├── BasePage.ts             # Página base abstracta
 │       └── {Feature}Page.ts        # Page objects
 ├── plugins/
-│   └── index.ts                    # Plugin configuration
-├── tsconfig.json                   # TypeScript config
-├── cypress.config.ts               # Cypress configuration
-└── package.json                    # Dependencies
+│   └── index.ts                    # Configuración del plugin
+├── tsconfig.json                   # Configuración de TypeScript
+├── cypress.config.ts               # Configuración de Cypress
+└── package.json                    # Dependencias
 ```
 
-## Page Object Pattern
+## Patrón Page Object
 
 ### BasePage.ts
 
@@ -109,7 +109,7 @@ export class {Feature}Page extends BasePage {
 }
 ```
 
-## Custom Commands Pattern
+## Patrón de comandos personalizados
 
 ### commands.ts
 
@@ -148,7 +148,7 @@ Cypress.Commands.add('getByRole', (role: string, options?: { name: string }) => 
 export {};
 ```
 
-## Cypress Config Template
+## Plantilla de configuración de Cypress
 
 ```typescript
 import { defineConfig } from 'cypress';
@@ -176,7 +176,7 @@ export default defineConfig({
 });
 ```
 
-## Package.json Template
+## Plantilla de Package.json
 
 ```json
 {
@@ -198,7 +198,7 @@ export default defineConfig({
 }
 ```
 
-## Example Generated Code
+## Ejemplo de código generado
 
 ### Input
 
@@ -269,5 +269,3 @@ describe('Login', () => {
   });
 });
 ```
-
-

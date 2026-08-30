@@ -24,7 +24,7 @@ Patesi detecta automáticamente qué framework usar según el tipo de proyecto:
 
 ### Modo A — Proyecto Seidor
 
-El **SQEM es la referencia absoluta**. ISTQB complementa pero nunca override.
+El **SQEM es la referencia absoluta**. ISTQB complementa pero nunca reemplaza.
 
 ```
 Usuario: "Creame una estrategia de testing para el módulo de pagos"
@@ -43,7 +43,7 @@ Usuario: "Analizá los riesgos de mi app de recetas"
 Patesi: → Matriz de riesgos ponderada → Priorización ISTQB → Estrategia risk-based
 ```
 
-### Modo C — Proyecto Client-Governed
+### Modo C — Proyecto gobernado por cliente
 
 El framework del cliente tiene prioridad. SQEM funciona como checklist de suficiencia e ISTQB como complemento.
 
@@ -65,7 +65,7 @@ Al iniciar una sesión, Patesi ejecuta este protocolo:
 
 3. Guardo el contexto en memoria
 
-4. READY — Listo para trabajar
+4. LISTO — Preparado para trabajar
 ```
 
 ### Clasificación NAQ (Proyectos Seidor)
@@ -104,7 +104,7 @@ patesi/
 │
 ├── skills/                          23 SKILLS (auto-descubiertos, bajo demanda)
 │   │
-│   │  ── Core QA ──
+│   │  ── Núcleo de QA ──
 │   ├── sdet-istqb/                  Referencia ISTQB Foundation + Advanced
 │   ├── sdet-test-strategy/          Generador de estrategias (9 secciones)
 │   ├── sdet-risk-analysis/          Matriz ponderada de riesgos (5 factores)
@@ -113,19 +113,19 @@ patesi/
 │   ├── sdet-mr-analysis/            Análisis de impacto en MRs/PRs (4 factores)
 │   ├── sdet-project-learning/       Aprendizaje de patrones (persistencia según entorno)
 │   │
-│   │  ── Automation Frameworks ──
+│   │  ── Frameworks de automatización ──
 │   ├── sdet-automation/             Playwright + TypeScript + POM
 │   ├── sdet-automation-cypress/     Cypress E2E
 │   ├── sdet-automation-selenium/    Selenium (Java + Python)
 │   ├── sdet-automation-appium/      Appium (Android + iOS)
 │   ├── sdet-automation-robot/       Robot Framework (kw-driven)
 │   │
-│   │  ── Languages ──
+│   │  ── Lenguajes ──
 │   ├── sdet-lang-python/            pytest + fixtures + parametrize
 │   ├── sdet-lang-java/              JUnit + Mockito + TestNG
 │   ├── sdet-lang-javascript/        Jest + Vitest + Testing Library
 │   │
-│   │  ── Methodologies & Build ──
+│   │  ── Metodologías y Build ──
 │   ├── sdet-methodology-gherkin/    Gherkin/BDD patterns
 │   ├── sdet-methodology-cucumber/   Cucumber step definitions
 │   ├── sdet-build-maven/            Maven + Gradle config
@@ -221,7 +221,7 @@ Patesi carga skills cuando tu solicitud coincide con los triggers:
 | "¿Qué controles necesito para NAQ Alto?" | `sdet-sqem-controls` |
 | "Testeá este modelo de IA" | `sdet-sqem-ia` |
 
-\* Requiere persistencia de memoria. Si el entorno no la soporta, degradará gracefully.
+\* Requiere persistencia de memoria. Si el entorno no la soporta, funcionará con capacidades reducidas.
 
 **Skills simultáneos**: Puede cargar varios skills a la vez cuando la situación lo requiere (ej: `sdet-automation-selenium` + `sdet-lang-java` + `sdet-methodology-cucumber` para un proyecto Selenium/Java/Cucumber).
 
@@ -229,7 +229,7 @@ Patesi carga skills cuando tu solicitud coincide con los triggers:
 
 ## SQEM — Protocolo de Calidad Seidor
 
-El SQEM es el protocolo de quality engineering de Seidor. Patesi lo ejecuta como referencia absoluta en proyectos Seidor.
+El SQEM es el protocolo de ingeniería de calidad de Seidor. Patesi lo ejecuta como referencia absoluta en proyectos Seidor.
 
 ### Las 15 Tipologías de Proyecto
 
@@ -238,18 +238,18 @@ El SQEM es el protocolo de quality engineering de Seidor. Patesi lo ejecuta como
 | 1 | **Desarrollo Nuevo** | Testing F + NF completo |
 | 2 | **Mantenimiento Evolutivo** | Análisis de impacto, regresión selectiva |
 | 3 | **Mantenimiento Correctivo** | Confirmación de defecto, regresión selectiva |
-| 4 | **Hotfix / Emergencia** | QG-Express: peer review + smoke + rollback |
+| 4 | **Hotfix / Emergencia** | QG-Express: revisión por pares + smoke + rollback |
 | 5 | **Transformación / Migración** | Baseline, validación de migración, rollback |
 | 6 | **Integraciones / APIs / Datos** | Contract testing, resiliencia, seguridad |
 | 7 | **Producto Digital / Canal Usuario** | E2E, usabilidad, accesibilidad, compatibilidad |
 | 8 | **Embalado (SAP/Salesforce/...)** | Config vs estándar, UAT, seguridad por roles |
 | 9 | **Producto Mercado (COTS/SaaS)** | Requisitos vs producto, revisión de config |
-| 10 | **IA / ML / GenAI** | Calidad de datos, eval LLM, Responsible AI |
-| 11 | **Data & Analytics / BI** | Calidad de datos, reconciliación, lineage |
+| 10 | **IA / ML / GenAI** | Calidad de datos, evaluación de LLM, IA responsable |
+| 11 | **Datos y analítica / BI** | Calidad de datos, reconciliación, linaje |
 | 12 | **Infra / DevOps / Cloud** | IaC, hardening, DR, observabilidad |
-| 13 | **RPA / Automatización** | E2E process, exception handling |
-| 14 | **Ciberseguridad** | SAST/DAST/SCA, pentest, threat modeling |
-| 15 | **Consultoría** | Peer review, document QC |
+| 13 | **RPA / Automatización** | Proceso E2E, manejo de excepciones |
+| 14 | **Ciberseguridad** | SAST/DAST/SCA, pentest, modelado de amenazas |
+| 15 | **Consultoría** | Revisión por pares, control de calidad documental |
 
 ### Las 8 Puertas de Calidad
 

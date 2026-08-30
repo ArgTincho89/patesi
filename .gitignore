@@ -6,3 +6,6 @@ playwright-report/
 *.log
 .env
 .env.*
+
+# Temporales del generador si se interrumpe a mitad
+*.tmp

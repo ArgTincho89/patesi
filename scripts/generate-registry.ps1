@@ -226,7 +226,10 @@ foreach ($catKey in $categories.Keys) {
 }
 
 $sysLines += "<!-- SKILL_TABLE_END -->"
-$sysTableContent = ($sysLines -join "`n") + "`n"
+# Sin salto de linea final: Update-MarkedSection ya conserva el de la linea
+# del marker END. Agregarlo aqui insertaba una linea en blanco por corrida y
+# hacia que el generador NO fuera idempotente sobre system.md.
+$sysTableContent = ($sysLines -join "`n")
 
 # --- Helper: reemplazar contenido entre markers en un archivo ---
 function Update-MarkedSection {

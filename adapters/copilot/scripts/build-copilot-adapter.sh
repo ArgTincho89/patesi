@@ -51,7 +51,6 @@ MODES_SECTION=$(extract_section "modos")
 SKILL_LIST=$(grep -E '^\s+- name:' "$CONFIG" | sed -E 's/^\s+- name: /- `/' | sed 's/$/`/')
 
 # Obtener la fecha actual
-TODAY=$(date +%Y-%m-%d)
 
 # Em dash literal (el builder .ps1 lo inyecta como variable; acá replicamos el mismo
 # valor para que ambas salidas sean byte a byte idénticas)
@@ -63,7 +62,6 @@ cat > "$OUTPUT" << HEREDOC
 > **GENERADO AUTOMÁTICAMENTE** por \`build-copilot-adapter.ps1\` o su equivalente \`.sh\`
 > **NO EDITAR MANUALMENTE** — ejecutá cualquiera de los dos builders; producen el mismo resultado.
 > Fuente de verdad: \`agent.md\` + \`system.md\`
-> Última generación: $TODAY
 
 ---
 

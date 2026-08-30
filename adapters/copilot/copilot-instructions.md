@@ -3,12 +3,11 @@
 > **GENERADO AUTOMÁTICAMENTE** por `build-copilot-adapter.ps1` o su equivalente `.sh`
 > **NO EDITAR MANUALMENTE** — ejecutá cualquiera de los dos builders; producen el mismo resultado.
 > Fuente de verdad: `agent.md` + `system.md`
-> Última generación: 2026-08-30
 
 ---
 
 <!-- PATESI-METADATA-START
-version: 2.2.0
+version: 3.0.0
 autor: proyecto Patesi
 tipo: prompt de identidad del agente
 PATESI-METADATA-END -->

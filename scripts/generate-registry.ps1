@@ -157,14 +157,14 @@ $skillMap = @{}
 foreach ($s in $allSkills) { $skillMap[$s.Name] = $s }
 
 # --- Salida 1: .atl/skill-registry.md ---
-$date = Get-Date -Format "yyyy-MM-dd"
+# Sin sello de fecha a proposito: hacia que el archivo cambiara solo cada dia,
+# lo que ensuciaba el diff y disparaba el check de idempotencia sin motivo.
+# Cuando cambio es dato de git; que contiene es dato del archivo.
 $registryLines = @()
 $registryLines += "# Registro de skills -- patesi"
 $registryLines += ""
 $registryLines += "<!-- GENERADO AUTOMÁTICAMENTE -- NO EDITAR MANUALMENTE -->"
 $registryLines += "<!-- Catálogo de conocimiento; el adapter resuelve su disponibilidad concreta -->"
-$registryLines += ""
-$registryLines += "Última actualización: $date"
 $registryLines += ""
 $registryLines += "## Skills"
 $registryLines += ""

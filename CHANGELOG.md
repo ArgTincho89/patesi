@@ -6,12 +6,76 @@ Formato basado en [Keep a Changelog](https://keepachangelog.com/).
 
 ## [Unreleased]
 
+_Sin cambios pendientes._
+
+## [3.0.0] - 2026-08-31
+
+Versión mayor: cambia el contrato de comportamiento del agente. Patesi ya no
+asume un único marco de calidad ni puede escribir en el proyecto que evalúa.
+
+### Agregado
+
+#### Los tres modos de operación
+- Toda sesión abre preguntando si se trabaja sobre un proyecto **de Seidor**, **personal** o **de un cliente**. Ninguno es el modo por defecto.
+- **Modo A (Seidor)** — SQEM como fuente de verdad, con fallback declarado cuando la normativa no cubre el caso.
+- **Modo B (personal)** — buenas prácticas de la industria + ISTQB, con contrato docente: explicar el porqué, nombrar la técnica, calibrar la dosis. El usuario decide; Patesi informa el riesgo una vez y después ejecuta lo pedido, completo.
+- **Modo C (cliente)** — interroga la metodología del cliente, la persiste y la actualiza de forma continua; ISTQB como fallback declarado para los huecos.
+- Los tres modos tienen la misma profundidad. La paridad entre opencode y Copilot se garantiza por extracción literal (marcadores `COPILOT-EXTRACT`), no por disciplina.
+
+#### Límite de escritura
+- Patesi asegura calidad, **no desarrolla**: solo lectura sobre el proyecto bajo prueba.
+- Escribe únicamente en su **repositorio de pruebas propio** y en sus artefactos.
+- Ante un defecto: informa → confirma → revisa si su plan lo cubría → crea la prueba faltante (unitaria o de integración interna como **propuesta** para el agente desarrollador; E2E, API o contrato en su propio repo) → actualiza los planes de smoke y regresión.
+- Aplica en los tres modos. `sdet-test-repo` documenta el reparto y el handoff.
+
+#### Modo A sobre la normativa SQEM v1.2
+- NAQ calculado desde los 6 factores con sus escalas 0-4, con `Madurez tecnológica` excluida del denominador (22) y el override por criticidad.
+- Las 15 tipologías con sus nombres canónicos.
+- `sdet-sqem-gate-matrix`: las **60 combinaciones** tipología × banda de NAQ resueltas (480 celdas), con nota justificativa por gate y las excepciones documentadas de §6.5 — AMS conserva QG0 Ligero en NAQ Alto, Hotfix es inmune a la elevación.
+- Anexo IA con sus 13 controles y la clasificación EU AI Act en QG0.
+- Toda afirmación normativa cita su sección; todo lo que no viene de SQEM se declara como fallback.
+
+#### Auto-QA del agente
+- `scripts/check-consistency.py` — 13 verificaciones de consistencia interna, con el principio de **cero falsos positivos**.
+- `scripts/check-sqem-matrix.py` — valida las 480 celdas contra §6.4 y contra su propia coherencia estructural.
+- `scripts/patesi-doctor.py` — compara el repo contra lo realmente instalado en `~/.config/opencode/`. `git pull` no actualiza al agente.
+- `SOURCES.yaml` — qué versión de cada fuente normativa alimenta cada skill, incluidas las cuatro que la normativa referencia y todavía no tenemos.
+- `.github/workflows/consistencia.yml` — corre los checks en push y PR, y avisa cuando cambia el núcleo o los skills SQEM.
+- `tests/smoke-comportamiento.md` — 8 casos con prompts literales, ~5 min.
+- `tests/guiones-evaluacion.md` — guiones ejecutables de los tres modos y del límite de escritura.
+- `skills/sdet-self-review` — las siete clases de contradicción interna que ningún script puede detectar.
+- Verificación de que la versión coincide en `agent.md`, `config.yaml` y el CHANGELOG, y de que la entrada más nueva del changelog es la versión actual.
+
+#### Skills nuevos
+`sdet-industry-practices`, `sdet-exploratory-testing`, `sdet-api-testing`, `sdet-accessibility`, `sdet-performance`, `sdet-security-testing`, `sdet-client-profile`, `sdet-client-onboarding`, `sdet-test-repo`, `sdet-self-review`, `sdet-sqem-gate-matrix`, `sdet-sqem-typology-tests`, `sdet-sqem-governance`. **Total: 36** (antes 23).
+
 ### Cambiado
+- Contenido de Patesi íntegramente en castellano, incluido el que se escondía dentro de fences ` ```markdown `.
+- Formato de respuesta con cantidad de secciones dependiente del modo, y la razón de cada omisión declarada en una línea.
 - Consolidada la arquitectura en un núcleo agnóstico y exactamente dos adapters: `adapters/opencode/` y `adapters/copilot/`.
-- Movidos la instalación, actualización, configuración de entorno, herramientas concretas de opencode y builder de Copilot dentro de sus adapters correspondientes.
-- README simplificado para describir el núcleo sin mecanismos de runtime; la documentación concreta queda en cada adapter.
-- §8 de `system.md` reducido al contrato de disponibilidad de conocimiento especializado; su tabla continúa generándose desde los frontmatter.
-- La clasificación SQEM documenta la sub-banda de NAQ Alto para misión crítica como derivación del skill, con entregables y controles diferenciados.
+- Instalación, actualización, configuración de entorno, herramientas concretas de opencode y builder de Copilot movidos dentro de sus adapters.
+- §8 de `system.md` reducido al contrato de disponibilidad de conocimiento especializado; su tabla se sigue generando desde los frontmatter.
+- La clasificación SQEM documenta la sub-banda de NAQ Alto para misión crítica, con entregables y controles diferenciados.
+- README con el estado actual: los tres modos, la regla fundamental, el catálogo de 36 skills y la sección de Auto-QA.
+
+### Corregido
+- **`system.md` había perdido 297 líneas** —los 6 marcadores `COPILOT-EXTRACT` completos— en un commit ya publicado. Causa raíz: `update_marked_section` de `generate-registry.sh` usaba `>>` sin truncar y sin limpieza ante interrupción; una corrida interrumpida dejaba un temporal parcial que la siguiente movía sobre el archivo real. Se agregó `mktemp` + `trap` + una guarda que aborta si el resultado pierde más de la mitad de las líneas.
+- `generate-registry.ps1` agregaba una línea en blanco por corrida: no era idempotente.
+- La ruptura de paridad entre builders era **line endings mezclados**, no divergencia real. Resuelto con `.gitattributes`.
+- `build-copilot-adapter.sh` borraba la última línea de `agent.md` cuando el archivo no tenía separador `---`.
+- `config.yaml` había perdido sus marcadores `SKILLS_BLOCK`, lo que rompía toda regeneración en silencio. Restaurados, con guardas de código de salida para que los generadores fallen fuerte.
+- Etiquetas sin tilde: se corrigieron en los mapas de los generadores, no en el archivo de salida, que se regeneraba.
+- La nota de QG5 en mantenimiento correctivo decía `C (mitad)`, corrupción de `C (→ NAQ Alto)`.
+- Se eliminó contenido normativo inventado que no existía en la fuente SQEM (rúbrica de madurez técnica de 5 niveles y activación objetiva del peso).
+- **`generate-registry.sh` borraba los marcadores `SKILLS_BLOCK` de `config.yaml` en cada corrida**, dejando el archivo irregenerable, y salía con código 0. `update_marked_section` no conserva las líneas de marcador —las reemplaza por el contenido—, y el contenido de `config.yaml` no las incluía; el de `system.md` sí, por eso solo fallaba uno de los dos. En Windows nunca se notó porque solo se corría el `.ps1`.
+- Los generadores no tenían verificación de paridad entre sí; los builders del adapter sí. Ahí se escondió el bug anterior. Agregada `paridad de generadores`.
+- Los artefactos generados llevaban sello de fecha, así que cambiaban solos todos los días: ensuciaban el diff y disparaban el check de idempotencia sin motivo. Cuándo cambió es dato de git; qué contiene es dato del archivo.
+- El check de paridad se auto-saltaba en CI porque invocaba `powershell`, inexistente en Linux. Usa `pwsh` fuera de Windows y el workflow exige ambos shells.
+- `.atl/.skill-registry.cache.json` estaba versionado pese a figurar en `.gitignore`.
+
+### Notas de migración
+- Reinstalá con `adapters/opencode/scripts/install.ps1` (o `.sh`) y reiniciá opencode. `git pull` **no** alcanza.
+- Verificá con `python scripts/patesi-doctor.py` antes de evaluar nada.
 
 ## [2.2.0] - 2026-08-25
 

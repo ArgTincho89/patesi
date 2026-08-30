@@ -2,6 +2,8 @@
 
 **Agente SDET de IA** — Ingeniero QA con conocimiento ISTQB y SQEM, estrategia de testing, automatización, análisis de riesgos y aprendizaje por proyecto.
 
+**Versión 3.0.0** · 36 skills · [CHANGELOG](CHANGELOG.md)
+
 Soporta exactamente **opencode** y **GitHub Copilot**.
 
 ---
@@ -466,6 +468,26 @@ metadata:
 - **SQEM**: Editá el skill SQEM correspondiente (`sdet-sqem-classification`, `sdet-sqem-gates`, `sdet-sqem-controls`, `sdet-sqem-ia`)
 - **Automatización**: Editá el skill del framework correspondiente
 - Mantené cada skill bajo 4K tokens para eficiencia de contexto
+
+### Versionado y changelog
+
+Patesi sigue [SemVer](https://semver.org/lang/es/) y [Keep a Changelog](https://keepachangelog.com/es-ES/).
+
+| Incremento | Cuándo |
+|-----------|--------|
+| **Mayor** | Cambia el contrato de comportamiento: un modo nuevo, una regla que altera lo que el agente hace ante el mismo pedido |
+| **Menor** | Skills nuevos, conocimiento ampliado, verificaciones nuevas — sin romper lo anterior |
+| **Parche** | Correcciones, traducciones, ajustes de redacción |
+
+**Procedimiento en cada release:**
+
+1. Mové lo de `[Unreleased]` a una sección `## [X.Y.Z] - AAAA-MM-DD` en [CHANGELOG.md](CHANGELOG.md), agrupado en Agregado / Cambiado / Corregido.
+2. Actualizá la versión en **los dos lugares**: el bloque `PATESI-METADATA` de `agent.md` y `version:` de `config.yaml`.
+3. Actualizá la línea de versión del encabezado de este README.
+4. Corré `python scripts/check-consistency.py` — la verificación `version y changelog` falla si los tres no coinciden o si la versión no tiene entrada en el changelog.
+5. Etiquetá el commit: `git tag -a v3.0.0 -m "..."`.
+
+> La verificación existe porque esto ya se desincronizó: el repo quedó en 2.2.0 mientras el agente cambiaba su contrato de comportamiento entero, y trece commits no llegaron al changelog. Un changelog que depende de que alguien se acuerde no es un changelog.
 
 ### Regenerar artefactos derivados
 

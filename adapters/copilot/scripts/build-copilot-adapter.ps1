@@ -64,7 +64,6 @@ foreach ($line in ($ConfigContent -split "`n")) {
 }
 
 # Obtener la fecha actual
-$date = Get-Date -Format "yyyy-MM-dd"
 
 # Em dash as char — PS5.1 parser can't handle U+2014 directly in string literals
 $em = [char]0x2014
@@ -76,7 +75,6 @@ $lines += ""
 $lines += "> **GENERADO AUTOMÁTICAMENTE** por ``build-copilot-adapter.ps1`` o su equivalente ``.sh``"
 $lines += "> **NO EDITAR MANUALMENTE** $em ejecutá cualquiera de los dos builders; producen el mismo resultado."
 $lines += "> Fuente de verdad: ``agent.md`` + ``system.md``"
-$lines += "> Última generación: $date"
 $lines += ""
 $lines += "---"
 $lines += ""

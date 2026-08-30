@@ -242,15 +242,12 @@ update_marked_section() {
 }
 
 # --- Salida 1: .atl/skill-registry.md ---
-DATE=$(date +%Y-%m-%d)
 
 {
     echo "# Registro de skills -- patesi"
     echo ""
     echo "<!-- GENERADO AUTOMÁTICAMENTE -- NO EDITAR MANUALMENTE -->"
     echo "<!-- Catálogo de conocimiento; el adapter resuelve su disponibilidad concreta -->"
-    echo ""
-    echo "Última actualización: $DATE"
     echo ""
     echo "## Skills"
     echo ""
@@ -273,7 +270,12 @@ DATE=$(date +%Y-%m-%d)
 } > /tmp/patesi_registry_content.md
 
 # --- Salida 2: bloque de skills de config.yaml (entre markers) ---
-CONFIG_SKILLS_CONTENT="skills:"
+# update_marked_section NO conserva las lineas de marcador: las reemplaza por
+# este contenido. Asi que los markers tienen que venir aca dentro, igual que en
+# SYS_TABLE_CONTENT y que en el generador .ps1. Faltaban, y cada corrida del .sh
+# borraba los markers de config.yaml y dejaba el archivo irregenerable.
+CONFIG_SKILLS_CONTENT="# SKILLS_BLOCK_START"
+CONFIG_SKILLS_CONTENT+=$'\n'"skills:"
 first_category=true
 for cat_def in "${CATEGORY_DEFS[@]}"; do
     IFS='|' read -r cat_key cat_label cat_skills <<< "$cat_def"
@@ -302,6 +304,7 @@ for cat_def in "${CATEGORY_DEFS[@]}"; do
         CONFIG_SKILLS_CONTENT+=$'\n'"    trigger: $trigger_lower"
     done
 done
+CONFIG_SKILLS_CONTENT+=$'\n'"# SKILLS_BLOCK_END"
 
 # --- Salida 3: tabla §8 de system.md (entre markers) ---
 SYS_TABLE_CONTENT="<!-- SKILL_TABLE_START -- generado automáticamente -- NO EDITAR MANUALMENTE -->"

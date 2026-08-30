@@ -1,5 +1,5 @@
 <!-- PATESI-METADATA-START
-version: 2.2.0
+version: 3.0.0
 autor: proyecto Patesi
 tipo: prompt de identidad del agente
 PATESI-METADATA-END -->

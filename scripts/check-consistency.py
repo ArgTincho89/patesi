@@ -350,8 +350,7 @@ def check_idempotencia():
     """Generar dos veces debe dejar el repo igual. Si no, cada regeneracion
     ensucia el arbol y el ruido esconde los cambios reales."""
     watched = ['system.md', 'config.yaml', '.atl/skill-registry.md']
-    gen = ('%s -NoProfile -Command ".\\scripts\\generate-registry.ps1"' % PWSH
-           if os.name == 'nt' else 'bash scripts/generate-registry.sh')
+    gen = GEN_PS1 if os.name == 'nt' else GEN_SH
     before = {f: hashlib.md5(open(f, 'rb').read()).hexdigest() for f in watched}
     r = _run(gen)
     if r.returncode != 0:
@@ -389,6 +388,40 @@ def _shell_no_disponible(r):
     return r.returncode == 127 or any(m in err for m in marcas)
 
 
+GEN_PS1 = '%s -NoProfile -File scripts/generate-registry.ps1' % PWSH
+GEN_SH = 'bash scripts/generate-registry.sh'
+GENERADOS = ['system.md', 'config.yaml', '.atl/skill-registry.md']
+
+
+def check_paridad_generadores():
+    """Los dos generadores deben producir los mismos derivados.
+
+    Existia paridad para los builders del adapter pero NO para los
+    generadores, y ahi se escondio una divergencia real: el .sh no incluia
+    los markers SKILLS_BLOCK en el contenido de config.yaml, asi que cada
+    corrida suya los borraba y dejaba el archivo irregenerable. Salia con
+    codigo 0. En Windows nunca se noto porque solo se corria el .ps1."""
+    primero, segundo = (GEN_PS1, GEN_SH) if os.name == 'nt' else (GEN_SH, GEN_PS1)
+
+    salidas = []
+    for cmd in (primero, segundo):
+        r = _run(cmd)
+        if r.returncode != 0:
+            if _shell_no_disponible(r):
+                notes.append('paridad de generadores NO verificada: no se pudo '
+                             'ejecutar `%s`' % cmd.split()[0])
+                return
+            fail('generadores', 'un generador fallo', r.stderr.strip()[:200])
+            return
+        salidas.append({f: open(f, 'rb').read() for f in GENERADOS})
+
+    distintos = [f for f in GENERADOS if salidas[0][f] != salidas[1][f]]
+    if distintos:
+        fail('generadores', 'los generadores .ps1 y .sh producen %s distinto'
+             % ' y '.join(distintos),
+             'el estado del repo dependeria de que shell uses para regenerar')
+
+
 def check_paridad_builders():
     """Los dos builders del adapter de Copilot deben producir lo mismo. Si
     divergen, el resultado depende de que shell uses."""
@@ -416,8 +449,44 @@ def check_paridad_builders():
              'el comportamiento de Patesi dependeria de que shell uses')
 
 
+def check_version():
+    """La version vive en tres lugares y el CHANGELOG tiene que tener la
+    entrada correspondiente. Ya paso: el repo se quedo en 2.2.0 mientras el
+    agente cambiaba su contrato de comportamiento entero, y el changelog no
+    documentaba trece commits."""
+    m = re.search(r'^version:\s*"?([\d.]+)"?', read('agent.md'), re.M)
+    v_agent = m.group(1) if m else None
+    m = re.search(r'^version:\s*"([\d.]+)"', read('config.yaml'), re.M)
+    v_config = m.group(1) if m else None
+
+    if not v_agent or not v_config:
+        fail('version', 'no se pudo leer la version de agent.md o config.yaml')
+        return
+    if v_agent != v_config:
+        fail('version', 'agent.md dice %s y config.yaml dice %s' % (v_agent, v_config),
+             'la version vive en los dos: actualizala en ambos')
+        return
+
+    changelog = read('CHANGELOG.md')
+    versiones = re.findall(r'^## \[([\d.]+)\]', changelog, re.M)
+    if not versiones:
+        fail('version', 'el CHANGELOG no tiene ninguna version publicada')
+        return
+    if v_agent not in versiones:
+        fail('version', 'la version %s no tiene entrada en el CHANGELOG' % v_agent,
+             'agrega la seccion "## [%s] - AAAA-MM-DD" con lo que cambio' % v_agent)
+        return
+    if versiones[0] != v_agent:
+        fail('version', 'el CHANGELOG encabeza con %s pero el agente dice %s'
+             % (versiones[0], v_agent),
+             'la entrada mas nueva del changelog debe ser la version actual')
+        return
+    notes.append('version %s, coherente en agent.md, config.yaml y CHANGELOG' % v_agent)
+
+
 # =========================================================== ejecucion
 FAST = [
+    ('version y changelog', check_version),
     ('conteos del catalogo', check_counts),
     ('markers de generacion', check_markers),
     ('frontmatter de skills', check_frontmatter),
@@ -432,6 +501,7 @@ FAST = [
 ]
 SLOW = [
     ('idempotencia de generadores', check_idempotencia),
+    ('paridad de generadores', check_paridad_generadores),
     ('paridad de builders', check_paridad_builders),
 ]
 

@@ -1,7 +1,7 @@
 # Patesi — Configuración del núcleo agnóstico del agente SDET
 
 name: patesi
-version: "2.2.0"
+version: "3.0.0"
 description: >
   Agente SDET de IA para estrategia de testing, conocimiento ISTQB,
   cumplimiento SQEM, generación de casos, automatización y análisis de calidad.

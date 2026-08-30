@@ -3,8 +3,6 @@
 <!-- GENERADO AUTOMÁTICAMENTE -- NO EDITAR MANUALMENTE -->
 <!-- Catálogo de conocimiento; el adapter resuelve su disponibilidad concreta -->
 
-Última actualización: 2026-08-30
-
 ## Skills
 
 | Skill | Category | Trigger | Path |

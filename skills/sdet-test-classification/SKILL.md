@@ -20,8 +20,8 @@ Clasifica casos de prueba en suites por tamaño para optimizar la ejecución CI/
 |-------|------|-------|---------------|-------------|
 | **S** | Smoke | Funcionalidad principal, camino crítico | < 5 min | Cada commit, cada deploy |
 | **M** | Functional | Tests a nivel de feature | 5-30 min | Cada PR, antes del merge |
-| **L** | Regression | Full feature + integration | 30-120 min | Release candidates, nightly |
-| **XL** | Full Regression | Complete system, end-to-end | 2+ hours | Major releases, quarterly |
+| **L** | Regression | Feature completa + integración | 30-120 min | Candidatos a release, builds nocturnos |
+| **XL** | Full Regression | Sistema completo, end-to-end | 2 horas o más | Releases mayores, trimestrales |
 
 ## Criterios de clasificación
 
@@ -29,70 +29,70 @@ Clasifica casos de prueba en suites por tamaño para optimizar la ejecución CI/
 
 **Qué**: El mínimo absoluto para verificar que el sistema no esté roto.
 
-**Criteria**:
-- Critical path (login, core navigation, key transactions)
-- Takes < 5 minutes total
-- Must pass before ANY deployment
-- Fail = system is down
+**Criterios**:
+- Camino crítico (login, navegación principal, transacciones clave)
+- Tarda menos de 5 minutos en total
+- Debe pasar antes de CUALQUIER despliegue
+- Fallo = el sistema está caído
 
-**Examples**:
-- User can log in
-- Homepage loads
-- API health check passes
-- Database connection works
+**Ejemplos**:
+- El usuario puede iniciar sesión
+- La home carga
+- El health check de la API pasa
+- La conexión a la base de datos funciona
 
 ### M (Functional) Tests
 
 **Qué**: Tests a nivel de feature que cubren user stories o requisitos específicos.
 
-**Criteria**:
-- Covers individual features end-to-end
-- Takes 5-30 minutes total
-- Runs on every PR to catch regressions early
-- Fail = feature is broken
+**Criterios**:
+- Cubre features individuales de punta a punta
+- Tarda entre 5 y 30 minutos en total
+- Se ejecuta en cada PR para detectar regresiones temprano
+- Fallo = la feature está rota
 
-**Examples**:
-- User can complete registration flow
-- Search returns correct results
-- Shopping cart calculations are correct
-- Email notifications send successfully
+**Ejemplos**:
+- El usuario puede completar el flujo de registro
+- La búsqueda devuelve resultados correctos
+- Los cálculos del carrito de compras son correctos
+- Las notificaciones por email se envían correctamente
 
 ### L (Regression) Tests
 
 **Qué**: Tests completos que cubren múltiples features y sus interacciones.
 
-**Criteria**:
-- Cross-feature integration tests
-- Takes 30-120 minutes total
-- Runs on release candidates and nightly builds
-- Fail = regression detected
+**Criterios**:
+- Tests de integración entre features
+- Tarda entre 30 y 120 minutos en total
+- Se ejecuta en candidatos a release y builds nocturnos
+- Fallo = regresión detectada
 
-**Examples**:
-- Full checkout flow with payment
-- User management (CRUD + permissions)
-- Data export/import across modules
-- Third-party integrations
+**Ejemplos**:
+- Flujo completo de checkout con pago
+- Gestión de usuarios (CRUD + permisos)
+- Exportación/importación de datos entre módulos
+- Integraciones con terceros
 
 ### XL (Full Regression) Tests
 
 **Qué**: Test completo del sistema que incluye todas las features, edge cases y tests no funcionales.
 
-**Criteria**:
-- Everything in S + M + L
-- Plus performance, security, accessibility
-- Takes 2+ hours total
-- Runs before major releases
+**Criterios**:
+- Todo lo de S + M + L
+- Más performance, seguridad y accesibilidad
+- Tarda 2 horas o más en total
+- Se ejecuta antes de releases mayores
 
-**Examples**:
-- Complete application walkthrough
-- Performance benchmarks
-- Security scan
-- Accessibility audit
+**Ejemplos**:
+- Recorrido completo de la aplicación
+- Benchmarks de performance
+- Escaneo de seguridad
+- Auditoría de accesibilidad
 
 ## Formato de salida de clasificación
 
 ```markdown
-# Test Classification: {Feature/Project}
+# Clasificación de tests: {Feature/Proyecto}
 
 ## Resumen
 
@@ -104,20 +104,20 @@ Clasifica casos de prueba en suites por tamaño para optimizar la ejecución CI/
 | XL | {N} | {X} min | Release mayor | Validación completa del sistema |
 
 ## S Tests (Smoke)
-- {TC-XXX}: {Title}
-- {TC-XXX}: {Title}
+- {TC-XXX}: {Título}
+- {TC-XXX}: {Título}
 
 ## M Tests (Functional)
-- {TC-XXX}: {Title}
-- {TC-XXX}: {Title}
+- {TC-XXX}: {Título}
+- {TC-XXX}: {Título}
 
 ## L Tests (Regression)
-- {TC-XXX}: {Title}
-- {TC-XXX}: {Title}
+- {TC-XXX}: {Título}
+- {TC-XXX}: {Título}
 
 ## XL Tests (Full Regression)
-- {TC-XXX}: {Title}
-- {TC-XXX}: {Title}
+- {TC-XXX}: {Título}
+- {TC-XXX}: {Título}
 
 ## Integración CI/CD
 
@@ -131,68 +131,68 @@ Clasifica casos de prueba en suites por tamaño para optimizar la ejecución CI/
 
 ## Heurísticas de clasificación
 
-When classifying a test case, consider:
+Al clasificar un caso de prueba, considerá:
 
-1. **Is it on the critical path?** → S (if yes and fast enough)
-2. **Does it test a specific feature?** → M
-3. **Does it cross feature boundaries?** → L
-4. **Is it comprehensive/system-wide?** → XL
-5. **How long does it take?** → Adjust class if time doesn't fit
-6. **How often does it fail?** → Frequently failing tests should be S or M (catch early)
+1. **¿Está en el camino crítico?** → S (si es así y es lo bastante rápido)
+2. **¿Prueba una feature específica?** → M
+3. **¿Cruza los límites entre features?** → L
+4. **¿Es exhaustivo o abarca todo el sistema?** → XL
+5. **¿Cuánto tarda?** → Ajustá la clase si el tiempo no encaja
+6. **¿Con qué frecuencia falla?** → Los tests que fallan seguido deberían ser S o M (detección temprana)
 
 ## Ejemplo de entrada
 
 ```
-Test cases for an e-commerce checkout:
-- TC-001: User can view cart (P1)
-- TC-002: Cart total calculates correctly (P1)
-- TC-003: User can apply discount code (P2)
-- TC-004: User can enter shipping address (P1)
-- TC-005: User can select shipping method (P2)
-- TC-006: Payment processing with valid card (P1)
-- TC-007: Payment declined handling (P1)
-- TC-008: Order confirmation email sends (P2)
-- TC-009: Inventory decreases after purchase (P2)
-- TC-010: Full checkout flow E2E (P1)
-- TC-011: Checkout with multiple items (P2)
-- TC-012: Checkout performance under load (P3)
+Casos de prueba para el checkout de un comercio electrónico:
+- TC-001: El usuario puede ver el carrito (P1)
+- TC-002: El total del carrito se calcula correctamente (P1)
+- TC-003: El usuario puede aplicar un código de descuento (P2)
+- TC-004: El usuario puede ingresar la dirección de envío (P1)
+- TC-005: El usuario puede seleccionar el método de envío (P2)
+- TC-006: Procesamiento de pago con tarjeta válida (P1)
+- TC-007: Manejo de pago rechazado (P1)
+- TC-008: Se envía el email de confirmación del pedido (P2)
+- TC-009: El inventario disminuye tras la compra (P2)
+- TC-010: Flujo completo de checkout E2E (P1)
+- TC-011: Checkout con varios ítems (P2)
+- TC-012: Performance del checkout bajo carga (P3)
 ```
 
 ## Ejemplo de salida
 
 ```markdown
-# Test Classification: E-Commerce Checkout
+# Clasificación de tests: checkout de comercio electrónico
 
-## Summary
+## Resumen
 
 | Clase | Cantidad | Tiempo estimado | Trigger | Propósito |
 |-------|-------|-----------|---------|---------|
 | S | 2 | 2 min | Cada commit | Carga del carrito, pago funcional |
 | M | 6 | 12 min | Cada PR | Checkout a nivel de feature |
 | L | 3 | 25 min | Candidato a release | Flujos de integración |
-| XL | 1 | 45 min | Major release | Full E2E + performance |
+| XL | 1 | 45 min | Release mayor | E2E completo + performance |
 
 ## S Tests (Smoke)
-- TC-001: User can view cart
-- TC-006: Payment processing with valid card
+- TC-001: El usuario puede ver el carrito
+- TC-006: Procesamiento de pago con tarjeta válida
 
 ## M Tests (Functional)
-- TC-002: Cart total calculates correctly
-- TC-004: User can enter shipping address
-- TC-005: User can select shipping method
-- TC-007: Payment declined handling
-- TC-011: Checkout with multiple items
-- TC-008: Order confirmation email sends
+- TC-002: El total del carrito se calcula correctamente
+- TC-004: El usuario puede ingresar la dirección de envío
+- TC-005: El usuario puede seleccionar el método de envío
+- TC-007: Manejo de pago rechazado
+- TC-011: Checkout con varios ítems
+- TC-008: Se envía el email de confirmación del pedido
 
 ## L Tests (Regression)
-- TC-003: User can apply discount code
-- TC-009: Inventory decreases after purchase
-- TC-010: Full checkout flow E2E
+- TC-003: El usuario puede aplicar un código de descuento
+- TC-009: El inventario disminuye tras la compra
+- TC-010: Flujo completo de checkout E2E
 
 ## XL Tests (Full Regression)
-- TC-012: Checkout performance under load
+- TC-012: Performance del checkout bajo carga
 
-## CI/CD Integration
+## Integración CI/CD
 
 | Etapa del pipeline | Tests | Timeout | Ante fallo |
 |---------------|-------|---------|------------|

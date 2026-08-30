@@ -226,7 +226,7 @@ public class ApiTest {
 
 ## Librerías de aserciones
 
-### AssertJ (Recommended)
+### AssertJ (recomendada)
 
 ```java
 import static org.assertj.core.api.Assertions.*;

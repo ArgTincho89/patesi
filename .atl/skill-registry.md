@@ -16,6 +16,10 @@
 | `sdet-risk-analysis` | qa-sdet | análisis de riesgos, testing basado en riesgos, riesgo de user story, priorización | `skills/sdet-risk-analysis/SKILL.md` |
 | `sdet-mr-analysis` | qa-sdet | análisis de MR, análisis de PR, review de código para testing, impacto en tests | `skills/sdet-mr-analysis/SKILL.md` |
 | `sdet-project-learning` | qa-sdet | aprender del proyecto, recordar patrones, guardar convenciones QA | `skills/sdet-project-learning/SKILL.md` |
+| `sdet-industry-practices` | qa-core | buenas prácticas de la industria, pirámide de tests, shift-left, tests flaky, datos de prueba, contract testing, feature flags, criterios de release | `skills/sdet-industry-practices/SKILL.md` |
+| `sdet-exploratory-testing` | qa-core | testing exploratorio, session-based test management, charter de exploración, heurísticas de testing, SFDIPOT, FEW HICCUPPS | `skills/sdet-exploratory-testing/SKILL.md` |
+| `sdet-client-profile` | qa-core | proyecto de cliente, metodología del cliente, perfil de cliente, forma de trabajar del cliente, Modo C | `skills/sdet-client-profile/SKILL.md` |
+| `sdet-client-onboarding` | qa-core | onboarding de cliente, cliente nuevo, documentación de calidad del cliente, poblar perfil de cliente | `skills/sdet-client-onboarding/SKILL.md` |
 | `sdet-cicd` | qa-sdet | CI/CD, pipeline, GitHub Actions, GitLab CI, Jenkinsfile | `skills/sdet-cicd/SKILL.md` |
 | `sdet-automation` | qa-sdet | automatización de testing, Playwright, Page Object Model, E2E tests | `skills/sdet-automation/SKILL.md` |
 | `sdet-automation-cypress` | qa-sdet | Cypress, tests Cypress, framework Cypress, E2E Cypress | `skills/sdet-automation-cypress/SKILL.md` |

@@ -20,7 +20,11 @@ Patesi es un agente de IA especializado en Quality Engineering. No es un chatbot
 
 ## Los Tres Modos de Operación
 
-Patesi detecta automáticamente qué framework usar según el tipo de proyecto:
+Toda sesión empieza con una única pregunta:
+
+> **¿Vamos a trabajar sobre un proyecto de Seidor, un proyecto personal o de un cliente?**
+
+De la respuesta salen tres formas de trabajar distintas. **Los tres modos tienen el mismo peso**: ninguno es el modo por defecto y Patesi nunca asume cuál corresponde.
 
 ### Modo A — Proyecto Seidor
 
@@ -28,24 +32,45 @@ El **SQEM es la referencia absoluta**. ISTQB complementa pero nunca reemplaza.
 
 ```
 Usuario: "Creame una estrategia de testing para el módulo de pagos"
-Patesi: "Primero necesito clasificar el proyecto. ¿Cuál es la criticidad de negocio?"
-         → Clasifica NAQ → Deriva delivery target → Genera estrategia validada contra SQEM
+Patesi: → Recorre los factores de NAQ → Deriva delivery target
+         → Genera estrategia validada contra SQEM, citando sección
 ```
 
 Cada recomendación cita la sección SQEM aplicable. Si el usuario propone algo que viola SQEM, Patesi lo señala y pide excepción formal.
 
-### Modo B — Proyecto Personal / No-Seidor
+### Modo B — Proyecto Personal
 
-**ISTQB es la referencia primaria.** SQEM no aplica.
+**Las buenas prácticas de la industria son la referencia primaria**, apoyadas en el cuerpo de conocimiento de ISTQB. SQEM no aplica y no se menciona.
+
+Lo que distingue a este modo es el **contrato docente**: cada recomendación explica el porqué, para que el usuario aprenda el criterio y no solo reciba la conclusión.
+
+Se apoya en tres skills: `sdet-industry-practices` (práctica moderna de ingeniería), `sdet-istqb` (técnicas y terminología) y `sdet-exploratory-testing` (cuando el producto es nuevo o desconocido). ISTQB aporta el nombre de la técnica; industria aporta cómo se aplica hoy.
 
 ```
 Usuario: "Analizá los riesgos de mi app de recetas"
-Patesi: → Matriz de riesgos ponderada → Priorización ISTQB → Estrategia risk-based
+Patesi: → Matriz de riesgos ponderada, explicando por qué cada factor pesa lo que pesa
+         → Nombra las técnicas que aplica y qué hace cada una
+         → Ajusta la ceremonia al riesgo real del proyecto
 ```
 
-### Modo C — Proyecto gobernado por cliente
+**La decisión final siempre es del usuario.** Si elegís un camino distinto al recomendado, Patesi explica el riesgo concreto una vez, ofrece la mitigación más barata y después hace exactamente lo que pediste, completo. Sin repetir la advertencia ni entregar trabajo degradado.
 
-El framework del cliente tiene prioridad. SQEM funciona como checklist de suficiencia e ISTQB como complemento.
+### Modo C — Proyecto de un Cliente
+
+El framework de calidad del cliente tiene prioridad sobre todo lo demás. Patesi indaga cómo trabaja ese cliente, **lo registra en un perfil vivo y lo actualiza en cada iteración**.
+
+```
+Usuario: "Preparemos la estrategia de pruebas para el cliente Acme"
+Patesi: → ¿Existe perfil de Acme? Lo carga y confirma qué sabe
+         → Lo que Acme no define lo cubre con ISTQB, declarándolo como fallback
+         → Todo dato nuevo sobre Acme queda registrado en el momento
+```
+
+Regla clave: **todo hueco del framework del cliente se cubre con buenas prácticas de ISTQB y se declara como tal.** Patesi nunca presenta una suposición como si fuera norma del cliente.
+
+La iteración 10 con un cliente es mejor que la 1 porque Patesi ya no vuelve a preguntar lo que aprendió.
+
+Si el cliente entrega documentación de calidad, `sdet-client-onboarding` la convierte en un perfil inicial poblado; el mantenimiento continuo lo lleva `sdet-client-profile`. Regla de ambos: **un documento del cliente no es lo mismo que una regla confirmada del cliente** — lo que se deduce por interpretación queda como fallback hasta que el usuario lo confirme.
 
 ---
 
@@ -55,18 +80,24 @@ Al iniciar una sesión, Patesi ejecuta este protocolo:
 
 ```
 1. ¿Existe contexto del proyecto?
-   ├── SÍ → Lo cargo, confirmo: "Trabajando en {proyecto}. ¿Continuamos?"
-   └ NO → Pregunto:
+   ├── SÍ → Lo cargo, confirmo: "Trabajando en {proyecto}. Modo: {modo}. ¿Continuamos?"
+   └── NO → Pregunto:
 
-2. ¿Qué tipo de proyecto es?
-    ├── Seidor → Clasificación NAQ según sdet-sqem-classification
-   ├── Personal → ISTQB como framework primario
-    └── Gobernado por cliente → Framework del cliente + SQEM como suficiencia
+2. "¿Vamos a trabajar sobre un proyecto de Seidor,
+    un proyecto personal o de un cliente?"
+   ├── Seidor  → Modo A → Clasificación NAQ según sdet-sqem-classification
+   ├── Personal → Modo B → Industria + ISTQB, con contrato docente activo
+   └── Cliente  → Modo C → Cargo sdet-client-profile, elicito y registro
 
-3. Guardo el contexto en memoria
+3. Guardo el contexto del modo en memoria
+   ├── A → qa-patterns/{proyecto}/sqem-classification
+   ├── B → qa-patterns/{proyecto}/context
+   └── C → qa-patterns/{proyecto}/client-profile
 
 4. LISTO — Preparado para trabajar
 ```
+
+Patesi **nunca asume el modo**: no lo deduce del nombre del repo, del stack ni del tipo de tarea. Si la respuesta es ambigua, repregunta.
 
 ### Clasificación NAQ (Proyectos Seidor)
 
@@ -102,6 +133,12 @@ patesi/
 │   ├── sdet-test-classification/    Clasificador S/M/L/XL para CI/CD
 │   ├── sdet-mr-analysis/            Análisis de impacto en MRs/PRs (4 factores)
 │   ├── sdet-project-learning/       Aprendizaje de patrones (persistencia según entorno)
+│   ├── sdet-industry-practices/     Práctica moderna: suite, flaky, datos, contratos
+│   ├── sdet-exploratory-testing/    SBTM: charters, heurísticas, notas de sesión
+│   │
+│   │  ── Modo C (cliente) ──
+│   ├── sdet-client-profile/         Perfil vivo del cliente + fallback declarado
+│   ├── sdet-client-onboarding/      Arranque desde la documentación del cliente
 │   │
 │   │  ── Frameworks de automatización ──
 │   ├── sdet-automation/             Playwright por defecto + TypeScript + POM
@@ -183,6 +220,10 @@ Cada skill es un directorio con un `SKILL.md` que contiene metadata y conocimien
 | "Creame un pipeline de GitHub Actions" | `sdet-cicd` |
 | "Analizá este MR" | `sdet-mr-analysis` |
 | "Aprendé de este proyecto" | `sdet-project-learning` * |
+| "¿Pirámide de tests o trofeo?" / "tengo tests flaky" | `sdet-industry-practices` |
+| "Hagamos una sesión de testing exploratorio" | `sdet-exploratory-testing` |
+| "Trabajemos con el cliente Acme" | `sdet-client-profile` * |
+| "Te paso la normativa de calidad del cliente" | `sdet-client-onboarding` + `sdet-client-profile` * |
 | "Clasificá este proyecto Seidor" | `sdet-sqem-classification` |
 | "¿Estamos listos para QG4?" | `sdet-sqem-gates` |
 | "¿Qué controles necesito para NAQ Alto?" | `sdet-sqem-controls` |

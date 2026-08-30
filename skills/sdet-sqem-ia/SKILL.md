@@ -20,66 +20,66 @@ Controles específicos para proyectos AI/ML/GenAI. Aplica cuando la tipología p
 
 | Control | Gate | NAQ Bajo | NAQ Medio | NAQ Alto |
 |---------|------|----------|-----------|----------|
-| **Data quality** (dataset/pipeline) | QG1/QG2 | Validación básica (schema, nulos, duplicados) | Quality gate de datos en dimensiones críticas + control de filtración train/test | Quality gate de datos >=98% + etiquetado auditado + 0 filtraciones train/test |
-| **Golden dataset + offline eval** | QG2/QG4 | Recomendado (>=50 casos) | Obligatorio (>=200 casos, baseline registrado) | Obligatorio (>=500 casos, champion frente a challenger) |
-| **Groundedness/Faithfulness** (RAG) | QG4 | — | >=0.80 (RAGAS or equivalent) | >=0.90 + human sample review |
-| **Hallucination rate** | QG4 | Medida e informada | <=umbral acordado con negocio | <=umbral estricto + trazabilidad de fuentes obligatoria |
-| **Red-teaming** (prompt injection + jailbreak) | QG5/QG6 | Basic battery | Standard battery, 0 critical findings | Formal red-teaming + AI pentest, 0 Critical/High open |
-| **Fairness/bias** (decisions affecting people) | QG4 | — | Disaggregated metrics documented | Delta between subgroups <=threshold agreed with legal |
-| **Task completion** (agents/GenAI) | QG5 | — | >=90% de escenarios E2E | >=95% + límites de loop y permisos testeados |
+| **Calidad de datos** (dataset/pipeline) | QG1/QG2 | Validación básica (schema, nulos, duplicados) | Quality gate de datos en dimensiones críticas + control de filtración train/test | Quality gate de datos >=98% + etiquetado auditado + 0 filtraciones train/test |
+| **Golden dataset + evaluación offline** | QG2/QG4 | Recomendado (>=50 casos) | Obligatorio (>=200 casos, baseline registrado) | Obligatorio (>=500 casos, champion frente a challenger) |
+| **Groundedness/Faithfulness** (RAG) | QG4 | — | >=0.80 (RAGAS o equivalente) | >=0.90 + revisión humana por muestreo |
+| **Tasa de alucinaciones** | QG4 | Medida e informada | <=umbral acordado con negocio | <=umbral estricto + trazabilidad de fuentes obligatoria |
+| **Red-teaming** (prompt injection + jailbreak) | QG5/QG6 | Batería básica | Batería estándar, 0 hallazgos críticos | Red-teaming formal + pentest de IA, 0 Critical/High abiertos |
+| **Equidad/sesgo** (decisiones que afectan a personas) | QG4 | — | Métricas desagregadas documentadas | Delta entre subgrupos <=umbral acordado con legal |
+| **Task completion** (agentes/GenAI) | QG5 | — | >=90% de escenarios E2E | >=95% + límites de loop y permisos testeados |
 | **Drift** (datos/modelo) | QG7 | — | Monitoreo configurado | Umbrales + runbook + responsable de AMS |
-| **EU AI Act classification** | QG0 | Registrada en la ficha NAQ | Registrada en la ficha NAQ | Si es de alto riesgo: dossier técnico + supervisión humana + logging (obligatorio) |
+| **Clasificación EU AI Act** | QG0 | Registrada en la ficha NAQ | Registrada en la ficha NAQ | Si es de alto riesgo: dossier técnico + supervisión humana + logging (obligatorio) |
 
 ---
 
 ## Tipos de tests específicos de IA
 
 ### Testing de calidad de datos
-- Schema validation (fields, types, constraints)
-- Null/missing value handling
-- Duplicate detection
-- Data lineage verification
-- Train/test separation validation (no leakage)
-- Label quality audit (for supervised learning)
+- Validación de schema (campos, tipos, restricciones)
+- Manejo de nulos y valores faltantes
+- Detección de duplicados
+- Verificación del linaje de datos
+- Validación de la separación train/test (sin filtración)
+- Auditoría de la calidad del etiquetado (en aprendizaje supervisado)
 
 ### Evaluación de modelos
-- Offline metrics (accuracy, F1, precision, recall, AUC)
-- Baseline recording and comparison
-- Champion vs challenger evaluation
-- Slice analysis (performance across subgroups)
+- Métricas offline (accuracy, F1, precisión, recall, AUC)
+- Registro y comparación de baseline
+- Evaluación champion frente a challenger
+- Análisis por slices (rendimiento entre subgrupos)
 
 ### Evaluación de LLM/RAG
-- Groundedness/Faithfulness (RAGAS or equivalent)
-- Hallucination rate measurement
-- Answer relevance scoring
-- Context precision and recall
-- Source attribution verification
+- Groundedness/Faithfulness (RAGAS o equivalente)
+- Medición de la tasa de alucinaciones
+- Puntuación de relevancia de respuestas
+- Precisión y recall del contexto
+- Verificación de la atribución de fuentes
 
 ### Evaluación de agentes
-- Task completion rate (E2E scenarios)
-- Loop limit testing (prevent infinite agent loops)
-- Permission boundary testing
-- Tool usage correctness
-- Multi-step reasoning validation
+- Tasa de task completion (escenarios E2E)
+- Testing de límites de loop (evitar loops infinitos del agente)
+- Testing de los límites de permisos
+- Corrección en el uso de herramientas
+- Validación del razonamiento multi-paso
 
 ### Red-teaming
-- Prompt injection attacks
-- Jailbreak attempts
-- Data extraction attempts
-- Adversarial input robustness
-- Boundary condition behavior
+- Ataques de prompt injection
+- Intentos de jailbreak
+- Intentos de extracción de datos
+- Robustez ante entradas adversarias
+- Comportamiento en condiciones de borde
 
 ### Equidad/sesgo
-- Disaggregated metrics by subgroup
-- Statistical parity analysis
-- Equal opportunity assessment
-- Impact assessment for decisions affecting people
+- Métricas desagregadas por subgrupo
+- Análisis de paridad estadística
+- Evaluación de igualdad de oportunidades
+- Evaluación de impacto en decisiones que afectan a personas
 
 ### Monitoreo de drift
-- Data drift detection (distribution changes)
-- Model performance drift
-- Concept drift identification
-- Alert thresholds and runbook
+- Detección de data drift (cambios de distribución)
+- Drift de rendimiento del modelo
+- Identificación de concept drift
+- Umbrales de alerta y runbook
 
 ---
 
@@ -95,23 +95,23 @@ Registrá la clasificación de riesgo del sistema de IA según EU AI Act en la f
 
 ### Requisitos para sistemas de IA de alto riesgo
 
-At QG0, if classified as high risk:
-- Technical dossier preparation
-- Human oversight mechanisms design
+En QG0, si se clasifica como de alto riesgo:
+- Preparación del dossier técnico
+- Diseño de los mecanismos de supervisión humana
 - Requisitos de logging y trazabilidad de auditoría
-- Registration in EU AI database
+- Registro en la base de datos de IA de la UE
 
 ---
 
 ## Referencia de herramientas
 
-| Function | Recommended Tools |
+| Función | Herramientas recomendadas |
 |----------|------------------|
-| Data quality | Great Expectations, Pandera, Deequ |
-| LLM evaluation | RAGAS, DeepEval, promptfoo |
-| Red-teaming | Garak, AI-exploits, custom batteries |
-| Fairness | Fairlearn, AIF360, AI Fairness 360 |
-| Drift monitoring | Evidently, NannyML, Alibi Detect |
-| Observability | Langfuse, LangSmith, Phoenix |
+| Calidad de datos | Great Expectations, Pandera, Deequ |
+| Evaluación de LLM | RAGAS, DeepEval, promptfoo |
+| Red-teaming | Garak, AI-exploits, baterías propias |
+| Equidad | Fairlearn, AIF360, AI Fairness 360 |
+| Monitoreo de drift | Evidently, NannyML, Alibi Detect |
+| Observabilidad | Langfuse, LangSmith, Phoenix |
 
 ---

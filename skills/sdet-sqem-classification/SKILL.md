@@ -86,8 +86,8 @@ puede activar ni desactivar este peso por preferencia.
 
 ### Reglas de override (no negociables)
 
-- Criticidad de negocio=4 **OR** Sensibilidad de datos=4 → **NAQ Alto** obligatorio
-- Criticidad de negocio>=3 **AND** Sensibilidad de datos>=3 → mínimo **NAQ Medio**
+- Criticidad de negocio=4 **O** Sensibilidad de datos=4 → **NAQ Alto** obligatorio
+- Criticidad de negocio>=3 **Y** Sensibilidad de datos>=3 → mínimo **NAQ Medio**
 - Impacto en seguridad de personas / violación legal grave / continuidad operativa crítica → **NAQ Alto**
 - Sistema de IA clasificado como "high risk" según EU AI Act → **NAQ Alto** + Anexo IA (sección 16)
 
@@ -97,17 +97,17 @@ Se activa cuando se dispara alguna regla de override:
 
 | Control | Alto ordinario | Alto — misión crítica |
 |---------|---------------|----------------------|
-| Code coverage | New >=80% / Overall >=70% | **New >=90% / Overall >=80%** |
-| Code review | >=1 senior reviewer | **>=2 senior reviewers, one independent** |
-| Mutation testing | Recommended | **Mandatory** |
-| Security | SAST/DAST/SCA | + **formal pentest**, 0 Critical/High open |
-| DR/rollback | SLO defined | + **validated in rehearsal + MTTR verified** |
+| Cobertura de código | Nuevo >=80% / Overall >=70% | **Nuevo >=90% / Overall >=80%** |
+| Code review | >=1 reviewer senior | **>=2 reviewers senior, uno independiente** |
+| Mutation testing | Recomendado | **Obligatorio** |
+| Seguridad | SAST/DAST/SCA | + **pentest formal**, 0 Critical/High abiertos |
+| DR/rollback | SLO definido | + **validado en ensayo + MTTR verificado** |
 | Entregables | Mínimos de NAQ Alto | + **informe formal de riesgos + Go/No-Go con Dirección** |
 
 ### Triggers de reevaluación de NAQ
 
-- >=3 Sev1/Sev2 incidents in production within 3 months on same application
-- DER above band threshold for 2 consecutive releases
+- >=3 incidentes Sev1/Sev2 en producción en 3 meses sobre la misma aplicación
+- DER por encima del umbral de la banda durante 2 releases consecutivas
 - Cambio sustancial en el alcance, las integraciones o los requisitos de cumplimiento
 
 ---
@@ -146,7 +146,7 @@ Se activa cuando se dispara alguna regla de override:
 | **Integrado** | CI, SonarQube en pipeline, regresión crítica automatizada, trazabilidad requisito-test, auto-gates parciales, dashboard de KPI |
 | **Continuo** | Quality gates automáticos en CI/CD, alta automatización (E2E), NF recurrentes, dashboards ejecutivos, deploys controlados con rollback ensayado |
 
-**Regla de recomendación:** Continuo cuando hay alta frecuencia de despliegue OR NAQ Alto. Básico es el mínimo. Integrado es el objetivo de portfolio.
+**Regla de recomendación:** Continuo cuando hay alta frecuencia de despliegue O NAQ Alto. Básico es el mínimo. Integrado es el objetivo de portfolio.
 
 ---
 

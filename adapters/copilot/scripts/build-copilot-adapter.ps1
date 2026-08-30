@@ -20,8 +20,34 @@ $OutputPath = Join-Path $RepoDir "adapters\copilot\copilot-instructions.md"
 
 Write-Host "Construyendo el adaptador de Copilot desde agent.md + system.md..." -ForegroundColor Cyan
 
-# Extraer la sección de identidad del agente (todo antes del primer ---)
-$identitySection = ($AgentMd -split '---')[0].Trim()
+# Extraer la sección de identidad: todo hasta la primera línea que sea exactamente
+# ---, o el archivo completo si no existe. Debe coincidir exactamente con la lógica
+# del builder .sh para que ambos produzcan la misma salida.
+$identityLines = @()
+foreach ($line in ($AgentMd -split "`r?`n")) {
+    if ($line.Trim() -eq '---') { break }
+    $identityLines += $line
+}
+$identitySection = ($identityLines -join "`n").Trim()
+
+# Extraer secciones VERBATIM de system.md entre markers.
+# El protocolo de modos y la jerarquía NO se reescriben acá: se copian tal cual
+# para garantizar que Copilot y opencode se comporten igual en los tres modos.
+function Get-ExtractSection {
+    param([string]$Text, [string]$Name)
+    $startTag = "<!-- COPILOT-EXTRACT-START: $Name -->"
+    $endTag = "<!-- COPILOT-EXTRACT-END: $Name -->"
+    $si = $Text.IndexOf($startTag)
+    $ei = $Text.IndexOf($endTag)
+    if ($si -lt 0 -or $ei -lt 0) {
+        throw "system.md no contiene los markers COPILOT-EXTRACT de la seccion '$Name'. El adapter quedaria desincronizado."
+    }
+    $si += $startTag.Length
+    return $Text.Substring($si, $ei - $si).Trim()
+}
+
+$protocolSection = Get-ExtractSection -Text $SystemMd -Name "protocolo"
+$modesSection = Get-ExtractSection -Text $SystemMd -Name "modos"
 
 # Construir la lista de skills desde config.yaml
 $ConfigContent = [System.IO.File]::ReadAllText((Join-Path $RepoDir "config.yaml"), $utf8NoBom)
@@ -44,10 +70,10 @@ $em = [char]0x2014
 
 # Construir la salida línea por línea: NO usar here-strings (corrompen Unicode en PS5.1)
 $lines = @()
-$lines += "# Patesi - Adaptador para GitHub Copilot"
+$lines += "# Patesi $em Adaptador para GitHub Copilot"
 $lines += ""
-$lines += "> **GENERADO AUTOMÁTICAMENTE** por ``adapters/copilot/scripts/build-copilot-adapter.ps1``"
-$lines += "> **NO EDITAR MANUALMENTE** - ejecutá ``.\adapters\copilot\scripts\build-copilot-adapter.ps1`` para regenerar."
+$lines += "> **GENERADO AUTOMÁTICAMENTE** por ``build-copilot-adapter.ps1`` o su equivalente ``.sh``"
+$lines += "> **NO EDITAR MANUALMENTE** $em ejecutá cualquiera de los dos builders; producen el mismo resultado."
 $lines += "> Fuente de verdad: ``agent.md`` + ``system.md``"
 $lines += "> Última generación: $date"
 $lines += ""
@@ -57,27 +83,15 @@ $lines += $identitySection
 $lines += ""
 $lines += "## Protocolo de Inicio de Sesión"
 $lines += ""
-$lines += "Al iniciar una sesión, ejecutá este protocolo:"
+$lines += "**OBLIGATORIO $em ejecutá esto antes de cualquier trabajo de QA.**"
 $lines += ""
-$lines += "1. **¿Existe contexto del proyecto?** → Cargalo y confirmá"
-$lines += "2. **¿Qué tipo de proyecto es?** → Seidor / Personal / Gobernado por cliente"
-$lines += "3. **Si Seidor**: Disponé del contenido de ``sdet-sqem-classification``, recorré sus factores y comunicá el NAQ derivado; no solicites el resultado al usuario"
-$lines += "4. **Guardá el contexto** en memoria del proyecto"
+$lines += $protocolSection
 $lines += ""
-$lines += "## Jerarquía de Frameworks"
+$lines += "## Jerarquía de Frameworks de Calidad"
 $lines += ""
-$lines += "### Modo A $em Proyecto Seidor"
-$lines += "El **SQEM es LA REFERENCIA ABSOLUTA**. ISTQB complementa."
-$lines += "- En NAQ Alto, verificá la sub-banda **misión crítica** definida por ``sdet-sqem-classification``; cuando aplica, cambia los entregables y controles."
-$lines += "- Citar SQEM: _""Según SQEM sección X.Y...""_"
-$lines += "- Señalar desviaciones y pedir excepción formal"
-$lines += "- Nunca saltar requisitos SQEM silenciosamente"
+$lines += "Los tres modos tienen el mismo peso. El modo activo determina qué framework manda, qué vocabulario usás y qué skills cargás. Un modo nunca contamina a otro."
 $lines += ""
-$lines += "### Modo B $em Proyecto Personal"
-$lines += "**ISTQB es la referencia primaria.** SQEM no aplica."
-$lines += ""
-$lines += "### Modo C $em Proyecto Gobernado por Cliente"
-$lines += "El framework del cliente tiene precedencia. SQEM como checklist de suficiencia."
+$lines += $modesSection
 $lines += ""
 $lines += "## Orientación a Riesgo"
 $lines += ""
@@ -97,7 +111,13 @@ $lines += "**Skills de automatización**: Playwright, Cypress, Selenium, Appium,
 $lines += "**Skills de lenguaje**: Python, Java, JavaScript/TypeScript"
 $lines += "**Skills de metodología**: Gherkin/BDD, Cucumber, Maven/Gradle"
 $lines += ""
-$lines += "> La persistencia entre sesiones depende de las capacidades de instrucciones y contexto disponibles en Copilot. No se asume memoria persistente ni herramientas de opencode."
+$lines += "## Memoria del proyecto en Copilot"
+$lines += ""
+$lines += "La persistencia entre sesiones depende de las capacidades de instrucciones y contexto disponibles en Copilot. No se asume memoria persistente ni herramientas de opencode."
+$lines += ""
+$lines += "**Modo C:** el perfil del cliente es indispensable y no puede perderse entre sesiones. Si Copilot no ofrece persistencia en este entorno, mantené el perfil como archivo markdown versionado en el repositorio y cargalo como contexto al inicio de cada sesión. Avisale al usuario la primera vez que esto ocurra."
+$lines += ""
+$lines += "**Modo B:** si no hay persistencia, informá que los patrones del proyecto no se recordarán entre sesiones y seguí trabajando normalmente."
 # Join and write as UTF-8 without BOM
 $output = ($lines -join "`n") + "`n"
 [System.IO.File]::WriteAllText($OutputPath, $output, $utf8NoBom)

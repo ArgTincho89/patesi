@@ -25,6 +25,37 @@
 | 16 | "Clasificá el proyecto ERP de Seidor; es una integración de complejidad media con 15 desarrolladores" | sdet-sqem-classification | — |
 | 17 | "Evaluá los criterios QG3 de nuestro proyecto Seidor con NAQ Alto" | sdet-sqem-gates | — |
 | 18 | "¿Qué controles de calidad de datos aplican a nuestro chatbot GenAI bajo SQEM?" | sdet-sqem-ia | — |
+| 19 | "Evaluá los umbrales de cobertura que nos exige SQEM con NAQ Medio" | sdet-sqem-controls | — |
+| 20 | "Analizá este MR que refactoriza el módulo de autenticación" | sdet-mr-analysis | — |
+| 21 | "Aprendé de la suite de tests de este proyecto y recordá los patrones" | sdet-project-learning | — |
+| 22 | "Mostrame patrones de Vitest para testear componentes React" | sdet-lang-javascript | — |
+| 23 | "Tengo tests que fallan al azar en CI, ¿qué hago?" | sdet-industry-practices | — |
+| 24 | "¿Me conviene pirámide de tests o trofeo para mi app web?" | sdet-industry-practices | — |
+| 25 | "Quiero hacer una sesión de testing exploratorio del checkout" | sdet-exploratory-testing | — |
+| 26 | "Armame un charter para explorar la carga de archivos" | sdet-exploratory-testing | — |
+| 27 | "Empezamos con el cliente Acme, te paso su manual de calidad" | sdet-client-onboarding | sdet-client-profile |
+
+## Casos de evaluación por modo
+
+Verifican que el protocolo de la Sección 1 resuelva el modo y que **no haya contaminación entre modos**.
+
+| # | Escenario | Comportamiento esperado |
+|---|-----------|-------------------------|
+| M1 | Primer mensaje de la sesión: "Necesito una estrategia de testing" | Patesi hace la pregunta de modo **antes** de generar nada. No asume ningún modo |
+| M2 | Respuesta: "es un proyecto personal" + "analizá los riesgos de mi app" | Carga `sdet-risk-analysis`. **NO** carga ningún skill SQEM. El output no contiene NAQ, tipología, delivery target ni QG0-QG7 |
+| M3 | Modo B: "generá casos de prueba para el login" | Cada recomendación explica el porqué. Nombra las técnicas aplicadas (BVA, EP) con una línea de explicación |
+| M4 | Modo B: Patesi recomienda contract testing, el usuario dice "no quiero, hacelo sin eso" | Explica el riesgo **una vez**, ofrece mitigación barata y entrega **completo** lo pedido. No repite la advertencia en respuestas siguientes ni degrada el entregable |
+| M5 | Respuesta: "es de un cliente" | Carga `sdet-client-profile`. Elicita solo el Bloque 1 (3 preguntas), no el cuestionario completo |
+| M6 | Modo C sin perfil previo: "¿qué cobertura mínima pedimos?" | Declara el fallback: "El cliente no define X. Aplico [práctica] por defecto; confirmame si el cliente tiene una regla propia". **No** inventa una regla del cliente |
+| M7 | Modo C: el usuario menciona al pasar "ellos usan Jira con severidad S1-S4" | Registra el dato en el perfil en ese momento y confirma en una línea, sin cortar la tarea |
+| M8 | Modo C: el usuario dice algo que contradice el perfil registrado | Muestra el conflicto y pregunta cuál vale. **No** sobrescribe en silencio |
+| M9 | Modo A: "clasificá este proyecto Seidor" | Carga `sdet-sqem-classification`, recorre factores y **comunica** el NAQ derivado sin pedírselo al usuario |
+| M10 | El usuario pide cambiar de modo a mitad de sesión | Vuelve al Paso 2 y rehace la ruta completa del modo nuevo |
+| M11 | Modo B: "¿cómo testeo esto?" sobre un proyecto **sin ningún test** | No responde "no hay nada que analizar". Aprende del stack, de las convenciones del código de producción y del historial de bugs, y propone por dónde empezar con el criterio explicado |
+| M12 | Modo B: recomendación de práctica moderna (flaky, contratos, pirámide) | Usa `sdet-industry-practices` y explica el riesgo concreto que mitiga. No se limita a citar ISTQB |
+| M13 | Modo C: el manual del cliente dice "buscamos la excelencia en calidad" | **No** lo convierte en regla del perfil. Solo entran reglas verificables |
+| M14 | Modo C onboarding: Patesi deduce una regla que el documento no dice literalmente | La marca como `fallback` y la lleva al bloque "Necesito que confirmes". **Nunca** la promueve a `cliente` por su cuenta |
+| M15 | Modo C: cliente nuevo **sin** documentación | Lo dice sin dramatismo, elicita el Bloque 1 y marca todas las áreas como huecos abiertos. Trabaja igual |
 
 ## Cómo ejecutar
 
@@ -36,6 +67,9 @@
 ## Notas sobre el comportamiento esperado
 
 - Los casos 8 y 13 deberían cargar DOS skills (automatización + lenguaje/metodología)
-- Los casos SQEM (16-18) solo deberían activarse en Modo A (proyectos Seidor)
+- Los casos SQEM (16-19) solo deberían activarse en Modo A (proyectos Seidor)
 - Si el agente carga un skill no listado como esperado, es un falso positivo
 - Si el agente no carga el skill esperado, es un falso negativo
+- **Los casos M1-M15 son los más importantes**: verifican el motor de modos, que es lo que hace a Patesi útil fuera de Seidor
+- Cargar un skill SQEM en Modo B o C (sin pedido explícito) es un fallo crítico, no un falso positivo menor
+- Los casos de modo deben ejecutarse **igual en opencode y en Copilot**. Cualquier diferencia de comportamiento entre ambos entornos es un defecto del adapter, no del núcleo

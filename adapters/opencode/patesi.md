@@ -37,7 +37,7 @@ bash adapters/opencode/scripts/install.sh
 .\adapters\opencode\scripts\install.ps1
 ```
 
-Esto copia el agente y los 23 skills a `~/.config/opencode/`. Después reiniciá opencode y cambiá al agente con **Tab** o `@patesi`.
+Esto copia el agente y los 27 skills a `~/.config/opencode/`. Después reiniciá opencode y cambiá al agente con **Tab** o `@patesi`.
 
 ### Opción B — Manual
 
@@ -85,10 +85,24 @@ Los skills se cargan bajo demanda cuando la solicitud del usuario coincide con u
 - Usuario pide Maven/Gradle → `sdet-build-maven`
 - Usuario pide pipelines CI/CD → `sdet-cicd`
 - Usuario pide analizar un MR/PR → `sdet-mr-analysis`
-- Usuario pide aprender de proyecto → `sdet-project-learning` * |
+- Usuario pide aprender de proyecto → `sdet-project-learning` *
+- Usuario pide buenas prácticas, pirámide de tests, flaky, contract testing → `sdet-industry-practices`
+- Usuario pide testing exploratorio o charters → `sdet-exploratory-testing`
+- **Modo C (proyecto de cliente) — siempre** → `sdet-client-profile` *
+- Modo C + cliente nuevo con documentación → `sdet-client-onboarding`
 - Proyecto Seidor + necesita NAQ → `sdet-sqem-classification`
 - Proyecto Seidor + necesita gates → `sdet-sqem-gates`
 - Proyecto Seidor + necesita controles → `sdet-sqem-controls`
 - Proyecto Seidor + IA/ML/GenAI → `sdet-sqem-ia`
+
+### Resolución por modo
+
+El modo se resuelve en el Paso 2 del protocolo de `system.md` y determina qué se puede cargar:
+
+| Modo | Skills habilitados |
+|------|--------------------|
+| **A — Seidor** | Todos, incluidos los cuatro skills SQEM |
+| **B — Personal** | Todos **menos** los SQEM. Base: `sdet-industry-practices` + `sdet-istqb`. Cargar un skill SQEM en Modo B es un error |
+| **C — Cliente** | `sdet-client-profile` siempre, `sdet-client-onboarding` al arrancar con documentación, y el resto según la tarea. SQEM solo si el usuario lo pide explícitamente |
 
 \* Requiere persistencia configurada en opencode; si no está disponible, se informa la limitación.

@@ -16,8 +16,35 @@ CONFIG="$REPO_DIR/config.yaml"
 
 echo "Construyendo el adaptador de Copilot desde agent.md + system.md..."
 
-# Extraer identidad (antes del primer ---)
-IDENTITY=$(sed '/^---$/q' "$AGENT_MD" | sed '$d')
+# Extraer identidad: todo hasta la primera línea que sea exactamente ---, o el
+# archivo completo si no existe. Sin el guard, `sed '$d'` borraba la última línea
+# real de agent.md y el adapter perdía contenido de identidad.
+if grep -qx -- '---' "$AGENT_MD"; then
+    IDENTITY=$(sed '/^---$/q' "$AGENT_MD" | sed '$d')
+else
+    IDENTITY=$(cat "$AGENT_MD")
+fi
+
+# Extraer secciones VERBATIM de system.md entre markers.
+# El protocolo de modos y la jerarquía NO se reescriben acá: se copian tal cual
+# para garantizar que Copilot y opencode se comporten igual en los tres modos.
+extract_section() {
+    local name="$1"
+    local out
+    out=$(awk -v n="$name" '
+        $0 == "<!-- COPILOT-EXTRACT-START: " n " -->" { inside=1; next }
+        $0 == "<!-- COPILOT-EXTRACT-END: " n " -->"   { inside=0 }
+        inside { print }
+    ' "$SYSTEM_MD" | sed -e '/./,$!d' | awk 'NF {p=NR} {a[NR]=$0} END {for(i=1;i<=p;i++) print a[i]}')
+    if [ -z "$out" ]; then
+        echo "ERROR: system.md no contiene los markers COPILOT-EXTRACT de la seccion '$name'. El adapter quedaria desincronizado." >&2
+        exit 1
+    fi
+    printf '%s' "$out"
+}
+
+PROTOCOL_SECTION=$(extract_section "protocolo")
+MODES_SECTION=$(extract_section "modos")
 
 # Extraer nombres de skills desde config.yaml
 SKILL_LIST=$(grep -E '^\s+- name:' "$CONFIG" | sed -E 's/^\s+- name: /- `/' | sed 's/$/`/')
@@ -25,11 +52,15 @@ SKILL_LIST=$(grep -E '^\s+- name:' "$CONFIG" | sed -E 's/^\s+- name: /- `/' | se
 # Obtener la fecha actual
 TODAY=$(date +%Y-%m-%d)
 
-cat > "$OUTPUT" << HEREDOC
-# Patesi — Adaptador para GitHub Copilot
+# Em dash literal (el builder .ps1 lo inyecta como variable; acá replicamos el mismo
+# valor para que ambas salidas sean byte a byte idénticas)
+EM="—"
 
-> **GENERADO AUTOMÁTICAMENTE** por \`adapters/copilot/scripts/build-copilot-adapter.sh\`
-> **NO EDITAR MANUALMENTE** — ejecutá \`bash adapters/copilot/scripts/build-copilot-adapter.sh\` para regenerar.
+cat > "$OUTPUT" << HEREDOC
+# Patesi $EM Adaptador para GitHub Copilot
+
+> **GENERADO AUTOMÁTICAMENTE** por \`build-copilot-adapter.ps1\` o su equivalente \`.sh\`
+> **NO EDITAR MANUALMENTE** — ejecutá cualquiera de los dos builders; producen el mismo resultado.
 > Fuente de verdad: \`agent.md\` + \`system.md\`
 > Última generación: $TODAY
 
@@ -39,27 +70,15 @@ $IDENTITY
 
 ## Protocolo de Inicio de Sesión
 
-Al iniciar una sesión, ejecutá este protocolo:
+**OBLIGATORIO — ejecutá esto antes de cualquier trabajo de QA.**
 
-1. **¿Existe contexto del proyecto?** → Cargalo y confirmá
-2. **¿Qué tipo de proyecto es?** → Seidor / Personal / Gobernado por cliente
-3. **Si Seidor**: Disponé del contenido de \`sdet-sqem-classification\`, recorré sus factores y comunicá el NAQ derivado; no solicites el resultado al usuario
-4. **Guardá el contexto** en memoria del proyecto
+$PROTOCOL_SECTION
 
-## Jerarquía de Frameworks
+## Jerarquía de Frameworks de Calidad
 
-### Modo A — Proyecto Seidor
-El **SQEM es LA REFERENCIA ABSOLUTA**. ISTQB complementa.
-- En NAQ Alto, verificá la sub-banda **misión crítica** definida por \`sdet-sqem-classification\`; cuando aplica, cambia los entregables y controles.
-- Citar SQEM: _"Según SQEM sección X.Y..."_
-- Señalar desviaciones y pedir excepción formal
-- Nunca saltar requisitos SQEM silenciosamente
+Los tres modos tienen el mismo peso. El modo activo determina qué framework manda, qué vocabulario usás y qué skills cargás. Un modo nunca contamina a otro.
 
-### Modo B — Proyecto Personal
-**ISTQB es la referencia primaria.** SQEM no aplica.
-
-### Modo C — Proyecto Gobernado por Cliente
-El framework del cliente tiene precedencia. SQEM como checklist de suficiencia.
+$MODES_SECTION
 
 ## Orientación a Riesgo
 
@@ -79,8 +98,13 @@ $SKILL_LIST
 **Skills de lenguaje**: Python, Java, JavaScript/TypeScript
 **Skills de metodología**: Gherkin/BDD, Cucumber, Maven/Gradle
 
-> La persistencia entre sesiones depende de las capacidades de instrucciones y contexto disponibles en Copilot. No se asume memoria persistente ni herramientas de opencode.
+## Memoria del proyecto en Copilot
 
+La persistencia entre sesiones depende de las capacidades de instrucciones y contexto disponibles en Copilot. No se asume memoria persistente ni herramientas de opencode.
+
+**Modo C:** el perfil del cliente es indispensable y no puede perderse entre sesiones. Si Copilot no ofrece persistencia en este entorno, mantené el perfil como archivo markdown versionado en el repositorio y cargalo como contexto al inicio de cada sesión. Avisale al usuario la primera vez que esto ocurra.
+
+**Modo B:** si no hay persistencia, informá que los patrones del proyecto no se recordarán entre sesiones y seguí trabajando normalmente.
 HEREDOC
 
 echo "Generado: adapters/copilot/copilot-instructions.md"

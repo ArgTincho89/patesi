@@ -53,11 +53,11 @@ Generá la estrategia de testing con TODAS las secciones siguientes:
 | Tipo | Aplicado | Justificación |
 |------|---------|-----------|
 | Funcional | ✅/❌ | {Por qué sí o por qué no} |
-| Non-functional (Performance) | ✅/❌ | {Why or why not} |
-| Non-functional (Security) | ✅/❌ | {Why or why not} |
-| Non-functional (Usability) | ✅/❌ | {Why or why not} |
-| Structural | ✅/❌ | {Why or why not} |
-| Regression | ✅/❌ | {Why or why not} |
+| No funcional (performance) | ✅/❌ | {Por qué sí o por qué no} |
+| No funcional (seguridad) | ✅/❌ | {Por qué sí o por qué no} |
+| No funcional (usabilidad) | ✅/❌ | {Por qué sí o por qué no} |
+| Estructural | ✅/❌ | {Por qué sí o por qué no} |
+| Regresión | ✅/❌ | {Por qué sí o por qué no} |
 
 ## 4. Priorización basada en riesgos
 
@@ -87,16 +87,16 @@ Generá la estrategia de testing con TODAS las secciones siguientes:
 
 | Entorno | Propósito | Configuración |
 |-------------|---------|---------------|
-| Development | Unit/component testing | Local machine |
-| QA/Staging | System/acceptance testing | Mirror of production |
-| Performance | Load/stress testing | Dedicated performance environment |
+| Desarrollo | Testing unitario y de componentes | Máquina local |
+| QA/Staging | Testing de sistema y aceptación | Espejo de producción |
+| Performance | Testing de carga y estrés | Entorno dedicado de performance |
 
 ## 7. Estrategia de automatización
 
 | Área | ¿Automatizar? | Framework | Prioridad |
 |------|-----------|-----------|----------|
-| {Feature area 1} | Yes/No | {Framework} | High/Medium/Low |
-| {Feature area 2} | Yes/No | {Framework} | High/Medium/Low |
+| {Área de feature 1} | Sí/No | {Framework} | Alta/Media/Baja |
+| {Área de feature 2} | Sí/No | {Framework} | Alta/Media/Baja |
 
 ### Criterios para decidir la automatización
 - **Automatizar**: Tests repetitivos, suite de regresión, tests data-driven y smoke tests
@@ -113,8 +113,8 @@ Generá la estrategia de testing con TODAS las secciones siguientes:
 
 | Riesgo | Probabilidad | Impacto | Mitigación |
 |------|------------|--------|------------|
-| {Risk 1} | High/Medium/Low | High/Medium/Low | {How to handle} |
-| {Risk 2} | High/Medium/Low | High/Medium/Low | {How to handle} |
+| {Riesgo 1} | Alta/Media/Baja | Alto/Medio/Bajo | {Cómo abordarlo} |
+| {Riesgo 2} | Alta/Media/Baja | Alto/Medio/Bajo | {Cómo abordarlo} |
 ```
 
 ## Ejemplo de entrada
@@ -139,92 +139,92 @@ Criterios de aceptación:
 ## 1. Alcance
 
 ### Dentro del alcance
-- Password reset request flow (email submission)
-- Email delivery and reset link generation
-- Reset link validation and expiration
-- Password update with validation
-- Confirmation messaging
-- Security considerations (link uniqueness, rate limiting)
+- Flujo de solicitud de restablecimiento de contraseña (envío del email)
+- Entrega del email y generación del enlace de restablecimiento
+- Validación y expiración del enlace de restablecimiento
+- Actualización de la contraseña con validación
+- Mensajes de confirmación
+- Consideraciones de seguridad (unicidad del enlace, rate limiting)
 
 ### Fuera del alcance
-- Login functionality (existing, already tested)
-- Account creation flow
-- Email template design (covered by design review)
-- Third-party email service internals
+- Funcionalidad de login (existente, ya testeada)
+- Flujo de creación de cuenta
+- Diseño de las plantillas de email (cubierto por la revisión de diseño)
+- Internals del servicio de email de terceros
 
 ## 2. Niveles de testing
 
 | Nivel | Aplicado | Justificación |
 |-------|---------|-----------|
-| Component | ✅ | Test password validation logic, token generation |
-| Integration | ✅ | Test email service integration, database operations |
-| System | ✅ | End-to-end reset flow across UI, API, email |
-| Acceptance | ✅ | Validación de los criterios de aceptación de la user story |
+| Componente | ✅ | Testear la lógica de validación de contraseña y la generación de tokens |
+| Integración | ✅ | Testear la integración con el servicio de email y las operaciones de base de datos |
+| Sistema | ✅ | Flujo de restablecimiento end-to-end entre UI, API y email |
+| Aceptación | ✅ | Validación de los criterios de aceptación de la user story |
 
 ## 3. Tipos de testing
 
 | Tipo | Aplicado | Justificación |
 |------|---------|-----------|
-| Functional | ✅ | Core reset functionality |
-| Security | ✅ | Token security, rate limiting, brute force protection |
-| Usability | ✅ | Reset form clarity, email content |
-| Performance | ❌ | Low-volume feature, not performance-critical |
-| Regression | ✅ | Ensure reset doesn't break login |
+| Funcional | ✅ | Funcionalidad central de restablecimiento |
+| Seguridad | ✅ | Seguridad del token, rate limiting, protección contra fuerza bruta |
+| Usabilidad | ✅ | Claridad del formulario de restablecimiento y del contenido del email |
+| Performance | ❌ | Feature de bajo volumen, no crítica en performance |
+| Regresión | ✅ | Asegurar que el restablecimiento no rompa el login |
 
 ## 4. Priorización basada en riesgos
 
-| Risk Area | Level | Impact | Test Focus |
-|-----------|-------|--------|------------|
-| Security (token) | High | Account compromise if tokens weak | Token uniqueness, expiration, single-use |
-| Email delivery | Medium | Users can't reset if email fails | Delivery confirmation, retry logic |
-| Password validation | Medium | Weak passwords accepted | Complexity rules, common password check |
-| Link expiration | Low | Old links usable | 24-hour expiration enforcement |
+| Área de riesgo | Nivel | Impacto | Enfoque de testing |
+|----------------|-------|---------|--------------------|
+| Seguridad (token) | Alto | Compromiso de cuenta si los tokens son débiles | Unicidad del token, expiración, uso único |
+| Entrega del email | Medio | El usuario no puede restablecer si falla el email | Confirmación de entrega, lógica de reintento |
+| Validación de contraseña | Medio | Se aceptan contraseñas débiles | Reglas de complejidad, chequeo de contraseñas comunes |
+| Expiración del enlace | Bajo | Enlaces viejos utilizables | Aplicación de la expiración a las 24 horas |
 
 ## 5. Criterios de entrada y salida
 
-### Entry Criteria
-- [ ] Password reset API endpoint implemented
-- [ ] Email service configured and accessible
-- [ ] QA environment with email testing (e.g., Mailhog)
-- [ ] Test accounts with valid emails available
+### Criterios de entrada
+- [ ] Endpoint de API de restablecimiento de contraseña implementado
+- [ ] Servicio de email configurado y accesible
+- [ ] Entorno de QA con testing de email (por ejemplo, Mailhog)
+- [ ] Cuentas de prueba con emails válidos disponibles
 
-### Exit Criteria
-- [ ] All P1/P2 test cases pass
-- [ ] No open critical security defects
-- [ ] Token expiration verified
-- [ ] Rate limiting verified (max 3 requests/hour)
-- [ ] Test summary report generated
+### Criterios de salida
+- [ ] Todos los casos de prueba P1/P2 pasan
+- [ ] Sin defectos críticos de seguridad abiertos
+- [ ] Expiración del token verificada
+- [ ] Rate limiting verificado (máximo 3 solicitudes por hora)
+- [ ] Informe resumido de tests generado
 
 ## 6. Requisitos del entorno de testing
 
 | Entorno | Propósito | Configuración |
 |-------------|---------|---------------|
-| QA | Functional testing | App + Mailhog (email capture) |
-| Security | Token testing | App + database access for token inspection |
+| QA | Testing funcional | App + Mailhog (captura de emails) |
+| Seguridad | Testing de tokens | App + acceso a base de datos para inspeccionar tokens |
 
 ## 7. Estrategia de automatización
 
-| Area | Automate? | Framework | Priority |
-|------|-----------|-----------|----------|
-| Happy path reset flow | Yes | Playwright + TS | High |
-| Password validation rules | Yes | Jest unit tests | High |
-| Token expiration | Yes | API tests | Medium |
-| Email delivery | Semi | Mailhog API checks | Medium |
-| Usability testing | No | Manual only | - |
+| Área | ¿Automatizar? | Framework | Prioridad |
+|------|---------------|-----------|-----------|
+| Flujo de restablecimiento happy path | Sí | Playwright + TS | Alta |
+| Reglas de validación de contraseña | Sí | Tests unitarios con Jest | Alta |
+| Expiración del token | Sí | Tests de API | Media |
+| Entrega del email | Parcial | Checks vía API de Mailhog | Media |
+| Testing de usabilidad | No | Solo manual | - |
 
 ## 8. Roles y responsabilidades
 
-| Role | Responsibility |
-|------|---------------|
+| Rol | Responsabilidad |
+|-----|-----------------|
 | QA Engineer | Diseñar y ejecutar casos de prueba, automatizar la regresión |
-| Developer | Fix defects, review security aspects |
+| Developer | Corregir defectos, revisar los aspectos de seguridad |
 | Product Owner | Aceptar o rechazar la story, aclarar requisitos |
 
 ## 9. Riesgos y mitigaciones
 
-| Risk | Likelihood | Impact | Mitigation |
-|------|------------|--------|------------|
-| Email service unreliable in QA | Medium | Can't test email flow | Use Mailhog/local SMTP, mock if needed |
-| Token timing issues in tests | High | Flaky tests | Use deterministic time in tests |
-| Security vulnerability undetected | Medium | Production risk | Include security checklist, OWASP Top 10 review |
+| Riesgo | Probabilidad | Impacto | Mitigación |
+|--------|--------------|---------|------------|
+| Servicio de email poco fiable en QA | Media | No se puede testear el flujo de email | Usar Mailhog/SMTP local, mockear si hace falta |
+| Problemas de timing del token en los tests | Alta | Tests flaky | Usar tiempo determinista en los tests |
+| Vulnerabilidad de seguridad no detectada | Media | Riesgo en producción | Incluir checklist de seguridad y revisión OWASP Top 10 |
 ```

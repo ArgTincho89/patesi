@@ -71,7 +71,7 @@ Cada caso de prueba DEBE seguir esta estructura:
 Generá los casos de prueba como una tabla estructurada:
 
 ```markdown
-# Casos de prueba: {Feature Name}
+# Casos de prueba: {Nombre de la feature}
 
 ## Resumen
 
@@ -81,30 +81,30 @@ Generá los casos de prueba como una tabla estructurada:
 
 ## Casos de prueba
 
-### TC-001: {Title}
+### TC-001: {Título}
 
-- **Priority**: P{X}
+- **Prioridad**: P{X}
 - **Precondiciones**: {Qué debe cumplirse}
 - **Automatización**: {true/false} — {Justificación}
 - **Requisitos**: {REQ-XXX}
 
-**Steps**:
-1. {Action 1}
-2. {Action 2}
-3. {Action 3}
+**Pasos**:
+1. {Acción 1}
+2. {Acción 2}
+3. {Acción 3}
 
 **Resultados esperados**:
-1. {Result 1}
-2. {Result 2}
-3. {Result 3}
+1. {Resultado 1}
+2. {Resultado 2}
+3. {Resultado 3}
 
-**Test Data**:
-- {Data item 1}: {Value}
-- {Data item 2}: {Value}
+**Datos de prueba**:
+- {Dato 1}: {Valor}
+- {Dato 2}: {Valor}
 
 ---
 
-### TC-002: {Title}
+### TC-002: {Título}
 ...
 ```
 
@@ -128,7 +128,7 @@ Criterios de aceptación:
 
 ## Resumen
 
-| Total | P1 | P2 | P3 | P4 | Auto Candidate |
+| Total | P1 | P2 | P3 | P4 | Candidato a automatización |
 |-------|----|----|----|----|----------------|
 | 8 | 3 | 3 | 2 | 0 | 7/8 |
 
@@ -155,7 +155,7 @@ Criterios de aceptación:
 4. El campo de nombre acepta la entrada
 5. El sistema crea la cuenta, envía el email de verificación y redirige a la página "Check your email"
 
-**Datos de test**:
+**Datos de prueba**:
 - Email: newuser@example.com
 - Contraseña: SecurePass1
 - Nombre: Test User
@@ -164,154 +164,154 @@ Criterios de aceptación:
 
 ### TC-002: Registro rechazado - formato de email inválido
 
-- **Priority**: P1
-- **Preconditions**: Registration page is accessible
-- **Automation**: true — Data-driven, easy to automate
+- **Prioridad**: P1
+- **Precondiciones**: La página de registro es accesible
+- **Automatización**: true — Data-driven, fácil de automatizar
 - **Requisitos**: REQ-REG-002
 
-**Steps**:
-1. Navigate to registration page
-2. Enter email: "notanemail"
-3. Enter valid password: "SecurePass1"
-4. Enter name: "Test User"
-5. Click "Register" button
+**Pasos**:
+1. Navegar a la página de registro
+2. Ingresar el email: "notanemail"
+3. Ingresar una contraseña válida: "SecurePass1"
+4. Ingresar el nombre: "Test User"
+5. Hacer clic en el botón "Register"
 
 **Resultados esperados**:
-1. Registration page loads correctly
-2. Email field accepts input
-3. Password field accepts input
-4. Name field accepts input
-5. System shows error: "Please enter a valid email address"
+1. La página de registro carga correctamente
+2. El campo de email acepta la entrada
+3. El campo de contraseña acepta la entrada
+4. El campo de nombre acepta la entrada
+5. El sistema muestra el error: "Please enter a valid email address"
 
 ---
 
 ### TC-003: Registro rechazado - contraseña débil
 
-- **Priority**: P1
-- **Preconditions**: Registration page is accessible
-- **Automation**: true — Data-driven, easy to automate
+- **Prioridad**: P1
+- **Precondiciones**: La página de registro es accesible
+- **Automatización**: true — Data-driven, fácil de automatizar
 - **Requisitos**: REQ-REG-003
 
-**Steps**:
-1. Navigate to registration page
-2. Enter valid email: "user@example.com"
-3. Enter weak password: "password"
-4. Enter name: "Test User"
-5. Click "Register" button
+**Pasos**:
+1. Navegar a la página de registro
+2. Ingresar un email válido: "user@example.com"
+3. Ingresar una contraseña débil: "password"
+4. Ingresar el nombre: "Test User"
+5. Hacer clic en el botón "Register"
 
 **Resultados esperados**:
-1. Registration page loads correctly
-2. Email field accepts input
-3. Password field accepts input
-4. Name field accepts input
-5. System shows error: "Password must be at least 8 characters with 1 uppercase letter and 1 number"
+1. La página de registro carga correctamente
+2. El campo de email acepta la entrada
+3. El campo de contraseña acepta la entrada
+4. El campo de nombre acepta la entrada
+5. El sistema muestra el error: "Password must be at least 8 characters with 1 uppercase letter and 1 number"
 
 ---
 
 ### TC-004: Registro rechazado - email duplicado
 
-- **Priority**: P2
-- **Preconditions**: User "existing@example.com" already exists
-- **Automation**: true — Requires test data setup
+- **Prioridad**: P2
+- **Precondiciones**: El usuario "existing@example.com" ya existe
+- **Automatización**: true — Requiere preparación de datos de prueba
 - **Requisitos**: REQ-REG-004
 
-**Steps**:
-1. Navigate to registration page
-2. Enter email: "existing@example.com"
-3. Enter valid password: "SecurePass1"
-4. Enter name: "Duplicate User"
-5. Click "Register" button
+**Pasos**:
+1. Navegar a la página de registro
+2. Ingresar el email: "existing@example.com"
+3. Ingresar una contraseña válida: "SecurePass1"
+4. Ingresar el nombre: "Duplicate User"
+5. Hacer clic en el botón "Register"
 
 **Resultados esperados**:
-1. Registration page loads correctly
-2. Email field accepts input
-3. Password field accepts input
-4. Name field accepts input
-5. System shows error: "An account with this email already exists"
+1. La página de registro carga correctamente
+2. El campo de email acepta la entrada
+3. El campo de contraseña acepta la entrada
+4. El campo de nombre acepta la entrada
+5. El sistema muestra el error: "An account with this email already exists"
 
 ---
 
-### TC-005: Registration with empty name field
+### TC-005: Registro con el campo de nombre vacío
 
-- **Priority**: P2
-- **Preconditions**: Registration page is accessible
-- **Automation**: true — Edge case, easy to automate
+- **Prioridad**: P2
+- **Precondiciones**: La página de registro es accesible
+- **Automatización**: true — Corner case, fácil de automatizar
 - **Requisitos**: REQ-REG-005
 
-**Steps**:
-1. Navigate to registration page
-2. Enter valid email: "noname@example.com"
-3. Enter valid password: "SecurePass1"
-4. Leave name field empty
-5. Click "Register" button
+**Pasos**:
+1. Navegar a la página de registro
+2. Ingresar un email válido: "noname@example.com"
+3. Ingresar una contraseña válida: "SecurePass1"
+4. Dejar el campo de nombre vacío
+5. Hacer clic en el botón "Register"
 
 **Resultados esperados**:
-1. Registration page loads correctly
-2. Email field accepts input
-3. Password field accepts input
-4. Name field is empty
-5. System shows error: "Name is required"
+1. La página de registro carga correctamente
+2. El campo de email acepta la entrada
+3. El campo de contraseña acepta la entrada
+4. El campo de nombre queda vacío
+5. El sistema muestra el error: "Name is required"
 
 ---
 
 ### TC-006: El email de verificación contiene un enlace válido
 
-- **Priority**: P2
-- **Preconditions**: User has just registered
-- **Automation**: true — Requires email service mock
+- **Prioridad**: P2
+- **Precondiciones**: El usuario acaba de registrarse
+- **Automatización**: true — Requiere un mock del servicio de email
 - **Requisitos**: REQ-REG-006
 
-**Steps**:
-1. Complete successful registration (TC-001)
-2. Open verification email
-3. Click verification link
+**Pasos**:
+1. Completar un registro exitoso (TC-001)
+2. Abrir el email de verificación
+3. Hacer clic en el enlace de verificación
 
 **Resultados esperados**:
-1. Registration completes successfully
-2. Email received within 5 minutes with subject "Verify your email"
-3. Link opens page showing "Email verified successfully"
+1. El registro se completa correctamente
+2. El email llega en menos de 5 minutos con el asunto "Verify your email"
+3. El enlace abre una página que muestra "Email verified successfully"
 
 ---
 
-### TC-007: Registration with maximum length inputs
+### TC-007: Registro con entradas de longitud máxima
 
-- **Priority**: P3
-- **Preconditions**: Registration page is accessible
-- **Automation**: true — Boundary testing
+- **Prioridad**: P3
+- **Precondiciones**: La página de registro es accesible
+- **Automatización**: true — Testing de valores de borde
 - **Requisitos**: REQ-REG-007
 
-**Steps**:
-1. Navigate to registration page
-2. Enter email with 254 characters (max valid email)
-3. Enter password with 128 characters (max allowed)
-4. Enter name with 100 characters
-5. Click "Register" button
+**Pasos**:
+1. Navegar a la página de registro
+2. Ingresar un email de 254 caracteres (email válido máximo)
+3. Ingresar una contraseña de 128 caracteres (máximo permitido)
+4. Ingresar un nombre de 100 caracteres
+5. Hacer clic en el botón "Register"
 
 **Resultados esperados**:
-1. Registration page loads correctly
-2-4. Fields accept maximum length inputs
-5. System processes registration (success or appropriate error)
+1. La página de registro carga correctamente
+2-4. Los campos aceptan entradas de longitud máxima
+5. El sistema procesa el registro (con éxito o con el error correspondiente)
 
 ---
 
-### TC-008: Registration form retains values after validation error
+### TC-008: El formulario de registro conserva los valores tras un error de validación
 
-- **Priority**: P3
-- **Preconditions**: Registration page is accessible
-- **Automation**: false — UX behavior, manual verification preferred
+- **Prioridad**: P3
+- **Precondiciones**: La página de registro es accesible
+- **Automatización**: false — Comportamiento de UX, se prefiere verificación manual
 - **Requisitos**: REQ-REG-008
 
-**Steps**:
-1. Navigate to registration page
-2. Enter email: "valid@example.com"
-3. Enter weak password: "123"
-4. Enter name: "Test User"
-5. Click "Register" button
-6. Observe form after error message
+**Pasos**:
+1. Navegar a la página de registro
+2. Ingresar el email: "valid@example.com"
+3. Ingresar una contraseña débil: "123"
+4. Ingresar el nombre: "Test User"
+5. Hacer clic en el botón "Register"
+6. Observar el formulario después del mensaje de error
 
 **Resultados esperados**:
-1. Registration page loads correctly
-2-4. Fields accept input
-5. System shows password error
-6. Email and name fields retain their values (user doesn't need to re-enter)
+1. La página de registro carga correctamente
+2-4. Los campos aceptan la entrada
+5. El sistema muestra el error de contraseña
+6. Los campos de email y nombre conservan sus valores (el usuario no necesita volver a ingresarlos)
 ```

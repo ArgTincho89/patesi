@@ -1,4 +1,4 @@
-# Patesi - Integracion de herramientas en opencode
+# Patesi — Integración de herramientas en opencode
 
 Esta documentación describe la resolución concreta de capacidades del núcleo en opencode.
 

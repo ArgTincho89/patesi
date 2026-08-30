@@ -170,7 +170,7 @@ Feature: Cadastro de usuário
 
 ## Buenas prácticas
 
-### 1. One Scenario = One Behavior
+### 1. Un escenario = un comportamiento
 
 ```gherkin
 # GOOD: Focused scenario
@@ -188,7 +188,7 @@ Scenario: Login handles all cases
   And if I enter invalid email I see format error
 ```
 
-### 2. Use User-Centric Language
+### 2. Usá lenguaje centrado en el usuario
 
 ```gherkin
 # GOOD
@@ -203,7 +203,7 @@ Scenario: API returns 409 when inventory count is zero
   Then response status is 409
 ```
 
-### 3. Keep Scenarios Independent
+### 3. Mantené los escenarios independientes
 
 ```gherkin
 # GOOD
@@ -217,7 +217,7 @@ Scenario: User logs in
 Scenario: User sees dashboard  # assumes login happened
 ```
 
-### 4. Be Specific, Not Vague
+### 4. Sé específico, no vago
 
 ```gherkin
 # GOOD
@@ -231,7 +231,7 @@ Scenario: Handle edge cases
   Then something should happen
 ```
 
-### 5. File Naming Convention
+### 5. Convención de nombres de archivos
 
 ```
 features/
@@ -249,11 +249,11 @@ features/
 
 ## Antipatrones
 
-| Anti-Pattern | Problem | Fix |
+| Antipatrón | Problema | Corrección |
 |---|---|---|
 | **Sobrecarga de reutilización de steps** | Steps demasiado genéricos, difíciles de mantener | Escribir steps específicos y con propósito |
 | **Steps de implementación** | `Given the database has a row` | Usar lenguaje de negocio en su lugar |
-| **Giant Scenarios** | 20+ steps in one scenario | Split into smaller scenarios |
-| **Shared State** | Scenarios depend on each other | Each scenario sets up its own state |
-| **UI Steps for API** | `Given the API returns 200` | Keep API scenarios API-focused |
-| **Vague Assertions** | `Then everything should work` | Be explicit about expected outcomes |
+| **Escenarios gigantes** | Más de 20 steps en un solo escenario | Dividir en escenarios más chicos |
+| **Estado compartido** | Los escenarios dependen entre sí | Cada escenario prepara su propio estado |
+| **Steps de UI para API** | `Given the API returns 200` | Mantener los escenarios de API enfocados en la API |
+| **Aserciones vagas** | `Then everything should work` | Ser explícito sobre los resultados esperados |

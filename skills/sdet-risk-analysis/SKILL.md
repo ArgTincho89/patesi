@@ -51,25 +51,25 @@ Score = (Business × 0.30) + (Complexity × 0.25) + (Change × 0.20) + (Gap × 0
 
 | Factor | Puntaje (1-5) | Peso | Ponderado |
 |--------|-------------|--------|----------|
-| Business Impact | {X} | 30% | {X × 0.30} |
-| Technical Complexity | {X} | 25% | {X × 0.25} |
-| Change Frequency | {X} | 20% | {X × 0.20} |
-| Test Coverage Gap | {X} | 15% | {X × 0.15} |
-| Dependency Risk | {X} | 10% | {X × 0.10} |
-| **Total** | | | **{sum}** |
+| Impacto de negocio | {X} | 30% | {X × 0.30} |
+| Complejidad técnica | {X} | 25% | {X × 0.25} |
+| Frecuencia de cambio | {X} | 20% | {X × 0.20} |
+| Brecha de cobertura de tests | {X} | 15% | {X × 0.15} |
+| Riesgo de dependencias | {X} | 10% | {X × 0.10} |
+| **Total** | | | **{suma}** |
 
 ## Nivel de riesgo: {🔴 ALTO / 🟡 MEDIO / 🟢 BAJO}
 
 ## Enfoque de testing recomendado
 
-{Specific testing recommendations based on the risk level and factor scores}
+{Recomendaciones de testing concretas según el nivel de riesgo y los puntajes por factor}
 
 ## Riesgos clave identificados
 
-| # | Risk | Factor | Severity | Mitigation |
-|---|------|--------|----------|------------|
-| 1 | {Risk description} | {Which factor flagged it} | High/Medium/Low | {How to mitigate} |
-| 2 | {Risk description} | {Which factor flagged it} | High/Medium/Low | {How to mitigate} |
+| # | Riesgo | Factor | Severidad | Mitigación |
+|---|--------|--------|-----------|------------|
+| 1 | {Descripción del riesgo} | {Qué factor lo detectó} | Alta/Media/Baja | {Cómo mitigarlo} |
+| 2 | {Descripción del riesgo} | {Qué factor lo detectó} | Alta/Media/Baja | {Cómo mitigarlo} |
 
 ## Priorización de tests
 
@@ -85,11 +85,11 @@ Score = (Business × 0.30) + (Complexity × 0.25) + (Change × 0.20) + (Gap × 0
 ### Entrada
 
 ```
-Feature: Payment processing with Stripe integration
-- Handles credit card payments
-- Integrates with Stripe API
-- Stores transaction records
-- No existing test coverage (new feature)
+Feature: procesamiento de pagos con integración de Stripe
+- Gestiona pagos con tarjeta de crédito
+- Se integra con la API de Stripe
+- Almacena registros de transacciones
+- Sin cobertura de tests existente (feature nueva)
 ```
 
 ### Salida
@@ -99,13 +99,13 @@ Feature: Payment processing with Stripe integration
 
 ## Resumen
 
-| Factor | Score (1-5) | Weight | Weighted |
-|--------|-------------|--------|----------|
-| Business Impact | 5 | 30% | 1.50 |
-| Technical Complexity | 4 | 25% | 1.00 |
-| Change Frequency | 3 | 20% | 0.60 |
-| Test Coverage Gap | 5 | 15% | 0.75 |
-| Dependency Risk | 4 | 10% | 0.40 |
+| Factor | Puntaje (1-5) | Peso | Ponderado |
+|--------|---------------|------|-----------|
+| Impacto de negocio | 5 | 30% | 1.50 |
+| Complejidad técnica | 4 | 25% | 1.00 |
+| Frecuencia de cambio | 3 | 20% | 0.60 |
+| Brecha de cobertura de tests | 5 | 15% | 0.75 |
+| Riesgo de dependencias | 4 | 10% | 0.40 |
 | **Total** | | | **4.25** |
 
 ## Nivel de riesgo: 🔴 ALTO
@@ -124,22 +124,22 @@ BLOQUEAR MERGE: ningún código de pagos debe integrarse sin sus tests correspon
 
 ## Riesgos clave identificados
 
-| # | Risk | Factor | Severity | Mitigation |
-|---|------|--------|----------|------------|
-| 1 | Financial loss from payment errors | Business Impact | High | Comprehensive test suite + monitoring |
-| 2 | Stripe API changes break integration | Dependency Risk | High | Contract tests, pin Stripe version |
-| 3 | No existing test coverage | Coverage Gap | High | Write tests before implementation (TDD) |
-| 4 | Complex error handling scenarios | Technical Complexity | Medium | Map all Stripe error codes, test each |
+| # | Riesgo | Factor | Severidad | Mitigación |
+|---|--------|--------|-----------|------------|
+| 1 | Pérdida financiera por errores de pago | Impacto de negocio | Alta | Suite de tests exhaustiva + monitoreo |
+| 2 | Cambios en la API de Stripe rompen la integración | Riesgo de dependencias | Alta | Contract tests, fijar la versión de Stripe |
+| 3 | No hay cobertura de tests existente | Brecha de cobertura | Alta | Escribir tests antes de implementar (TDD) |
+| 4 | Escenarios complejos de manejo de errores | Complejidad técnica | Media | Mapear todos los códigos de error de Stripe y testear cada uno |
 
 ## Priorización de tests
 
 | Prioridad | Tipo de test | Justificación |
 |----------|-----------|-----------|
-| P1 | Unit tests for payment calculation | Core logic, must be correct |
-| P1 | Stripe integration tests (test mode) | Critical integration point |
-| P1 | Error handling (declined, timeout) | Financial impact |
-| P2 | Transaction record storage | Data integrity |
-| P2 | Webhook handling | asynchronous events |
-| P3 | Performance under load | Payment peak times |
-| P3 | Security audit | PCI compliance |
+| P1 | Tests unitarios del cálculo de pagos | Lógica central, tiene que ser correcta |
+| P1 | Tests de integración con Stripe (modo test) | Punto de integración crítico |
+| P1 | Manejo de errores (rechazo, timeout) | Impacto financiero |
+| P2 | Almacenamiento de registros de transacciones | Integridad de datos |
+| P2 | Manejo de webhooks | Eventos asincrónicos |
+| P3 | Performance bajo carga | Picos de pagos |
+| P3 | Auditoría de seguridad | Cumplimiento PCI |
 ```

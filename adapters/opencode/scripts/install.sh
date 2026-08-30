@@ -18,7 +18,7 @@ else
 fi
 
 SCRIPT_DIR="$(cd "$(dirname "${BASH_SOURCE[0]}")" && pwd)"
-REPO_DIR="$(dirname "$SCRIPT_DIR")"
+REPO_DIR="$(dirname "$(dirname "$(dirname "$SCRIPT_DIR")")")"
 
 echo "📁 Directorio de configuración de opencode: $OPENCODE_DIR"
 echo "📦 Fuente de Patesi: $REPO_DIR"

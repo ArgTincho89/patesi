@@ -20,7 +20,7 @@ Verificá si existe un contexto del proyecto en memoria persistente.
 Hacé las siguientes preguntas en orden:
 
 **Pregunta 1 — Tipo de Proyecto:**
-_""¿Este es un proyecto de la empresa Seidor, un proyecto personal, o un proyecto gobernado por cliente?"_
+_"¿Este es un proyecto de la empresa Seidor, un proyecto personal, o un proyecto gobernado por cliente?"_
 
 - **Seidor** → Continuá al Paso 3 (Clasificación NAQ)
 - **Personal** → Buenas prácticas de ISTQB como framework primario. Saltá al Paso 4.
@@ -30,19 +30,13 @@ _""¿Este es un proyecto de la empresa Seidor, un proyecto personal, o un proyec
 
 ### Paso 3: Clasificación SQEM (Solo Proyectos Seidor)
 
-Cargá el skill `sdet-sqem-classification` para la fórmula completa, los 5 factores, los overrides y la derivación de delivery target. Solo necesitás **dos datos** del usuario:
+Cargá el skill `sdet-sqem-classification`. Recorré uno por uno los factores definidos por ese skill, registrá sus valores y calculá el resultado aplicando su fórmula y sus reglas. Comunicá al usuario el NAQ derivado, sin pedirle que informe el resultado.
 
-**Pregunta 1 — Nivel NAQ:**
-_""¿Cuál es el NAQ de este proyecto? Bajo, Medio o Alto."_
+**Tipología:** preguntá la tipología primaria y las tipologías secundarias si aplican. Derivá los controles como la unión de la tipología primaria y las secundarias, según lo definido por el skill.
 
-Si el usuario no lo sabe, consultá el skill `sdet-sqem-classification` para las preguntas de ayuda.
+**Sub-banda de NAQ Alto:** verificá si corresponde la sub-banda **misión crítica** definida en `sdet-sqem-classification`. Cuando aplica, cambia los entregables y controles exigidos; usá ese skill como fuente de la definición y no reproduzcas su rúbrica aquí.
 
-**Pregunta 2 — Tipología:**
-_""¿Qué tipo de proyecto es?"_
-
-Las 15 tipologías están detalladas en el skill `sdet-sqem-classification`. Si el usuario no la conoce, preguntá: _""¿Es un desarrollo nuevo, mantenimiento, integración, migración, o algo otro?"_
-
-**Una vez tenés NAQ + Tipología, TODO lo demás se deriva automáticamente:**
+**Una vez tenés la clasificación + tipologías, TODO lo demás se deriva automáticamente:**
 
 | Qué se deriva | De dónde |
 |---------------|----------|
@@ -269,14 +263,14 @@ El código generado debe:
 
 ---
 
-## 8. Protocolo de Carga de Skills
+## 8. Disponibilidad del Conocimiento Especializado
 
-Los skills se cargan bajo demanda usando la herramienta `skill`. NO cargues skills proactivamente — solo cuando la solicitud del usuario coincida con el trigger de un skill.
+Antes de generar una respuesta que dependa de conocimiento especializado, asegurate de que el contenido requerido esté disponible. No incorpores conocimiento especializado que no esté disponible.
 
-**Cuándo cargar skills:**
+**Conocimiento relevante según la solicitud:**
 
-<!-- SKILL_TABLE_START -- generado automáticamente por scripts/generate-registry.ps1 -- NO EDITAR MANUALMENTE -->
-| Solicitud del usuario | Skill a cargar |
+<!-- SKILL_TABLE_START -- generado automáticamente -- NO EDITAR MANUALMENTE -->
+| Solicitud del usuario | Conocimiento requerido |
 |----------------------|----------------|
 | Pregunta sobre ISTQB | `sdet-istqb` |
 | Estrategia de testing | `sdet-test-strategy` |
@@ -303,32 +297,18 @@ Los skills se cargan bajo demanda usando la herramienta `skill`. NO cargues skil
 | IA/ML/GenAI testing | `sdet-sqem-ia` |
 <!-- SKILL_TABLE_END -->
 
+\* Requiere persistencia de memoria. Si el entorno no la soporta, funcionará con capacidades reducidas.
 
+### Conocimiento combinado
 
-
-
-
-
-
-
-
-
-
-
-
-
-\* Requiere persistencia de memoria. Si el entorno no la soporta, degradará gracefulmente.
-
-### Skills Combinados
-
-Se pueden cargar múltiples skills simultáneamente cuando la situación lo requiere:
+Una solicitud puede requerir contenido de múltiples skills simultáneamente:
 
 - **Automatización + Lenguaje**: `sdet-automation-selenium` + `sdet-lang-java`
 - **Automatización + Metodología**: `sdet-automation-selenium` + `sdet-methodology-cucumber`
 - **SQEM completo**: `sdet-sqem-classification` + `sdet-sqem-gates`
 - **Build + Lenguaje**: `sdet-build-maven` + `sdet-lang-java`
 
-Si falta un skill necesario para implementar correctamente la solicitud, informá al usuario cuál falta y solicitá/indicá su instalación.
+Si falta contenido necesario para implementar correctamente la solicitud, informá al usuario qué conocimiento falta y no generes una implementación que dependa de él.
 
 **No asumas una tecnología concreta cuando el usuario no la haya especificado y existan múltiples alternativas válidas.**
 

@@ -2,7 +2,7 @@
 
 **Agente SDET de IA** — Ingeniero QA con conocimiento ISTQB y SQEM, estrategia de testing, automatización, análisis de riesgos y aprendizaje por proyecto.
 
-Compatible con **GitHub Copilot** y **opencode**.
+Soporta exactamente **opencode** y **GitHub Copilot**.
 
 ---
 
@@ -59,9 +59,9 @@ Al iniciar una sesión, Patesi ejecuta este protocolo:
    └ NO → Pregunto:
 
 2. ¿Qué tipo de proyecto es?
-   ├── Seidor → Clasificación NAQ (5 factores, 0-4 cada uno)
+    ├── Seidor → Clasificación NAQ según sdet-sqem-classification
    ├── Personal → ISTQB como framework primario
-   └── Client-governed → Framework del cliente + SQEM como suficiencia
+    └── Gobernado por cliente → Framework del cliente + SQEM como suficiencia
 
 3. Guardo el contexto en memoria
 
@@ -70,25 +70,7 @@ Al iniciar una sesión, Patesi ejecuta este protocolo:
 
 ### Clasificación NAQ (Proyectos Seidor)
 
-Patesi calcula el nivel de aseguramiento de calidad con la fórmula:
-
-```
-NAQ = (Criticidad×8 + Visibilidad×4 + Interop×4 + Sensibilidad×4 + Complejidad×2) / pesos activos
-
-  NAQ < 1.5  → Bajo  (Velocidad — no frenar la entrega)
-1.5 ≤ NAQ < 3 → Medio (Balance — costo vs riesgo)
-    NAQ ≥ 3  → Alto  (Minimizar riesgo de negocio)
-```
-
-**Overrides obligatorios:**
-- Criticidad=4 O Sensibilidad=4 → **NAQ Alto forzado**
-- Criticidad≥3 Y Sensibilidad≥3 → mínimo **NAQ Medio**
-
-De NAQ se deriva automáticamente:
-- Delivery Target (Básico / Integrado / Continuo)
-- Puertas de calidad aplicables (QG0-QG7)
-- Controles operativos y umbrales
-- Entregables mínimos
+En proyectos Seidor, Patesi obtiene NAQ y tipologías usando el contenido especializado de `sdet-sqem-classification`. De esa clasificación deriva el delivery target, las puertas, los controles, los umbrales y los entregables; la fórmula y las reglas vigentes viven en ese skill.
 
 ---
 
@@ -97,12 +79,11 @@ De NAQ se deriva automáticamente:
 ```
 patesi/
 │
-├── agent.md                         WHO soy (identidad, personalidad, principios)
-├── system.md                        CÓMO me comporto (reglas, protocolos, planning,
-│                                    generación, auto-revisión, workflow QA)
-├── config.yaml                      CONFIGURACIÓN (permisos, skills, defaults)
+├── agent.md                         Núcleo: identidad, personalidad y principios
+├── system.md                        Núcleo: comportamiento y protocolos agnósticos
+├── config.yaml                      Núcleo: configuración y catálogo de conocimiento
 │
-├── skills/                          23 SKILLS (auto-descubiertos, bajo demanda)
+├── skills/                          Conocimiento especializado del núcleo
 │   │
 │   │  ── Núcleo de QA ──
 │   ├── sdet-istqb/                  Referencia ISTQB Foundation + Advanced
@@ -146,20 +127,16 @@ patesi/
 │       └── decisions.md             Decisiones de arquitectura
 │
 ├── tools/
-│   └── README.md                    Documentación de herramientas disponibles
+│   └── README.md                    Capacidades abstractas del núcleo
 │
-├── adapters/                        INTEGRACIÓN POR IDE
-│   ├── opencode/patesi.md           Configuración para opencode
-│   └── copilot/copilot-instructions.md  Instrucciones para Copilot
+├── adapters/                        ÚNICAS INTEGRACIONES CONCRETAS SOPORTADAS
+│   ├── opencode/                    Integración, instalación, actualización y entorno opencode
+│   └── copilot/                     Integración, instrucciones y builder de Copilot
 │
-├── examples/
-│   └── opencode.json                Ejemplo de configuración
 │
 ├── scripts/
-│   ├── install.sh / install.ps1     Instalador para opencode
-│   ├── update.sh / update.ps1       Actualizador
-│   ├── generate-registry.sh / .ps1  Generador de skill registry (single source)
-│   └── build-copilot-adapter.sh/.ps1 Regenerador de adaptador Copilot
+│   ├── generate-registry.sh / .ps1  Generador agnóstico del skill registry
+│   └── check-skill-tokens.sh/.ps1  Validación agnóstica de tokens
 │
 ├── tests/
 │   └── skill-eval-set.md            Eval set para validar triggers de skills
@@ -168,34 +145,15 @@ patesi/
     └── skill-registry.md            Registry auto-generado (no editar manualmente)
 ```
 
-### Cómo se compone el System Prompt
+### Núcleo y adapters
 
-En opencode, el system prompt se arma combinando dos archivos con `{file:...}`:
+`agent.md` y `system.md` son el núcleo agnóstico: definen identidad, comportamiento, protocolos y reglas sin asumir un runtime. `config.yaml`, `skills/`, `memory/`, `tools/` y los scripts comunes de generación/validación también son agnósticos.
 
-```json
-{
-  "agent": {
-    "patesi": {
-      "prompt": "{file:./agent.md}\n\n---\n\n{file:./system.md}"
-    }
-  }
-}
-```
+La integración, instalación, actualización, builder y ejemplos de entorno de cada runtime viven exclusivamente dentro de `adapters/opencode/` o `adapters/copilot/`. El núcleo solo requiere que el contenido especializado pertinente esté disponible antes de generar.
 
-- **`agent.md`** define QUIÉN es Patesi: nombre, rol, personalidad, tono, principios, awareness de happy/unhappy/corner
-- **`system.md`** define CÓMO funciona: protocolo de sesión, jerarquía de frameworks, reglas de riesgo, flujo de planificación, estándares de formato, reglas de generación, auto-revisión, protocolo de skills, memoria de proyecto, workflow QA
+Cada skill es un directorio con un `SKILL.md` que contiene metadata y conocimiento especializado. El catálogo de solicitud → conocimiento requerido es:
 
-Los **skills** se cargan bajo demanda — nunca todos juntos. Cuando tu solicitud coincide con el trigger de un skill, Patesi lo carga y lo aplica.
-
-### Cómo Funcionan los Skills
-
-Cada skill es un directorio con un `SKILL.md` que tiene:
-- **Frontmatter**: nombre, descripción con triggers, licencia, metadata
-- **Contenido**: conocimiento especializado, templates, reglas, ejemplos
-
-Patesi carga skills cuando tu solicitud coincide con los triggers:
-
-| Tu pregunta | Skill que se carga |
+| Solicitud | Conocimiento requerido |
 |-------------|-------------------|
 | "¿Qué es Boundary Value Analysis?" | `sdet-istqb` |
 | "Creame una estrategia de testing" | `sdet-test-strategy` |
@@ -223,7 +181,7 @@ Patesi carga skills cuando tu solicitud coincide con los triggers:
 
 \* Requiere persistencia de memoria. Si el entorno no la soporta, funcionará con capacidades reducidas.
 
-**Skills simultáneos**: Puede cargar varios skills a la vez cuando la situación lo requiere (ej: `sdet-automation-selenium` + `sdet-lang-java` + `sdet-methodology-cucumber` para un proyecto Selenium/Java/Cucumber).
+**Conocimiento combinado**: una solicitud puede requerir contenido de varios skills (por ejemplo, automatización Selenium, Java y Cucumber).
 
 ---
 
@@ -285,69 +243,16 @@ Estos 9 ítems aplican a TODOS los proyectos Seidor sin importar NAQ o tipologí
 
 ---
 
-## Instalación
+## Instalación e integración
 
-### GitHub Copilot
+Patesi soporta exactamente dos runtimes. La documentación concreta, los scripts y los ejemplos de entorno están separados por adapter:
 
-**Opción A — Archivo de instrucciones (recomendado):**
+- [`adapters/opencode/`](adapters/opencode/): composición, instalación, actualización, permisos y herramientas de opencode.
+- [`adapters/copilot/`](adapters/copilot/): instrucciones y builder de GitHub Copilot.
 
-1. Cloná el repo
-2. Copiá `adapters/copilot/copilot-instructions.md` a `.github/copilot-instructions.md`
-3. Para el conocimiento completo, adjuntá `agent.md` en cada sesión de chat
-
-**Opción B — Directo:**
-
-1. Abrí Copilot Chat (`Ctrl+Alt+I`)
-2. Escribí `#` y buscá `agent.md`
-3. Empezá a preguntar
+El núcleo no contiene comandos, rutas de instalación ni configuración específica de un runtime.
 
 ---
-
-### opencode
-
-**Opción A — Script (recomendado):**
-
-```bash
-# Linux/macOS
-bash scripts/install.sh
-
-# Windows
-.\scripts\install.ps1
-```
-
-Copia el agente y los 23 skills a `~/.config/opencode/`. Reiniciá opencode y cambiá al agente con **Tab** o `@patesi`.
-
-**Opción B — Manual:**
-
-1. Copiá `agent.md` y `system.md` a `~/.config/opencode/agents/`
-2. Copiá los directorios `skills/sdet-*/` a `~/.config/opencode/skills/`
-3. Agregá a tu `opencode.json`:
-
-```json
-{
-  "$schema": "https://opencode.ai/config.json",
-  "agent": {
-    "patesi": {
-      "description": "Patesi — Agente SDET de IA",
-      "mode": "primary",
-      "prompt": "{file:./agents/patesi.md}\n\n---\n\n{file:./agents/system.md}",
-      "tools": { "edit": true, "write": true }
-    }
-  }
-}
-```
-
-4. Reiniciá opencode.
-
-**Actualización:**
-
-```bash
-# Linux/macOS
-bash scripts/update.sh
-
-# Windows
-.\scripts\update.ps1
-```
 
 ---
 
@@ -396,28 +301,9 @@ Al inicio, Patesi detecta si hay contexto previo o hace preguntas de elicitation
 - Frameworks de testing en uso
 - Áreas de riesgo conocidas
 
-### Entre Sesiones (opencode + Engram)
+### Entre Sesiones
 
-Si configurás Engram MCP, Patesi guarda patrones automáticamente:
-
-```json
-{
-  "mcp": {
-    "engram": {
-      "command": ["engram", "mcp"],
-      "enabled": true,
-      "type": "local"
-    }
-  }
-}
-```
-
-```
-"Aprendé de la suite de tests de este proyecto"
-"Recordá que usamos fixtures, no page objects"
-```
-
-La memoria se almacena fuera del repo en `~/.config/opencode/patesi-memory/{project}/`.
+La memoria se almacena fuera del repositorio mediante la capacidad de persistencia disponible en el adapter activo. La configuración concreta y la ubicación dependen del entorno y se documentan dentro de su adapter.
 
 ### Qué Guarda Patesi
 
@@ -476,7 +362,7 @@ metadata:
 .\scripts\generate-registry.ps1
 
 # Regenerar adaptador de Copilot (desde agent.md + system.md)
-.\scripts\build-copilot-adapter.ps1
+.\adapters\copilot\scripts\build-copilot-adapter.ps1
 ```
 
 ---

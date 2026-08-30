@@ -19,7 +19,11 @@ Usá este adaptador para componer el system prompt en opencode.
 
 1. Carga `agent.md` (identidad, personalidad, principios core)
 2. Carga `system.md` (reglas de comportamiento, protocolo de sesión, jerarquía de frameworks)
-3. Los skills se auto-descubren desde `skills/` y se cargan bajo demanda vía la herramienta `skill`
+3. El contenido de los skills se resuelve bajo demanda desde el catálogo del proyecto.
+
+## Resolución en opencode
+
+opencode carga el contenido del skill relevante bajo demanda antes de generar una respuesta. Cuando este adapter delega trabajo mediante `task`, transmite el modo del proyecto, el NAQ, las tipologías y los datos de clasificación disponibles, la memoria o contexto del proyecto y los skills disponibles con sus paths relevantes.
 
 ## Instalación
 
@@ -27,10 +31,10 @@ Usá este adaptador para componer el system prompt en opencode.
 
 ```bash
 # Linux/macOS
-bash scripts/install.sh
+bash adapters/opencode/scripts/install.sh
 
 # Windows
-.\scripts\install.ps1
+.\adapters\opencode\scripts\install.ps1
 ```
 
 Esto copia el agente y los 23 skills a `~/.config/opencode/`. Después reiniciá opencode y cambiá al agente con **Tab** o `@patesi`.
@@ -59,7 +63,7 @@ Esto copia el agente y los 23 skills a `~/.config/opencode/`. Después reiniciá
 
 ## Skills
 
-Los skills se cargan bajo demanda cuando la solicitud del usuario coincide con un trigger. Ver `config.yaml` para el registro completo (23 skills).
+Los skills se cargan bajo demanda cuando la solicitud del usuario coincide con un trigger. Ver `config.yaml` para el registro completo.
 
 ### Cuándo cargar skills
 
@@ -87,4 +91,4 @@ Los skills se cargan bajo demanda cuando la solicitud del usuario coincide con u
 - Proyecto Seidor + necesita controles → `sdet-sqem-controls`
 - Proyecto Seidor + IA/ML/GenAI → `sdet-sqem-ia`
 
-\* Requiere Engram MCP (específico de opencode). En Copilot, degradará gracefulmente.
+\* Requiere persistencia configurada en opencode; si no está disponible, se informa la limitación.

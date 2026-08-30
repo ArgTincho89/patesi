@@ -1,6 +1,6 @@
 ﻿# Patesi — Generador del registro de skills (fuente única de verdad)
 # Lee el frontmatter de todos los skills/sdet-*/SKILL.md y genera:
-#   1. .atl/skill-registry.md      — tabla Markdown
+#   1. .atl/skill-registry.md      — catálogo Markdown agnóstico
 #   2. bloque de skills de config.yaml — directamente entre markers SKILLS_BLOCK
 #   3. tabla de system.md §8           — directamente entre markers SKILL_TABLE
 #
@@ -143,8 +143,8 @@ $date = Get-Date -Format "yyyy-MM-dd"
 $registryLines = @()
 $registryLines += "# Registro de skills -- patesi"
 $registryLines += ""
-$registryLines += "<!-- GENERADO AUTOMÁTICAMENTE por scripts/generate-registry.ps1 -- NO EDITAR MANUALMENTE -->"
-$registryLines += "<!-- Ejecutar: .\scripts\generate-registry.ps1 -->"
+$registryLines += "<!-- GENERADO AUTOMÁTICAMENTE -- NO EDITAR MANUALMENTE -->"
+$registryLines += "<!-- Catálogo de conocimiento; el adapter resuelve su disponibilidad concreta -->"
 $registryLines += ""
 $registryLines += "Última actualización: $date"
 $registryLines += ""
@@ -163,12 +163,9 @@ foreach ($catKey in $categories.Keys) {
 }
 
 $registryLines += ""
-$registryLines += "## Protocolo de carga"
+$registryLines += "## Catálogo de conocimiento"
 $registryLines += ""
-$registryLines += "1. Compará el contexto de la tarea y los archivos objetivo con la columna ``Trigger / description``."
-$registryLines += "2. Pasá únicamente los valores ``Path`` coincidentes al subagente bajo ``## Skills to load before work``."
-$registryLines += "3. Indicá al subagente que lea esos archivos ``SKILL.md`` exactos antes de leer, escribir, revisar, testear o crear artefactos."
-$registryLines += "4. Si no existe un skill coincidente, continuá sin inyección de skills del proyecto e informá ``skill_resolution: none``."
+$registryLines += "Este archivo conserva el catálogo de skills y sus triggers. La disponibilidad y el mecanismo de resolución se documentan en cada adapter."
 
 $registryContent = ($registryLines -join "`n") + "`n"
 
@@ -199,8 +196,8 @@ $configSkillsBlock = ($configLines -join "`n") + "`n"
 
 # --- Salida 3: tabla §8 de system.md (entre markers) ---
 $sysLines = @()
-$sysLines += "<!-- SKILL_TABLE_START -- generado automáticamente por scripts/generate-registry.ps1 -- NO EDITAR MANUALMENTE -->"
-$sysLines += "| Solicitud del usuario | Skill a cargar |"
+$sysLines += "<!-- SKILL_TABLE_START -- generado automáticamente -- NO EDITAR MANUALMENTE -->"
+$sysLines += "| Solicitud del usuario | Conocimiento requerido |"
 $sysLines += "|----------------------|----------------|"
 
 foreach ($catKey in $categories.Keys) {

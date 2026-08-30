@@ -1,6 +1,6 @@
 #!/bin/bash
 # Patesi - Update Script for Linux/macOS
-# Uso: bash scripts/update.sh
+# Uso: bash adapters/opencode/scripts/update.sh
 
 set -e
 
@@ -8,7 +8,7 @@ echo "Actualizando Patesi..."
 
 # Find repo root (script is in scripts/, repo is one level up)
 SCRIPT_DIR="$(cd "$(dirname "${BASH_SOURCE[0]}")" && pwd)"
-REPO_DIR="$(dirname "$SCRIPT_DIR")"
+REPO_DIR="$(dirname "$(dirname "$(dirname "$SCRIPT_DIR")")")"
 OPENCODE_DIR="$HOME/.config/opencode"
 
 # Check if opencode dir exists

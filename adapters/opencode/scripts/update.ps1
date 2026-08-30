@@ -7,7 +7,7 @@ Write-Host "Actualizando Patesi..." -ForegroundColor Cyan
 
 # Find repo root (script is in scripts/, repo is one level up)
 $ScriptDir = Split-Path -Parent $MyInvocation.MyCommand.Path
-$RepoDir = Split-Path -Parent $ScriptDir
+$RepoDir = Split-Path -Parent (Split-Path -Parent (Split-Path -Parent $ScriptDir))
 $OpenCodeDir = "$env:USERPROFILE\.config\opencode"
 
 # Check if opencode dir exists

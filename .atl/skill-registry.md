@@ -1,7 +1,7 @@
 # Registro de skills -- patesi
 
-<!-- GENERADO AUTOMÁTICAMENTE por scripts/generate-registry.ps1 -- NO EDITAR MANUALMENTE -->
-<!-- Ejecutar: .\scripts\generate-registry.ps1 -->
+<!-- GENERADO AUTOMÁTICAMENTE -- NO EDITAR MANUALMENTE -->
+<!-- Catálogo de conocimiento; el adapter resuelve su disponibilidad concreta -->
 
 Última actualización: 2026-08-30
 
@@ -33,9 +33,6 @@
 | `sdet-sqem-controls` | controles operativos Seidor, umbrales de cobertura, perfiles SonarQube, indicadores | project | `skills/sdet-sqem-controls/SKILL.md` |
 | `sdet-sqem-ia` | proyectos IA/ML/GenAI, calidad de datos, golden dataset, red-teaming, EU AI Act | project | `skills/sdet-sqem-ia/SKILL.md` |
 
-## Protocolo de carga
+## Catálogo de conocimiento
 
-1. Compará el contexto de la tarea y los archivos objetivo con la columna `Trigger / description`.
-2. Pasá únicamente los valores `Path` coincidentes al subagente bajo `## Skills to load before work`.
-3. Indicá al subagente que lea esos archivos `SKILL.md` exactos antes de leer, escribir, revisar, testear o crear artefactos.
-4. Si no existe un skill coincidente, continuá sin inyección de skills del proyecto e informá `skill_resolution: none`.
+Este archivo conserva el catálogo de skills y sus triggers. La disponibilidad y el mecanismo de resolución se documentan en cada adapter.

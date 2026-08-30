@@ -4,10 +4,19 @@ Todos los cambios relevantes de Patesi se documentarán en este archivo.
 
 Formato basado en [Keep a Changelog](https://keepachangelog.com/).
 
+## [Unreleased]
+
+### Cambiado
+- Consolidada la arquitectura en un núcleo agnóstico y exactamente dos adapters: `adapters/opencode/` y `adapters/copilot/`.
+- Movidos la instalación, actualización, configuración de entorno, herramientas concretas de opencode y builder de Copilot dentro de sus adapters correspondientes.
+- README simplificado para describir el núcleo sin mecanismos de runtime; la documentación concreta queda en cada adapter.
+- §8 de `system.md` reducido al contrato de disponibilidad de conocimiento especializado; su tabla continúa generándose desde los frontmatter.
+- La clasificación SQEM documenta la sub-banda de NAQ Alto para misión crítica como derivación del skill, con entregables y controles diferenciados.
+
 ## [2.2.0] - 2026-08-25
 
 ### Cambiado
-- Núcleo independiente del entorno: `agent.md`, `system.md` y `config.yaml` ahora son independientes de las herramientas y compartidos por los adaptadores de opencode/Copilot/Cursor
+- Núcleo independiente del entorno: `agent.md`, `system.md` y `config.yaml` ahora son independientes de las herramientas y compartidos por los adaptadores de opencode/Copilot
 - Estandarización del idioma de los triggers en todos los skills (descripciones de frontmatter consistentes)
 - Reescritura del generador de registry: `scripts/generate-registry.ps1` / `.sh` ahora escribe directamente en `config.yaml` y `system.md` entre markers (sin archivo intermedio `skills-block.yaml`)
 - Reescritura del constructor del adaptador Copilot: concatenación línea por línea en lugar de here-strings (corrige la corrupción Unicode de PS5.1); se agregó la fecha de generación
@@ -27,14 +36,14 @@ Formato basado en [Keep a Changelog](https://keepachangelog.com/).
 ### Agregado
 - **10 skills nuevos**: frameworks de automatización (Cypress, Selenium, Appium, Robot Framework), lenguajes (Python, Java, JavaScript/TypeScript), metodologías (Gherkin/BDD, Cucumber) y herramientas de build (Maven/Gradle)
 - **Generador del skill registry**: `scripts/generate-registry.ps1` / `.sh` — lee el frontmatter de SKILL.md y genera `.atl/skill-registry.md` (fuente única de verdad)
-- **Constructor del adaptador Copilot**: `scripts/build-copilot-adapter.ps1` / `.sh` — regenera `adapters/copilot/copilot-instructions.md` desde `agent.md` + `system.md`
+- **Constructor del adaptador Copilot**: `adapters/copilot/scripts/build-copilot-adapter.ps1` / `.sh` — regenera `adapters/copilot/copilot-instructions.md` desde `agent.md` + `system.md`
 - **Conjunto de evaluación de skills**: `tests/skill-eval-set.md` — 18 prompts de tests con triggers esperados para validación
 - **Total de skills**: 23 (antes 13)
 
 ### Corregido
-- **Modelo de permisos**: `tools/README.md` ahora indica correctamente que `config.yaml` es la autoridad; ningún comando está preaprobado
+- **Modelo de permisos**: `adapters/opencode/tools.md` documenta la resolución concreta; `config.yaml` mantiene la autoridad del núcleo
 - **Referencia cruzada de la matriz de riesgos**: `sdet-risk-analysis` y `sdet-mr-analysis` ahora se referencian mutuamente e indican cuándo usar cada uno
-- **Alcance de Engram**: `sdet-project-learning` y `tools/README.md` indican explícitamente que Engram es exclusivo de opencode
+- **Alcance de Engram**: la integración de memoria de opencode se documenta en `adapters/opencode/tools.md`
 - **Eliminación de duplicados de triggers**: la fuente única de verdad ahora es `config.yaml` + `system.md`; el script genera `.atl/skill-registry.md`
 
 ### Cambiado
@@ -51,7 +60,7 @@ Formato basado en [Keep a Changelog](https://keepachangelog.com/).
   - `agent.md` — identidad, personalidad y principios del agente
   - `system.md` — especificación completa de comportamiento: protocolo de sesión, jerarquía de frameworks, orientación a riesgos, flujo de planificación, reglas de generación, checklist de auto-revisión y workflow de QA
   - `config.yaml` — configuración del agente, permisos y registry de skills
-- **Documentación de herramientas**: `tools/README.md` con referencia completa de herramientas
+- **Documentación de herramientas**: `adapters/opencode/tools.md` con la referencia específica de opencode
 - **Plantillas de memoria**: estructura de memoria del proyecto
   - `memory/_template/context.yaml` — plantilla de contexto del proyecto
   - `memory/_template/patterns.md` — plantilla de almacenamiento de patrones
@@ -69,7 +78,7 @@ Formato basado en [Keep a Changelog](https://keepachangelog.com/).
 #### Compatibilidad con múltiples proyectos
 - Flujo de elicitación: al iniciar la sesión se detecta el tipo de proyecto (Seidor/Personal/Gobernado por cliente)
 - Clasificación NAQ con reglas de override
-- Aislamiento de memoria por proyecto mediante `~/.config/opencode/patesi-memory/{project}/`
+- Aislamiento de memoria por proyecto mediante la persistencia definida por el adapter activo
 - Jerarquía de frameworks: Modo A (SQEM), Modo B (ISTQB), Modo C (Gobernado por cliente)
 
 ### Cambiado
@@ -122,7 +131,7 @@ Formato basado en [Keep a Changelog](https://keepachangelog.com/).
 
 #### Documentación
 - README en castellano con guía completa de instalación y uso
-- Configuración de ejemplo `opencode.json`
+- Configuración de ejemplo del entorno opencode
 - Enlaces de descarga de los syllabi ISTQB
 - Licencia Apache 2.0
 
@@ -144,7 +153,7 @@ Formato basado en [Keep a Changelog](https://keepachangelog.com/).
 
 **Linux/macOS:**
 ```bash
-bash scripts/update.sh
+bash adapters/opencode/scripts/update.sh
 ```
 
 Después reiniciá opencode.

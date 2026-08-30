@@ -1,5 +1,4 @@
-# Patesi — Configuración de Agente SDET Universal
-# Configuración portable — funciona en cualquier entorno de ejecución
+# Patesi — Configuración del núcleo agnóstico del agente SDET
 
 name: patesi
 version: "2.2.0"
@@ -22,14 +21,15 @@ defaults:
   sqem_mode: ask          # ask | always_seidor | always_personal
 
 # Política de Permisos: Principio de Menor Privilegio (Zero-Trust)
-# config.yaml es la AUTORIDAD ÚNICA. tools/README.md y adaptadores deben decir lo mismo.
+# config.yaml es la AUTORIDAD ÚNICA para la política del núcleo.
 # Patesi pide permisos al inicio de sesión y los recuerda durante la sesión.
 permission:
-  read: ask
-  edit: ask
-  write: ask
-  skill: ask
-  bash:
+  project_files: ask
+  project_commands: ask
+  specialized_knowledge: ask
+  delegation: ask
+  project_memory: ask
+  command_execution:
     "*": ask
 
 # Skills disponibles para este agente

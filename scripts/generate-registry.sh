@@ -200,8 +200,8 @@ DATE=$(date +%Y-%m-%d)
 {
     echo "# Registro de skills -- patesi"
     echo ""
-    echo "<!-- GENERADO AUTOMÁTICAMENTE por scripts/generate-registry.sh -- NO EDITAR MANUALMENTE -->"
-    echo "<!-- Ejecutar: bash scripts/generate-registry.sh -->"
+    echo "<!-- GENERADO AUTOMÁTICAMENTE -- NO EDITAR MANUALMENTE -->"
+    echo "<!-- Catálogo de conocimiento; el adapter resuelve su disponibilidad concreta -->"
     echo ""
     echo "Última actualización: $DATE"
     echo ""
@@ -220,12 +220,9 @@ DATE=$(date +%Y-%m-%d)
     done
 
     echo ""
-    echo "## Protocolo de carga"
+    echo "## Catálogo de conocimiento"
     echo ""
-    echo "1. Compará el contexto de la tarea y los archivos objetivo con la columna \`Trigger / description\`."
-    echo "2. Pasá únicamente los valores \`Path\` coincidentes al subagente bajo \`## Skills to load before work\`."
-    echo "3. Indicá al subagente que lea esos archivos \`SKILL.md\` exactos antes de leer, escribir, revisar, testear o crear artefactos."
-    echo "4. Si no existe un skill coincidente, continuá sin inyección de skills del proyecto e informá \`skill_resolution: none\`."
+    echo "Este archivo conserva el catálogo de skills y sus triggers. La disponibilidad y el mecanismo de resolución se documentan en cada adapter."
 } > /tmp/patesi_registry_content.md
 
 # --- Salida 2: bloque de skills de config.yaml (entre markers) ---
@@ -260,8 +257,8 @@ for cat_def in "${CATEGORY_DEFS[@]}"; do
 done
 
 # --- Salida 3: tabla §8 de system.md (entre markers) ---
-SYS_TABLE_CONTENT="<!-- SKILL_TABLE_START -- generado automáticamente por scripts/generate-registry.sh -- NO EDITAR MANUALMENTE -->"
-SYS_TABLE_CONTENT+=$'\n'"| Solicitud del usuario | Skill a cargar |"
+SYS_TABLE_CONTENT="<!-- SKILL_TABLE_START -- generado automáticamente -- NO EDITAR MANUALMENTE -->"
+SYS_TABLE_CONTENT+=$'\n'"| Solicitud del usuario | Conocimiento requerido |"
 SYS_TABLE_CONTENT+=$'\n'"|----------------------|----------------|"
 for cat_def in "${CATEGORY_DEFS[@]}"; do
     IFS='|' read -r cat_key _cat_label cat_skills <<< "$cat_def"

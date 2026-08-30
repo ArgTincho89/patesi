@@ -8,7 +8,7 @@ Write-Host "🔧 Instalando Patesi - Agente SDET de IA para opencode..." -Foregr
 # Detectar el directorio de configuración de opencode
 $OpenCodeDir = "$env:USERPROFILE\.config\opencode"
 $ScriptDir = Split-Path -Parent $MyInvocation.MyCommand.Path
-$RepoDir = Split-Path -Parent $ScriptDir
+$RepoDir = Split-Path -Parent (Split-Path -Parent (Split-Path -Parent $ScriptDir))
 
 Write-Host "📁 Directorio de configuración de opencode: $OpenCodeDir" -ForegroundColor Gray
 Write-Host "📦 Fuente de Patesi: $RepoDir" -ForegroundColor Gray

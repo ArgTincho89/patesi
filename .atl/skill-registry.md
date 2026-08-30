@@ -25,6 +25,7 @@
 | `sdet-client-profile` | qa-core | proyecto de cliente, metodología del cliente, perfil de cliente, forma de trabajar del cliente, Modo C | `skills/sdet-client-profile/SKILL.md` |
 | `sdet-client-onboarding` | qa-core | onboarding de cliente, cliente nuevo, documentación de calidad del cliente, poblar perfil de cliente | `skills/sdet-client-onboarding/SKILL.md` |
 | `sdet-test-repo` | qa-core | repositorio de pruebas, repo de tests, propuesta para el desarrollador, handoff de tests, integrar tests en CI | `skills/sdet-test-repo/SKILL.md` |
+| `sdet-self-review` | qa-core | auditá a Patesi, revisá tu propia definición, contradicciones internas, auto-QA del agente, ¿te contradecís?, revisar system.md y skills | `skills/sdet-self-review/SKILL.md` |
 | `sdet-cicd` | qa-sdet | CI/CD, pipeline, GitHub Actions, GitLab CI, Jenkinsfile | `skills/sdet-cicd/SKILL.md` |
 | `sdet-automation` | qa-sdet | automatización de testing, Playwright, Page Object Model, E2E tests | `skills/sdet-automation/SKILL.md` |
 | `sdet-automation-cypress` | qa-sdet | Cypress, tests Cypress, framework Cypress, E2E Cypress | `skills/sdet-automation-cypress/SKILL.md` |

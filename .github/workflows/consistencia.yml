@@ -1,0 +1,59 @@
+name: Consistencia de Patesi
+
+# Por que existe: hasta ahora todos los checks dependian de que alguien se
+# acordara de correrlos, y varios fallos reales pasaron desapercibidos por
+# eso. Aca no hay que acordarse de nada.
+
+on:
+  push:
+    branches: [main]
+  pull_request:
+  workflow_dispatch:
+
+jobs:
+  consistencia:
+    name: Consistencia interna
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+
+      - uses: actions/setup-python@v5
+        with:
+          python-version: '3.11'
+
+      - name: Verificacion de consistencia (completa)
+        run: python scripts/check-consistency.py --full
+
+      - name: Matriz de gates SQEM
+        run: python scripts/check-sqem-matrix.py
+
+      - name: Presupuesto de tokens
+        run: bash scripts/check-skill-tokens.sh
+
+      - name: Derivados al dia
+        # Falla si el registry, config.yaml o la tabla §8 de system.md no
+        # coinciden con el frontmatter de los skills.
+        run: bash scripts/generate-registry.sh --check
+
+  recordatorio:
+    name: Recordatorio de evaluacion
+    runs-on: ubuntu-latest
+    if: github.event_name == 'pull_request'
+    steps:
+      - uses: actions/checkout@v4
+        with:
+          fetch-depth: 0
+
+      - name: Avisar si cambio el nucleo
+        # La consistencia estructural no prueba comportamiento. Si cambia el
+        # nucleo, hay que volver a correr la evaluacion a mano.
+        run: |
+          CAMBIOS=$(git diff --name-only origin/${{ github.base_ref }}...HEAD)
+          if echo "$CAMBIOS" | grep -qE '^(system\.md|agent\.md)$'; then
+            echo "::warning::Cambio el nucleo (system.md o agent.md)."
+            echo "::warning::La consistencia estructural NO prueba comportamiento."
+            echo "::warning::Corre tests/smoke-comportamiento.md antes de mergear."
+          fi
+          if echo "$CAMBIOS" | grep -q '^skills/sdet-sqem-'; then
+            echo "::warning::Cambiaron skills SQEM: corre los casos A1-A16."
+          fi

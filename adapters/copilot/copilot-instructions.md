@@ -382,6 +382,7 @@ El contenido de los skills requeridos debe estar disponible antes de generar una
 - `sdet-client-profile`
 - `sdet-client-onboarding`
 - `sdet-test-repo`
+- `sdet-self-review`
 - `sdet-cicd`
 - `sdet-automation`
 - `sdet-automation-cypress`

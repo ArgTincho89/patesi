@@ -181,6 +181,9 @@ patesi/
 │   │  ── Límite de escritura ──
 │   ├── sdet-test-repo/             Repo de pruebas propio + handoff al desarrollador
 │   │
+│   │  ── Auto-QA ──
+│   ├── sdet-self-review/            Contradicciones internas del propio agente
+│   │
 │   │  ── Frameworks de automatización ──
 │   ├── sdet-automation/             Playwright por defecto + TypeScript + POM
 │   ├── sdet-automation-cypress/     Cypress E2E
@@ -226,10 +229,17 @@ patesi/
 │
 ├── scripts/
 │   ├── generate-registry.sh / .ps1  Generador agnóstico del skill registry
-│   └── check-skill-tokens.sh/.ps1  Validación agnóstica de tokens
+│   ├── check-skill-tokens.sh/.ps1   Validación agnóstica de tokens
+│   ├── check-consistency.py         13 verificaciones de consistencia interna
+│   ├── check-sqem-matrix.py         Valida las 480 celdas de la matriz de gates
+│   └── patesi-doctor.py             ¿Estoy corriendo lo que creo que corro?
+│
+├── SOURCES.yaml                     Qué versión de cada fuente normativa rige
 │
 ├── tests/
-│   └── skill-eval-set.md            Eval set para validar triggers de skills
+│   ├── skill-eval-set.md            Eval set para validar triggers de skills
+│   ├── smoke-comportamiento.md      8 casos con prompts literales, ~5 min
+│   └── guiones-evaluacion.md        Guiones ejecutables de los 3 modos
 │
 └── .atl/
     └── skill-registry.md            Registry auto-generado (no editar manualmente)
@@ -273,6 +283,7 @@ Cada skill es un directorio con un `SKILL.md` que contiene metadata y conocimien
 | "Trabajemos con el cliente Acme" | `sdet-client-profile` * |
 | "Te paso la normativa de calidad del cliente" | `sdet-client-onboarding` + `sdet-client-profile` * |
 | "Armá el repo de pruebas para este proyecto" | `sdet-test-repo` |
+| "Auditá a Patesi / ¿te contradecís en algo?" | `sdet-self-review` |
 | "Clasificá este proyecto Seidor" | `sdet-sqem-classification` |
 | "¿Estamos listos para QG4?" | `sdet-sqem-gates` |
 | "¿Qué controles necesito para NAQ Alto?" | `sdet-sqem-controls` |
@@ -465,6 +476,60 @@ metadata:
 # Regenerar adaptador de Copilot (desde agent.md + system.md)
 .\adapters\copilot\scripts\build-copilot-adapter.ps1
 ```
+
+---
+
+## Auto-QA: cómo se verifica Patesi a sí mismo
+
+Un agente de calidad que no se verifica a sí mismo no tiene autoridad para exigirle nada a nadie. Patesi tiene tres capas, y cada una atrapa una clase distinta de fallo.
+
+### Empezá siempre por acá
+
+```bash
+python scripts/patesi-doctor.py
+```
+
+Responde en segundos a la pregunta que más tiempo hace perder: **¿estoy corriendo lo que creo que estoy corriendo?** Compara el repo contra lo realmente instalado en `~/.config/opencode/`, revisa el estado de las fuentes normativas y corre las verificaciones automáticas.
+
+> `git pull` **no** actualiza a Patesi. El agente vive fuera del repo. Ya pasó tener 9 skills instalados y ningún `system.md` mientras el repo tenía todo, y toda una tanda de pruebas se hizo contra la versión vieja sin que nadie lo notara.
+
+### Capa 1 — Consistencia estructural (automática)
+
+```bash
+python scripts/check-consistency.py          # rápido, < 2 s
+python scripts/check-consistency.py --full   # + idempotencia y paridad de builders
+python scripts/check-sqem-matrix.py          # las 480 celdas de la matriz de gates
+```
+
+Trece verificaciones: conteos del catálogo alineados en los 4 lugares donde aparecen, marcadores de generación presentes, frontmatter válido, referencias cruzadas vivas, higiene de git, presupuesto de tokens del núcleo, acentos, texto sin traducir —incluido el que se esconde dentro de fences ```` ```markdown ````—, nombres canónicos de tipología, notas de la matriz y citas a la normativa.
+
+Corren solas en cada push y PR ([`.github/workflows/consistencia.yml`](.github/workflows/consistencia.yml)).
+
+**Principio de diseño: cero falsos positivos.** Un check que grita cuando no pasa nada se termina ignorando, y un check ignorado da falsa confianza — que es peor que no tenerlo.
+
+Estas verificaciones no son teóricas: encontraron que `system.md` había perdido 297 líneas —los 6 marcadores `COPILOT-EXTRACT` completos— en un commit ya publicado.
+
+### Capa 2 — Comportamiento (manual)
+
+La consistencia estructural no prueba que el agente **haga** lo que la especificación dice.
+
+| Qué | Cuándo | Duración |
+|-----|--------|----------|
+| [tests/smoke-comportamiento.md](tests/smoke-comportamiento.md) | Después de cada cambio en `agent.md` o `system.md` | ~5 min |
+| [tests/guiones-evaluacion.md](tests/guiones-evaluacion.md) | Antes de una release, o cuando cambia un modo | ~50 min |
+| [tests/skill-eval-set.md](tests/skill-eval-set.md) | Al agregar o modificar triggers de skills | variable |
+
+Traen el **texto exacto a enviar**. Parafrasear el prompt hace que dos corridas no sean comparables entre sí, y ahí se pierde la capacidad de decir si algo mejoró o empeoró.
+
+### Capa 3 — Coherencia interna (bajo pedido)
+
+Pedile a Patesi que se audite: carga [`sdet-self-review`](skills/sdet-self-review/SKILL.md) y busca las siete clases de contradicción entre `agent.md`, `system.md`, `config.yaml` y los skills.
+
+Es lo que ningún script puede detectar, porque la contradicción es semántica. Y es el fallo más caro: no rompe nada visible, produce un agente que responde distinto ante la misma pregunta.
+
+### Trazabilidad de la normativa
+
+[`SOURCES.yaml`](SOURCES.yaml) registra qué versión de cada fuente externa alimenta cada skill, incluidas las **fuentes que la normativa referencia y todavía no tenemos**. Sin ese registro, cuando la fuente cambia nadie sabe qué quedó desactualizado y la desincronización es silenciosa.
 
 ---
 

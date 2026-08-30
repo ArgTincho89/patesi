@@ -32,6 +32,7 @@ declare -a HUMAN_PHRASES=(
     "sdet-client-profile|Perfil / metodología de un cliente"
     "sdet-client-onboarding|Arranque con un cliente nuevo"
     "sdet-test-repo|Repositorio de pruebas / propuesta al desarrollador"
+    "sdet-self-review|Auditoría interna del propio agente"
     "sdet-industry-practices|Buenas prácticas de la industria"
     "sdet-exploratory-testing|Testing exploratorio / charters"
     "sdet-api-testing|Testing de APIs / REST / GraphQL"
@@ -61,7 +62,7 @@ declare -a HUMAN_PHRASES=(
 # --- Categorías de salida para agrupar config.yaml ---
 # Formato: "clave_de_categoría|etiqueta_visible|skill1,skill2,..."
 declare -a CATEGORY_DEFS=(
-    "qa-core|Núcleo de QA|sdet-istqb,sdet-test-strategy,sdet-test-cases,sdet-test-classification,sdet-risk-analysis,sdet-mr-analysis,sdet-project-learning,sdet-industry-practices,sdet-exploratory-testing,sdet-api-testing,sdet-accessibility,sdet-performance,sdet-security-testing,sdet-client-profile,sdet-client-onboarding,sdet-test-repo"
+    "qa-core|Núcleo de QA|sdet-istqb,sdet-test-strategy,sdet-test-cases,sdet-test-classification,sdet-risk-analysis,sdet-mr-analysis,sdet-project-learning,sdet-industry-practices,sdet-exploratory-testing,sdet-api-testing,sdet-accessibility,sdet-performance,sdet-security-testing,sdet-client-profile,sdet-client-onboarding,sdet-test-repo,sdet-self-review"
     "pipelines|Pipelines|sdet-cicd"
     "automation|Automatización|sdet-automation,sdet-automation-cypress,sdet-automation-selenium,sdet-automation-appium,sdet-automation-robot"
     "languages|Lenguajes|sdet-lang-python,sdet-lang-java,sdet-lang-javascript"
@@ -188,7 +189,16 @@ update_marked_section() {
     fi
 
     # Extraer: antes del marker inicial + contenido nuevo + después del marker final
-    local tmp_file="${file_path}.tmp"
+    #
+    # IMPORTANTE: el temporal se TRUNCA al empezar y se limpia si el script se
+    # interrumpe. Sin esto, un .tmp parcial de una corrida abortada sobrevivia,
+    # la corrida siguiente le apilaba contenido con >> y el mv final pisaba el
+    # archivo real con el resultado corrupto. Asi se perdieron 297 lineas de
+    # system.md, incluidos los markers COPILOT-EXTRACT.
+    local tmp_file
+    tmp_file="$(mktemp "${file_path}.XXXXXX.tmp")"
+    trap 'rm -f "$tmp_file"' RETURN INT TERM
+    : > "$tmp_file"
     local in_section=false
     local found_end=false
 
@@ -214,7 +224,20 @@ update_marked_section() {
         return 1
     fi
 
+    # Verificacion antes de pisar: el resultado no puede quedar drasticamente
+    # mas corto que el original. Si lo esta, algo se corrompio y es preferible
+    # abortar sin tocar el archivo.
+    local orig_lines new_lines
+    orig_lines=$(wc -l < "$file_path")
+    new_lines=$(wc -l < "$tmp_file")
+    if [ "$new_lines" -lt $(( orig_lines / 2 )) ]; then
+        rm -f "$tmp_file"
+        echo "  ABORTADO: $file_path -- el resultado tendria $new_lines lineas frente a $orig_lines. No se sobrescribe."
+        return 1
+    fi
+
     mv "$tmp_file" "$file_path"
+    trap - RETURN INT TERM
     return 0
 }
 
@@ -386,7 +409,7 @@ mkdir -p "$REPO_DIR/.atl"
 cp /tmp/patesi_registry_content.md "$REPO_DIR/.atl/skill-registry.md"
 echo "Generado: .atl/skill-registry.md ($COUNT skills)"
 
-# Contador de escrituras fallidas. Si alguna falla, el script termina con codigo
+# Contador de escrituras fallidas. Si alguna falla, el script termina con código
 # distinto de cero: un derivado sin actualizar NO puede reportarse como exito,
 # porque se commitea silenciosamente y rompe las regeneraciones siguientes.
 WRITE_FAILURES=0

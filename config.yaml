@@ -81,6 +81,8 @@ skills:
     trigger: onboarding de cliente, cliente nuevo, documentación de calidad del cliente, poblar perfil de cliente
   - name: sdet-test-repo
     trigger: repositorio de pruebas, repo de tests, propuesta para el desarrollador, handoff de tests, integrar tests en ci
+  - name: sdet-self-review
+    trigger: auditá a patesi, revisá tu propia definición, contradicciones internas, auto-qa del agente, ¿te contradecís?, revisar system.md y skills
 
   # --- Pipelines ---
   - name: sdet-cicd

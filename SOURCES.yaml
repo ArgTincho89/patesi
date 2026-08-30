@@ -1,0 +1,88 @@
+# Manifiesto de fuentes de Patesi
+#
+# Registra QUE version de cada fuente externa alimenta los skills. Sin esto,
+# cuando la fuente cambia nadie sabe que skills quedaron desactualizados y la
+# desincronizacion es silenciosa.
+#
+# Lo lee scripts/patesi-doctor.py para avisar cuando hay que revalidar.
+
+fuentes:
+
+  - id: sqem-modelo-extendido
+    nombre: "SQEM — Modelo extendido (edicion unificada)"
+    propietario: "Oficina de Calidad / QA CoE — Seidor"
+    version: "1.2"
+    fecha: "2026-07-17"
+    estado: "BORRADOR PARA REVISION"
+    # La propia fuente marca sus umbrales como provisionales.
+    umbrales: "valores por defecto v0, pendientes de re-baseline en pilotaje (§14)"
+    numeracion_canonica: true
+    alimenta:
+      - sdet-sqem-classification
+      - sdet-sqem-gates
+      - sdet-sqem-controls
+      - sdet-sqem-governance
+      - sdet-sqem-ia
+      - sdet-sqem-typology-tests
+    notas: |
+      Esta es la numeracion de seccion que Patesi cita. Cuando cambie la
+      version, revisar en este orden: §5.1 (formula y escalas del NAQ),
+      §6.4 y §6.5 (matriz y modulacion), §10.2 y §10.3 (umbrales),
+      §16 (Anexo IA).
+
+  - id: sqem-gobernanza-gates
+    nombre: "SQEM — Modelo de gobernanza de quality gates"
+    propietario: "Oficina de Calidad / QA CoE — Seidor"
+    version: "sin numerar"
+    fecha: "desconocida"
+    estado: "configurador interactivo"
+    numeracion_canonica: false
+    alimenta:
+      - sdet-sqem-gate-matrix
+      - sdet-sqem-typology-tests
+      - sdet-sqem-gates
+    verificador: scripts/check-sqem-matrix.py
+    notas: |
+      DISCREPANCIA CONOCIDA: este documento cita §7.2, §7.3 y §7.6 donde el
+      Modelo extendido v1.2 dice §10.2, §10.3 y §10.6. Arrastra una
+      numeracion anterior. Patesi cita SIEMPRE la del extendido.
+
+      De aqui salen las 60 combinaciones resueltas de tipologia x NAQ. Al
+      actualizar, correr scripts/check-sqem-matrix.py tras actualizar
+      BASE_6_4 con la tabla §6.4 de la version nueva.
+
+  - id: istqb
+    nombre: "ISTQB Foundation Level v4.0 + Advanced Core"
+    propietario: "ISTQB"
+    version: "Foundation v4.0"
+    fecha: "—"
+    estado: "publicado"
+    alimenta:
+      - sdet-istqb
+
+# Fuentes que la normativa referencia y que TODAVIA NO tenemos.
+# Mientras falten, Patesi opera con fallback declarado en esas areas.
+faltantes:
+
+  - nombre: "Anexo de la ficha de aplicacion — escalas completas por factor"
+    referenciada_en: "§5.1 del Modelo extendido"
+    impacto: |
+      Solo tenemos las anclas 0 y 4 de varios factores del NAQ. Los valores
+      1, 2 y 3 los interpola Patesi. Afecta la precision de la clasificacion.
+
+  - nombre: "Base de conocimiento quality-standards/"
+    referenciada_en: "§12.1 y §4.4 del Modelo extendido"
+    impacto: |
+      Contiene el modelo de scoring 0-100 y su equivalencia con
+      PASS/WARNING/FAIL. Patesi solo puede emitir el veredicto por control.
+
+  - nombre: "Catalogo Detallado de Pruebas IA/ML/GenAI y su Guia Explicada"
+    referenciada_en: "§16 del Modelo extendido"
+    impacto: |
+      El Anexo IA de Patesi tiene los 13 controles gate-ables, pero no el
+      detalle de ejecucion de cada prueba.
+
+  - nombre: "Documento satelite quality-gates-referencia"
+    referenciada_en: "§5.2 del Modelo extendido"
+    impacto: |
+      Fichas ampliadas por tipologia con KPIs firma y riesgo a vigilar.

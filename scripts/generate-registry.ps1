@@ -35,6 +35,7 @@ $humanPhrases = @{
     "sdet-client-profile"         = "Perfil / metodología de un cliente"
     "sdet-client-onboarding"      = "Arranque con un cliente nuevo"
     "sdet-test-repo"              = "Repositorio de pruebas / propuesta al desarrollador"
+    "sdet-self-review"            = "Auditoría interna del propio agente"
     "sdet-industry-practices"     = "Buenas prácticas de la industria"
     "sdet-exploratory-testing"    = "Testing exploratorio / charters"
     "sdet-api-testing"            = "Testing de APIs / REST / GraphQL"
@@ -63,7 +64,7 @@ $humanPhrases = @{
 
 # --- Categorías de salida para agrupar config.yaml ---
 $categories = [ordered]@{
-    "qa-core"      = @("sdet-istqb", "sdet-test-strategy", "sdet-test-cases", "sdet-test-classification", "sdet-risk-analysis", "sdet-mr-analysis", "sdet-project-learning", "sdet-industry-practices", "sdet-exploratory-testing", "sdet-api-testing", "sdet-accessibility", "sdet-performance", "sdet-security-testing", "sdet-client-profile", "sdet-client-onboarding", "sdet-test-repo")
+    "qa-core"      = @("sdet-istqb", "sdet-test-strategy", "sdet-test-cases", "sdet-test-classification", "sdet-risk-analysis", "sdet-mr-analysis", "sdet-project-learning", "sdet-industry-practices", "sdet-exploratory-testing", "sdet-api-testing", "sdet-accessibility", "sdet-performance", "sdet-security-testing", "sdet-client-profile", "sdet-client-onboarding", "sdet-test-repo", "sdet-self-review")
     "pipelines"    = @("sdet-cicd")
     "automation"   = @("sdet-automation", "sdet-automation-cypress", "sdet-automation-selenium", "sdet-automation-appium", "sdet-automation-robot")
     "languages"    = @("sdet-lang-python", "sdet-lang-java", "sdet-lang-javascript")
@@ -381,7 +382,7 @@ $registryPath = Join-Path $RepoDir ".atl\skill-registry.md"
 [System.IO.File]::WriteAllText($registryPath, $registryContent, [System.Text.UTF8Encoding]::new($false))
     Write-Host "Generado: .atl/skill-registry.md ($($allSkills.Count) skills)" -ForegroundColor Green
 
-# Contador de escrituras fallidas. Si alguna falla, el script termina con codigo
+# Contador de escrituras fallidas. Si alguna falla, el script termina con código
 # distinto de cero: un derivado sin actualizar NO puede reportarse como exito,
 # porque se commitea silenciosamente y rompe las regeneraciones siguientes.
 $writeFailures = 0

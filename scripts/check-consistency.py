@@ -340,11 +340,17 @@ def _run(cmd):
     return subprocess.run(cmd, shell=True, capture_output=True, text=True)
 
 
+# En Windows el binario es `powershell`; fuera de Windows (CI incluido) es
+# `pwsh`. Sin esta distincion el check de paridad se auto-saltaba en Linux
+# por "shell no disponible", justo donde mas falta hace correrlo.
+PWSH = 'powershell' if os.name == 'nt' else 'pwsh'
+
+
 def check_idempotencia():
     """Generar dos veces debe dejar el repo igual. Si no, cada regeneracion
     ensucia el arbol y el ruido esconde los cambios reales."""
     watched = ['system.md', 'config.yaml', '.atl/skill-registry.md']
-    gen = ('powershell -NoProfile -Command ".\\scripts\\generate-registry.ps1"'
+    gen = ('%s -NoProfile -Command ".\\scripts\\generate-registry.ps1"' % PWSH
            if os.name == 'nt' else 'bash scripts/generate-registry.sh')
     before = {f: hashlib.md5(open(f, 'rb').read()).hexdigest() for f in watched}
     r = _run(gen)
@@ -387,7 +393,8 @@ def check_paridad_builders():
     """Los dos builders del adapter de Copilot deben producir lo mismo. Si
     divergen, el resultado depende de que shell uses."""
     out = 'adapters/copilot/copilot-instructions.md'
-    ps1 = 'powershell -NoProfile -Command ".\\adapters\\copilot\\scripts\\build-copilot-adapter.ps1"'
+    ps1 = ('%s -NoProfile -File adapters/copilot/scripts/build-copilot-adapter.ps1'
+           % PWSH)
     sh = 'bash adapters/copilot/scripts/build-copilot-adapter.sh'
     primero, segundo = (ps1, sh) if os.name == 'nt' else (sh, ps1)
 

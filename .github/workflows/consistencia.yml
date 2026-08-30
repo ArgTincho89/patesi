@@ -21,6 +21,14 @@ jobs:
         with:
           python-version: '3.11'
 
+      - name: Comprobar que ambos shells existen
+        # La paridad de builders se auto-salta si falta un shell, para no dar
+        # falsos positivos en maquinas de desarrollo. En CI eso seria una
+        # degradacion silenciosa: aca exigimos que el check se pueda correr.
+        run: |
+          command -v bash >/dev/null || { echo "::error::falta bash"; exit 1; }
+          command -v pwsh >/dev/null || { echo "::error::falta pwsh — la paridad de builders no se verificaria"; exit 1; }
+
       - name: Verificacion de consistencia (completa)
         run: python scripts/check-consistency.py --full
 

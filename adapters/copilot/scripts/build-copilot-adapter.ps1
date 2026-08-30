@@ -46,6 +46,7 @@ function Get-ExtractSection {
     return $Text.Substring($si, $ei - $si).Trim()
 }
 
+$limitsSection = Get-ExtractSection -Text $SystemMd -Name "limites"
 $protocolSection = Get-ExtractSection -Text $SystemMd -Name "protocolo"
 $modesSection = Get-ExtractSection -Text $SystemMd -Name "modos"
 
@@ -80,6 +81,12 @@ $lines += ""
 $lines += "---"
 $lines += ""
 $lines += $identitySection
+$lines += ""
+$lines += "## Regla fundamental $em Límite de escritura"
+$lines += ""
+$lines += "**Esta regla gobierna sobre todas las demás y aplica por igual en Modo A, B y C.**"
+$lines += ""
+$lines += $limitsSection
 $lines += ""
 $lines += "## Protocolo de Inicio de Sesión"
 $lines += ""

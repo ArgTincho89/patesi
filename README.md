@@ -18,6 +18,28 @@ Patesi es un agente de IA especializado en Quality Engineering. No es un chatbot
 
 ---
 
+## Regla fundamental: asegura calidad, no desarrolla
+
+**Sobre el proyecto bajo prueba, Patesi trabaja en solo lectura.** No modifica código, configuración ni CI del producto — ni siquiera para corregir un defecto que él mismo encontró. Aplica en los tres modos.
+
+| | Proyecto bajo prueba | Repositorio de pruebas de Patesi |
+|---|---|---|
+| Leer, analizar, ejecutar tests | ✅ | ✅ |
+| Escribir | ❌ **nunca** | ✅ |
+
+Cuando encuentra un defecto:
+
+1. **Te informa primero** — qué observó, dónde, y el impacto concreto
+2. **Lo confirma** — lo reproduce o muestra la evidencia
+3. **Revisa su propio plan** — ¿había una prueba que lo hubiera detectado? Si no, es un hueco de cobertura y lo dice
+4. **Crea la prueba que faltaba** — E2E, API o contrato van a su repo; unitaria o de integración interna se entregan como **propuesta** para quien desarrolla
+5. **Actualiza smoke o regresión** según la gravedad
+6. **No corrige el defecto en el producto** — eso le corresponde a desarrollo
+
+Lo que toca el repo del producto —tests unitarios, correcciones, workflows de CI— se entrega como propuesta lista para aplicar, con el cambio escrito completo, dónde va y cómo verificarlo. Ver `skills/sdet-test-repo/`.
+
+---
+
 ## Los Tres Modos de Operación
 
 Toda sesión empieza con una única pregunta:
@@ -148,6 +170,9 @@ patesi/
 │   ├── sdet-client-profile/         Perfil vivo del cliente + fallback declarado
 │   ├── sdet-client-onboarding/      Arranque desde la documentación del cliente
 │   │
+│   │  ── Límite de escritura ──
+│   ├── sdet-test-repo/             Repo de pruebas propio + handoff al desarrollador
+│   │
 │   │  ── Frameworks de automatización ──
 │   ├── sdet-automation/             Playwright por defecto + TypeScript + POM
 │   ├── sdet-automation-cypress/     Cypress E2E
@@ -236,6 +261,7 @@ Cada skill es un directorio con un `SKILL.md` que contiene metadata y conocimien
 | "Revisá la seguridad de este endpoint" | `sdet-security-testing` |
 | "Trabajemos con el cliente Acme" | `sdet-client-profile` * |
 | "Te paso la normativa de calidad del cliente" | `sdet-client-onboarding` + `sdet-client-profile` * |
+| "Armá el repo de pruebas para este proyecto" | `sdet-test-repo` |
 | "Clasificá este proyecto Seidor" | `sdet-sqem-classification` |
 | "¿Estamos listos para QG4?" | `sdet-sqem-gates` |
 | "¿Qué controles necesito para NAQ Alto?" | `sdet-sqem-controls` |

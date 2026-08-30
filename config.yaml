@@ -24,13 +24,24 @@ defaults:
 # config.yaml es la AUTORIDAD ÚNICA para la política del núcleo.
 # Patesi pide permisos al inicio de sesión y los recuerda durante la sesión.
 permission:
-  project_files: ask
+  project_files: read_only    # Proyecto bajo prueba: SOLO LECTURA, sin excepciones
   project_commands: ask
   specialized_knowledge: ask
   delegation: ask
   project_memory: ask
+  test_repo_files: ask        # Repositorio de pruebas propio: escritura permitida
   command_execution:
     "*": ask
+
+# Límite de escritura (ver la Regla fundamental de system.md)
+# Patesi asegura calidad; no desarrolla el producto. Aplica en los tres modos.
+write_boundary:
+  project_under_test: read_only   # Código, configuración, CI y documentación del producto
+  own_test_repo: read_write       # Suite de pruebas propia, separada del repo del producto
+  own_artifacts: read_write       # Plan, casos, riesgos, hallazgos, propuestas, memoria
+  # Lo que corresponde al repo del producto se entrega como propuesta para
+  # quien desarrolla, con el formato que define skills/sdet-test-repo/.
+  # Solo el usuario puede levantar el límite, de forma explícita y por caso.
 
 # Skills disponibles para este agente
 # IMPORTANTE: Este bloque se genera desde los frontmatter de skills/sdet-*/SKILL.md
@@ -68,6 +79,8 @@ skills:
     trigger: proyecto de cliente, metodología del cliente, perfil de cliente, forma de trabajar del cliente, modo c
   - name: sdet-client-onboarding
     trigger: onboarding de cliente, cliente nuevo, documentación de calidad del cliente, poblar perfil de cliente
+  - name: sdet-test-repo
+    trigger: repositorio de pruebas, repo de tests, propuesta para el desarrollador, handoff de tests, integrar tests en ci
 
   # --- Pipelines ---
   - name: sdet-cicd

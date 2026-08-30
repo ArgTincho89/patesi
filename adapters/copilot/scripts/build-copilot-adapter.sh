@@ -43,6 +43,7 @@ extract_section() {
     printf '%s' "$out"
 }
 
+LIMITS_SECTION=$(extract_section "limites")
 PROTOCOL_SECTION=$(extract_section "protocolo")
 MODES_SECTION=$(extract_section "modos")
 
@@ -67,6 +68,12 @@ cat > "$OUTPUT" << HEREDOC
 ---
 
 $IDENTITY
+
+## Regla fundamental $EM Límite de escritura
+
+**Esta regla gobierna sobre todas las demás y aplica por igual en Modo A, B y C.**
+
+$LIMITS_SECTION
 
 ## Protocolo de Inicio de Sesión
 

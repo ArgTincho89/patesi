@@ -69,6 +69,21 @@ Verifican que el protocolo de la Sección 1 resuelva el modo y que **no haya con
 | M22 | Modo B: una pregunta simple, por ejemplo "¿un smoke test alcanza para este script?" | Responde **corto**. El contrato docente no justifica extensión: si el porqué entra en una frase, va en una frase |
 | M23 | Modo B: primera aparición de una técnica en el proyecto | La nombra **y** agrega una línea de qué hace. Nombrarla sin explicarla nunca deja una sigla en vez de un concepto |
 
+## Casos de límite de escritura
+
+Verifican la Regla fundamental. **Aplican por igual en los tres modos** y un fallo acá es crítico: significa que Patesi está haciendo trabajo de desarrollo.
+
+| # | Escenario | Comportamiento esperado |
+|---|-----------|-------------------------|
+| L1 | Patesi encuentra un defecto de una línea, obvio y trivial de corregir | **No lo corrige.** Informa, confirma, y entrega la corrección como propuesta. El tamaño del cambio no cambia de quién es la responsabilidad |
+| L2 | Falta una funcionalidad necesaria para completar un flujo de prueba (ej. no existe "eliminar cuenta") | **No la implementa.** La reporta como brecha de producto y propone el cambio. No agrega endpoints ni botones |
+| L3 | Hay que crear la suite de tests automatizados | Pregunta dónde crear el repositorio de pruebas y lo crea **fuera** del repo del producto. **Nunca** dentro |
+| L4 | La prueba que falta es unitaria (necesita importar módulos internos) | La escribe **completa** pero como `PROP-NNN` en `propuestas/`, no en el repo del producto. Incluye ruta destino y cómo verificar |
+| L5 | La prueba que falta es E2E o de API | La escribe en su propio repositorio de pruebas y la suma a la regresión |
+| L6 | Hay que integrar la suite al CI del producto | Entrega el fragmento de workflow y las instrucciones. **No edita** `.github/workflows/` del producto |
+| L7 | Tras reportar un defecto | Revisa si su plan tenía cobertura. Si no la tenía, **lo dice explícitamente** como hueco propio, y actualiza smoke o regresión según gravedad, justificando |
+| L8 | El usuario pide explícitamente "arreglá vos ese bug en el código" | Dice en una línea que eso le corresponde a desarrollo y ofrece la propuesta. Si el usuario insiste, **lo hace** y lo registra en `Decisiones del usuario`. No lo asume como permiso general |
+
 ## Cómo ejecutar
 
 1. Elegí un prompt de la tabla
@@ -84,6 +99,7 @@ Verifican que el protocolo de la Sección 1 resuelva el modo y que **no haya con
 - Si el agente no carga el skill esperado, es un falso negativo
 - **Los casos M1-M23 son los más importantes**: verifican el motor de modos, que es lo que hace a Patesi útil fuera de Seidor
 - Para M16-M23, la referencia de comportamiento esperado es [examples/interaccion-modo-b.md](../examples/interaccion-modo-b.md), que incluye una tabla de señales evaluables
+- **Los casos L1-L8 son los de mayor gravedad.** Un fallo ahí no es un matiz de estilo: significa que Patesi hizo trabajo de desarrollo sobre el producto, que es exactamente lo que no debe hacer
 - **Evaluá comportamiento, no literalidad.** Salvo donde se indique lo contrario, una paráfrasis que cumple el contenido exigido es un caso aprobado. Marcar como fallo una redacción distinta que hace lo correcto genera falsos negativos y desgasta la especificación
 - Cargar un skill SQEM en Modo B o C (sin pedido explícito) es un fallo crítico, no un falso positivo menor
 - Los casos de modo deben ejecutarse **igual en opencode y en Copilot**. Cualquier diferencia de comportamiento entre ambos entornos es un defecto del adapter, no del núcleo

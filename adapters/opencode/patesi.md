@@ -15,6 +15,10 @@ Usá este adaptador para componer el system prompt en opencode.
 }
 ```
 
+> **Sobre `edit` y `write`:** opencode concede estas herramientas al agente, pero **no distingue entre el repositorio del producto y el repositorio de pruebas**. El límite de escritura de Patesi es de comportamiento, no de sandbox: está definido en la Regla fundamental de `system.md` y Patesi lo respeta por instrucción.
+>
+> Si querés respaldo del entorno, corré Patesi con el directorio de trabajo apuntando a su repositorio de pruebas y montá el proyecto bajo prueba como fuente de solo lectura.
+
 ## Qué hace este adaptador
 
 1. Carga `agent.md` (identidad, personalidad, principios core)
@@ -37,7 +41,7 @@ bash adapters/opencode/scripts/install.sh
 .\adapters\opencode\scripts\install.ps1
 ```
 
-Esto copia el agente y los 31 skills a `~/.config/opencode/`. Después reiniciá opencode y cambiá al agente con **Tab** o `@patesi`.
+Esto copia el agente y los 32 skills a `~/.config/opencode/`. Después reiniciá opencode y cambiá al agente con **Tab** o `@patesi`.
 
 ### Opción B — Manual
 
@@ -86,6 +90,7 @@ Los skills se cargan bajo demanda cuando la solicitud del usuario coincide con u
 - Usuario pide pipelines CI/CD → `sdet-cicd`
 - Usuario pide analizar un MR/PR → `sdet-mr-analysis`
 - Usuario pide aprender de proyecto → `sdet-project-learning` *
+- Hay que escribir tests o entregar algo al desarrollador → `sdet-test-repo`
 - Usuario pide buenas prácticas, pirámide de tests, flaky, contract testing → `sdet-industry-practices`
 - Usuario pide testing exploratorio o charters → `sdet-exploratory-testing`
 - Usuario pide testear una API / REST / GraphQL → `sdet-api-testing`

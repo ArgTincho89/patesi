@@ -31,6 +31,7 @@ declare -a HUMAN_PHRASES=(
     "sdet-project-learning|Aprender del proyecto"
     "sdet-client-profile|Perfil / metodología de un cliente"
     "sdet-client-onboarding|Arranque con un cliente nuevo"
+    "sdet-test-repo|Repositorio de pruebas / propuesta al desarrollador"
     "sdet-industry-practices|Buenas prácticas de la industria"
     "sdet-exploratory-testing|Testing exploratorio / charters"
     "sdet-api-testing|Testing de APIs / REST / GraphQL"
@@ -57,7 +58,7 @@ declare -a HUMAN_PHRASES=(
 # --- Categorías de salida para agrupar config.yaml ---
 # Formato: "clave_de_categoría|etiqueta_visible|skill1,skill2,..."
 declare -a CATEGORY_DEFS=(
-    "qa-core|Núcleo de QA|sdet-istqb,sdet-test-strategy,sdet-test-cases,sdet-test-classification,sdet-risk-analysis,sdet-mr-analysis,sdet-project-learning,sdet-industry-practices,sdet-exploratory-testing,sdet-api-testing,sdet-accessibility,sdet-performance,sdet-security-testing,sdet-client-profile,sdet-client-onboarding"
+    "qa-core|Núcleo de QA|sdet-istqb,sdet-test-strategy,sdet-test-cases,sdet-test-classification,sdet-risk-analysis,sdet-mr-analysis,sdet-project-learning,sdet-industry-practices,sdet-exploratory-testing,sdet-api-testing,sdet-accessibility,sdet-performance,sdet-security-testing,sdet-client-profile,sdet-client-onboarding,sdet-test-repo"
     "pipelines|Pipelines|sdet-cicd"
     "automation|Automatización|sdet-automation,sdet-automation-cypress,sdet-automation-selenium,sdet-automation-appium,sdet-automation-robot"
     "languages|Lenguajes|sdet-lang-python,sdet-lang-java,sdet-lang-javascript"

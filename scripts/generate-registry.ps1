@@ -34,6 +34,7 @@ $humanPhrases = @{
     "sdet-project-learning"       = "Aprender del proyecto"
     "sdet-client-profile"         = "Perfil / metodología de un cliente"
     "sdet-client-onboarding"      = "Arranque con un cliente nuevo"
+    "sdet-test-repo"              = "Repositorio de pruebas / propuesta al desarrollador"
     "sdet-industry-practices"     = "Buenas prácticas de la industria"
     "sdet-exploratory-testing"    = "Testing exploratorio / charters"
     "sdet-api-testing"            = "Testing de APIs / REST / GraphQL"
@@ -59,7 +60,7 @@ $humanPhrases = @{
 
 # --- Categorías de salida para agrupar config.yaml ---
 $categories = [ordered]@{
-    "qa-core"      = @("sdet-istqb", "sdet-test-strategy", "sdet-test-cases", "sdet-test-classification", "sdet-risk-analysis", "sdet-mr-analysis", "sdet-project-learning", "sdet-industry-practices", "sdet-exploratory-testing", "sdet-api-testing", "sdet-accessibility", "sdet-performance", "sdet-security-testing", "sdet-client-profile", "sdet-client-onboarding")
+    "qa-core"      = @("sdet-istqb", "sdet-test-strategy", "sdet-test-cases", "sdet-test-classification", "sdet-risk-analysis", "sdet-mr-analysis", "sdet-project-learning", "sdet-industry-practices", "sdet-exploratory-testing", "sdet-api-testing", "sdet-accessibility", "sdet-performance", "sdet-security-testing", "sdet-client-profile", "sdet-client-onboarding", "sdet-test-repo")
     "pipelines"    = @("sdet-cicd")
     "automation"   = @("sdet-automation", "sdet-automation-cypress", "sdet-automation-selenium", "sdet-automation-appium", "sdet-automation-robot")
     "languages"    = @("sdet-lang-python", "sdet-lang-java", "sdet-lang-javascript")

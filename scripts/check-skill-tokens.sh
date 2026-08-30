@@ -1,6 +1,7 @@
 #!/bin/bash
-# Patesi — Skill Token Validator
-# Checks that each SKILL.md is under 4K tokens (approximate).
+# Patesi — Validador de tokens estimados
+# Verifica cada SKILL.md contra 4000 tokens y el núcleo combinado
+# (agent.md + system.md) contra un presupuesto separado de 12000 tokens.
 # Uses word count as a proxy: ~1.3 tokens per word for English/Spanish mixed content.
 #
 # Uso:
@@ -27,6 +28,7 @@ while [[ $# -gt 0 ]]; do
 done
 
 TOKENS_PER_WORD=1.3
+CORE_MAX_TOKENS=12000
 EXCEEDED=0
 COUNT=0
 
@@ -66,8 +68,23 @@ else
     echo -e "\033[0;32mTotal de skills: $COUNT | Excedidos: 0\033[0m"
 fi
 
-if $CHECK_MODE && [ "$EXCEEDED" -gt 0 ]; then
+core_words=0
+for core_file in "$REPO_DIR/agent.md" "$REPO_DIR/system.md"; do
+    [ -f "$core_file" ] || continue
+    file_words=$(wc -w < "$core_file")
+    core_words=$((core_words + file_words))
+done
+core_est_tokens=$(echo "$core_words * $TOKENS_PER_WORD" | bc | cut -d. -f1)
+if [ "$core_est_tokens" -gt "$CORE_MAX_TOKENS" ]; then
+    core_status="EXCEED"
+else
+    core_status="OK"
+fi
+echo "Núcleo agnóstico combinado (agent.md + system.md): $core_words palabras, $core_est_tokens tokens estimados / $CORE_MAX_TOKENS presupuesto ($core_status)"
+
+if $CHECK_MODE && { [ "$EXCEEDED" -gt 0 ] || [ "$core_status" = "EXCEED" ]; }; then
     echo ""
-    echo -e "\033[0;31m$EXCEEDED skill(s) superan el presupuesto de $MAX_TOKENS tokens.\033[0m"
+    [ "$EXCEEDED" -gt 0 ] && echo -e "\033[0;31m$EXCEEDED skill(s) superan el presupuesto de $MAX_TOKENS tokens.\033[0m"
+    [ "$core_status" = "EXCEED" ] && echo -e "\033[0;31mEl núcleo agnóstico combinado supera el presupuesto de $CORE_MAX_TOKENS tokens.\033[0m"
     exit 1
 fi

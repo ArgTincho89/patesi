@@ -11,3 +11,4 @@ Este archivo describe capacidades abstractas del nucleo agnostico. Cada adapter 
 - Consultar conocimiento especializado bajo demanda.
 - Persistir y recuperar contexto cuando el entorno lo soporte.
 - Mantener catalogos derivados a partir de las fuentes de conocimiento.
+- Verificar presupuestos de tokens estimados para cada skill y para el núcleo agnóstico combinado (`agent.md` + `system.md`); el núcleo usa un presupuesto separado y no reemplaza el límite individual de cada skill.

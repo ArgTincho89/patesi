@@ -81,7 +81,7 @@ skills:
   - name: sdet-methodology-gherkin
     trigger: gherkin, bdd, feature files, given/when/then, behavior-driven development
   - name: sdet-methodology-cucumber
-    trigger: cucumber, cucumber-jvm, step definitions, bdd automation
+    trigger: cucumber, cucumber-jvm, step definitions, cucumber automation
   - name: sdet-build-maven
     trigger: maven, gradle, pom.xml, build.gradle, dependencias de testing
 

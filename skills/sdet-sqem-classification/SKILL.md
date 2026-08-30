@@ -19,10 +19,10 @@ Clasifica proyectos Seidor usando el framework SQEM (Seidor Quality Engineering 
 ## Los dos ejes de decisión
 
 ```
-Axis 1: NAQ (Quality Assurance Level) → Bajo / Medio / Alto
-Axis 2: Project Tipologia (15 types, composable)
-              ↓  combined automatically
-OUTPUT: Delivery Target → Basico / Integrado / Continuo
+Eje 1: NAQ (nivel de aseguramiento de la calidad) → Bajo / Medio / Alto
+Eje 2: Tipología de proyecto (15 tipos, componible)
+              ↓  combinación automática
+SALIDA: Delivery Target → Básico / Integrado / Continuo
 ```
 
 ---
@@ -35,14 +35,46 @@ Promedio ponderado, con cada factor puntuado de 0 a 4:
 
 | Factor | Peso |
 |--------|--------|
-| Business Criticality | 8 |
+| Criticidad de negocio | 8 |
 | Visibilidad / uso | 4 |
-| Interoperability | 4 |
-| Data Sensitivity | 4 |
-| Technical Maturity | 2 (suspended until data available) |
-| Complexity | 2 |
+| Interoperabilidad | 4 |
+| Sensibilidad de datos | 4 |
+| Madurez técnica | 2 (suspendido hasta disponer de datos) |
+| Complejidad | 2 |
 
 `NAQ = Sum(score_i x weight_i) / Sum(active_weights)`
+
+`active_weights` incluye el peso 2 de **Madurez técnica** únicamente cuando se
+cumple la regla objetiva siguiente. En caso contrario, el factor queda excluido
+del numerador y del denominador, y la ficha de clasificación debe registrar la
+razón de suspensión.
+
+### Rúbrica de Madurez técnica
+
+La puntuación se asigna usando evidencia fechada y verificable de la aplicación
+evaluada, no por opinión del evaluador:
+
+| Puntuación | Criterios observables |
+|---|---|
+| 0 | No existe release productiva documentada, o no hay inventario/diagrama técnico vigente ni historial de operación verificable. |
+| 1 | Existe al menos una release productiva documentada, pero faltan evidencias de operación repetible, monitoreo o gestión de defectos. |
+| 2 | Existe al menos una release productiva documentada, runbook o procedimiento operativo vigente, monitoreo básico y registro de defectos de producción. |
+| 3 | Existen al menos dos releases productivas documentadas, historial verificable de defectos/DER por release, observabilidad operativa, rollback probado y deuda técnica registrada. |
+| 4 | Cumple el nivel 3 y, además, evidencia de al menos cuatro releases productivas en los últimos 12 meses, rollback ensayado en los últimos 6 meses, revisión periódica de deuda técnica y ausencia de Sev1/Sev2 abiertos. |
+
+### Activación objetiva del peso
+
+El peso 2 de Madurez técnica está **activo** solo si se verifican
+simultáneamente estas tres condiciones:
+
+1. Hay al menos dos releases productivas documentadas.
+2. Existe un historial verificable de defectos o DER de esas releases.
+3. No hay ningún Sev1/Sev2 abierto al momento de la clasificación.
+
+Si falta una condición, el peso queda **suspendido**. La ficha debe registrar
+cada evidencia consultada y la razón concreta, por ejemplo: `suspendido: solo
+una release documentada` o `suspendido: Sev2 abierto INC-123`. El evaluador no
+puede activar ni desactivar este peso por preferencia.
 
 ### Bandas de NAQ
 
@@ -54,23 +86,23 @@ Promedio ponderado, con cada factor puntuado de 0 a 4:
 
 ### Reglas de override (no negociables)
 
-- Business Criticality=4 **OR** Data Sensitivity=4 → **NAQ Alto** forced
-- Business Criticality>=3 **AND** Data Sensitivity>=3 → minimum **NAQ Medio**
-- Impacts on person safety / serious legal breach / critical ops continuity → **NAQ Alto**
-- AI system classified as "high risk" under EU AI Act → **NAQ Alto** + Annex IA (Section 16)
+- Criticidad de negocio=4 **OR** Sensibilidad de datos=4 → **NAQ Alto** obligatorio
+- Criticidad de negocio>=3 **AND** Sensibilidad de datos>=3 → mínimo **NAQ Medio**
+- Impacto en seguridad de personas / violación legal grave / continuidad operativa crítica → **NAQ Alto**
+- Sistema de IA clasificado como "high risk" según EU AI Act → **NAQ Alto** + Anexo IA (sección 16)
 
 ### Sub-banda de misión crítica (dentro de Alto)
 
-Activates when override rules trigger:
+Se activa cuando se dispara alguna regla de override:
 
-| Control | Alto ordinario | Alto — mision critica |
+| Control | Alto ordinario | Alto — misión crítica |
 |---------|---------------|----------------------|
 | Code coverage | New >=80% / Overall >=70% | **New >=90% / Overall >=80%** |
 | Code review | >=1 senior reviewer | **>=2 senior reviewers, one independent** |
 | Mutation testing | Recommended | **Mandatory** |
 | Security | SAST/DAST/SCA | + **formal pentest**, 0 Critical/High open |
 | DR/rollback | SLO defined | + **validated in rehearsal + MTTR verified** |
-| Deliverables | NAQ Alto minimums | + **formal risk report + Go/No-Go with Direction** |
+| Entregables | Mínimos de NAQ Alto | + **informe formal de riesgos + Go/No-Go con Dirección** |
 
 ### Triggers de reevaluación de NAQ
 
@@ -86,64 +118,64 @@ Activates when override rules trigger:
 
 | # | Tipología | Tests / controles clave |
 |---|-----------|---------------------|
-| 1 | **New Development** | Unit, static analysis, code review, integration, E2E, UAT, smoke, NF by NAQ |
-| 2 | **Evolutionary Maintenance (AMS)** | Impact analysis, selective regression, defect confirmation, smoke |
-| 3 | **Corrective Maintenance (AMS)** | Defect reproduction, confirmation test, selective regression, smoke |
-| 4 | **Hotfix / Emergency** | QG-Express: peer review + directed smoke + rollback + ex-post closure 24-48h |
-| 5 | **Transformation / Migration** | Baseline, migration/reconciliation, regression, NF, formal UAT, rollback |
-| 6 | **Integrations / APIs / Data** | Contract testing, integration, negative tests, data validation, resilience, perf, security |
-| 7 | **Digital Product / User Channel** | E2E, usability, accessibility (WCAG), compatibility, performance, security |
-| 8 | **Packaged (SAP/Salesforce/...)** | Functional config, integration, E2E regression, UAT, role security, batch perf |
+| 1 | **Desarrollo nuevo** | Unit, análisis estático, code review, integración, E2E, UAT, smoke, NF según NAQ |
+| 2 | **Mantenimiento evolutivo (AMS)** | Análisis de impacto, regresión selectiva, confirmación de defectos, smoke |
+| 3 | **Mantenimiento correctivo (AMS)** | Reproducción de defectos, test de confirmación, regresión selectiva, smoke |
+| 4 | **Hotfix / Emergencia** | QG-Express: revisión por pares + smoke dirigido + rollback + cierre ex-post en 24-48 h |
+| 5 | **Transformación / Migración** | Baseline, migración/reconciliación, regresión, NF, UAT formal, rollback |
+| 6 | **Integraciones / APIs / Datos** | Contract testing, integración, tests negativos, validación de datos, resiliencia, perf, seguridad |
+| 7 | **Producto digital / Canal de usuario** | E2E, usabilidad, accesibilidad (WCAG), compatibilidad, performance, seguridad |
+| 8 | **Empaquetado (SAP/Salesforce/...)** | Configuración funcional, integración, regresión E2E, UAT, seguridad de roles, perf de batch |
 | 9 | **Producto de mercado (COTS/SaaS)** | Requisitos frente al estándar del producto, revisión de configuración, integración, UAT funcional, NF según NAQ |
-| 10 | **AI / ML / GenAI** | Data/model quality, LLM/RAG, agents, Responsible AI, continuous evaluation — Annex IA Section 16 |
-| 11 | **Data & Analytics / BI** | Data quality (completeness, accuracy, uniqueness, lineage), reconciliation, rules, perf |
-| 12 | **Infrastructure / DevOps / Cloud** | IaC linting/policy-as-code, deploy/idempotency, hardening/CIS, DR, observability |
-| 13 | **RPA / Automation** | E2E process, exception/retry handling, UI robustness, process regression, monitoring |
-| 14 | **Cybersecurity** | SAST/DAST/SCA, pentest, threat modeling, hardening verification, compliance evidence |
-| 15 | **Consulting** | Peer review, document QC, client validation — build/production gates N/A |
+| 10 | **IA / ML / GenAI** | Calidad de datos/modelo, LLM/RAG, agents, Responsible AI, evaluación continua — Anexo IA, sección 16 |
+| 11 | **Datos y analítica / BI** | Calidad de datos (completitud, exactitud, unicidad, linaje), reconciliación, reglas, perf |
+| 12 | **Infraestructura / DevOps / Cloud** | Linting de IaC/policy-as-code, deploy/idempotencia, hardening/CIS, DR, observabilidad |
+| 13 | **RPA / Automatización** | Proceso E2E, gestión de excepciones/reintentos, robustez de UI, regresión del proceso, monitoreo |
+| 14 | **Ciberseguridad** | SAST/DAST/SCA, pentest, modelado de amenazas, verificación de hardening, evidencia de cumplimiento |
+| 15 | **Consultoría** | Revisión por pares, QC documental, validación del cliente — gates de build/producción N/A |
 
-> **Composable:** declare one primary tipologia + secondary components. Controls = union of all, modulated by the same NAQ.
+> **Componible:** declaré una tipología primaria + componentes secundarios. Los controles son la unión de todos, modulada por el mismo NAQ.
 
 ---
 
 ## Salida — Delivery Target (sección 5.3.4)
 
-| Target | Minimum capabilities |
+| Delivery Target | Capacidades mínimas |
 |--------|---------------------|
-| **Basico** | Checklist, documented manual tests, smoke, defects logged, manual gates and evidence |
-| **Integrado** | CI, SonarQube in pipeline, critical regression automated, req-test traceability, partial auto-gates, KPI dashboard |
-| **Continuo** | Automatic quality gates in CI/CD, high automation (E2E), recurring NF, executive dashboards, controlled deploys with rehearsed rollback |
+| **Básico** | Checklist, tests manuales documentados, smoke, defectos registrados, gates manuales y evidencias |
+| **Integrado** | CI, SonarQube en pipeline, regresión crítica automatizada, trazabilidad requisito-test, auto-gates parciales, dashboard de KPI |
+| **Continuo** | Quality gates automáticos en CI/CD, alta automatización (E2E), NF recurrentes, dashboards ejecutivos, deploys controlados con rollback ensayado |
 
-**Recommendation rule:** Continuo when high deploy frequency OR NAQ Alto. Basico is the minimum. Integrado is the portfolio target.
+**Regla de recomendación:** Continuo cuando hay alta frecuencia de despliegue OR NAQ Alto. Básico es el mínimo. Integrado es el objetivo de portfolio.
 
 ---
 
 ## Núcleo común NO NEGOCIABLE (sección 5.4)
 
-Estos 9 ítems aplican a TODOS los proyectos Seidor, sin importar NAQ, tipología o delivery target:
+Estos 9 ítems aplican a TODOS los proyectos Seidor, sin importar NAQ, tipología o Delivery Target:
 
-1. NAQ assigned + project/application sheet completed
+1. NAQ asignado + ficha de proyecto/aplicación completada
 2. Criterios de aceptación definidos para el alcance del entregable
-3. Defect management with standard severity in ALM tool
-4. **Smoke test pre and post-deploy**
-5. **Zero blocking/critical defects open** to pass to production
-6. **Go/No-Go decision recorded** (even lightweight) before production
-7. Deploy and rollback plan (proportional to risk)
-8. Standard nomenclature and traceability
-9. **GDPR compliance in test data** (never unmasked real data)
+3. Gestión de defectos con severidad estándar en herramienta ALM
+4. **Smoke test pre y post-deploy**
+5. **Cero defectos bloqueantes/críticos abiertos** para pasar a producción
+6. **Decisión Go/No-Go registrada** (aunque sea ligera) antes de producción
+7. Plan de deploy y rollback (proporcional al riesgo)
+8. Nomenclatura estándar y trazabilidad
+9. **Cumplimiento GDPR en datos de test** (nunca datos reales sin enmascarar)
 
 ---
 
 ## Roles de gobernanza (sección 3.2)
 
-| Role | Responsibility |
+| Rol | Responsabilidad |
 |------|---------------|
-| **QA Manager** | Model owner. Portfolio KPIs, audits, training, NAQ Alto exception arbitration. |
-| **QA Lead** | Adapts model to project, defines Test Strategy, controls gates, reports quality and risks. |
-| **QA Engineer** | Designs/executes tests, automates, manages defects and evidence. |
-| **Tech Lead / Architect** | Technical quality, code and design review, NFRs, technical debt, ADRs. |
+| **QA Manager** | Responsable del modelo. KPIs de portfolio, auditorías, formación y arbitraje de excepciones de NAQ Alto. |
+| **QA Lead** | Adapta el modelo al proyecto, define la Test Strategy, controla gates e informa calidad y riesgos. |
+| **QA Engineer** | Diseña y ejecuta tests, automatiza y gestiona defectos y evidencias. |
+| **Tech Lead / Architect** | Calidad técnica, revisión de código y diseño, NFRs, deuda técnica y ADRs. |
 | **PM / Delivery Manager** | Integra la calidad en la planificación, asegura recursos y evidencias, y gestiona dependencias. |
-| **Product Owner / Client** | Defines acceptance criteria, prioritizes defects, approves UAT and Go-Live. |
-| **DevOps / Release Manager** | CI/CD, automatic quality gates, deployment, rollback, smoke, observability. |
+| **Product Owner / Client** | Define criterios de aceptación, prioriza defectos y aprueba UAT y Go-Live. |
+| **DevOps / Release Manager** | CI/CD, quality gates automáticos, deployment, rollback, smoke y observabilidad. |
 
 ---

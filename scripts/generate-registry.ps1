@@ -1,6 +1,6 @@
 ﻿# Patesi — Generador del registro de skills (fuente única de verdad)
 # Lee el frontmatter de todos los skills/sdet-*/SKILL.md y genera:
-#   1. .atl/skill-registry.md      — catálogo Markdown agnóstico
+#   1. .atl/skill-registry.md      — catálogo Markdown agnóstico (Skill, Category, Trigger, Path)
 #   2. bloque de skills de config.yaml — directamente entre markers SKILLS_BLOCK
 #   3. tabla de system.md §8           — directamente entre markers SKILL_TABLE
 #
@@ -119,11 +119,16 @@ foreach ($skillDir in $skillDirs) {
         $trigger = $description
     }
 
+    $category = ""
+    if ($frontmatter -match '(?m)^\s+category:\s*(.+)$') { $category = $matches[1].Trim() }
+    if (-not $category) { Write-Host "  AVISO: $name -- no se encontró metadata.category" -ForegroundColor Yellow }
+
     $relativePath = "skills/$($skillDir.Name)/SKILL.md"
 
     $allSkills += [PSCustomObject]@{
         Name        = $name
         Trigger     = $trigger
+        Category    = $category
         Description = $description
         Path        = $relativePath
     }
@@ -150,14 +155,14 @@ $registryLines += "Última actualización: $date"
 $registryLines += ""
 $registryLines += "## Skills"
 $registryLines += ""
-$registryLines += "| Skill | Trigger / description | Scope | Path |"
-$registryLines += "|-------|----------------------|-------|------|"
+$registryLines += "| Skill | Category | Trigger | Path |"
+$registryLines += "|-------|----------|---------|------|"
 
 foreach ($catKey in $categories.Keys) {
     foreach ($skillName in $categories[$catKey]) {
         if ($skillMap.ContainsKey($skillName)) {
             $s = $skillMap[$skillName]
-            $registryLines += "| ``$($s.Name)`` | $($s.Trigger) | project | ``$($s.Path)`` |"
+            $registryLines += "| ``$($s.Name)`` | $($s.Category) | $($s.Trigger) | ``$($s.Path)`` |"
         }
     }
 }
@@ -165,7 +170,7 @@ foreach ($catKey in $categories.Keys) {
 $registryLines += ""
 $registryLines += "## Catálogo de conocimiento"
 $registryLines += ""
-$registryLines += "Este archivo conserva el catálogo de skills y sus triggers. La disponibilidad y el mecanismo de resolución se documentan en cada adapter."
+$registryLines += "Este registry es un catálogo agnóstico de conocimiento. Cada adapter resuelve la disponibilidad y el mecanismo de resolución concretos. ``sdet-automation`` es el skill default de Playwright. La separación entre Gherkin/BDD (especificaciones) y Cucumber (integración y step definitions) es intencional."
 
 $registryContent = ($registryLines -join "`n") + "`n"
 

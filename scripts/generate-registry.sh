@@ -1,7 +1,7 @@
 #!/bin/bash
 # Patesi — Generador del registro de skills (fuente única de verdad)
 # Lee el frontmatter de todos los skills/sdet-*/SKILL.md y genera:
-#   1. .atl/skill-registry.md      — tabla Markdown
+#   1. .atl/skill-registry.md      — tabla Markdown (Skill, Category, Trigger, Path)
 #   2. bloque de skills de config.yaml — directamente entre markers SKILLS_BLOCK
 #   3. tabla de system.md §8           — directamente entre markers SKILL_TABLE
 #
@@ -78,17 +78,26 @@ extract_description() {
     echo "$frontmatter" | grep '^  ' | grep -viE '^\s*(Trigger:|name:|description:|license:|metadata:|category:|author:|version:)' | head -1 | sed 's/^  *//' | tr -d '\r'
 }
 
+extract_category() {
+    local frontmatter="$1"
+    echo "$frontmatter" | grep -m1 -E '^  category:' | sed 's/^  category: *//' | tr -d '\r'
+}
+
 # --- Analizar el argumento de modo ---
 CHECK_MODE=false
-if [[ "${1:-}" == "--check" ]]; then
-    CHECK_MODE=true
-fi
+while [[ $# -gt 0 ]]; do
+    case "$1" in
+        --check) CHECK_MODE=true; shift ;;
+        *) shift ;;
+    esac
+done
 
 echo "Generando el registro de skills desde el frontmatter de SKILL.md..."
 
 # --- Analizar todos los skills ---
 declare -a SKILL_NAMES=()
 declare -a SKILL_TRIGGERS=()
+declare -a SKILL_CATEGORIES=()
 declare -a SKILL_DESCRIPTIONS=()
 declare -a SKILL_PATHS=()
 COUNT=0
@@ -117,6 +126,8 @@ for skill_dir in "$SKILLS_DIR"/sdet-*; do
 
     trigger=$(extract_trigger "$frontmatter")
     description=$(extract_description "$frontmatter")
+    category=$(extract_category "$frontmatter")
+    [ -n "$category" ] || echo "  AVISO: $name -- no se encontró metadata.category"
     [ -z "$trigger" ] && trigger="$description"
     [ -z "$description" ] && description="$trigger"
 
@@ -124,6 +135,7 @@ for skill_dir in "$SKILLS_DIR"/sdet-*; do
 
     SKILL_NAMES+=("$name")
     SKILL_TRIGGERS+=("$trigger")
+    SKILL_CATEGORIES+=("$category")
     SKILL_DESCRIPTIONS+=("$description")
     SKILL_PATHS+=("$relative_path")
     COUNT=$((COUNT + 1))
@@ -207,22 +219,22 @@ DATE=$(date +%Y-%m-%d)
     echo ""
     echo "## Skills"
     echo ""
-    echo "| Skill | Trigger / description | Scope | Path |"
-    echo "|-------|----------------------|-------|------|"
+    echo "| Skill | Category | Trigger | Path |"
+    echo "|-------|----------|---------|------|"
 
     for cat_def in "${CATEGORY_DEFS[@]}"; do
         IFS='|' read -r _cat_key _cat_label cat_skills <<< "$cat_def"
         IFS=',' read -ra skill_list <<< "$cat_skills"
         for sname in "${skill_list[@]}"; do
             idx=$(find_skill_index "$sname" 2>/dev/null) || continue
-            echo "| \`${SKILL_NAMES[$idx]}\` | ${SKILL_TRIGGERS[$idx]} | project | \`${SKILL_PATHS[$idx]}\` |"
+            echo "| \`${SKILL_NAMES[$idx]}\` | ${SKILL_CATEGORIES[$idx]} | ${SKILL_TRIGGERS[$idx]} | \`${SKILL_PATHS[$idx]}\` |"
         done
     done
 
     echo ""
     echo "## Catálogo de conocimiento"
     echo ""
-    echo "Este archivo conserva el catálogo de skills y sus triggers. La disponibilidad y el mecanismo de resolución se documentan en cada adapter."
+    echo "Este registry es un catálogo agnóstico de conocimiento. Cada adapter resuelve la disponibilidad y el mecanismo de resolución concretos. \`sdet-automation\` es el skill default de Playwright. La separación entre Gherkin/BDD (especificaciones) y Cucumber (integración y step definitions) es intencional."
 } > /tmp/patesi_registry_content.md
 
 # --- Salida 2: bloque de skills de config.yaml (entre markers) ---

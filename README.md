@@ -72,6 +72,15 @@ Al iniciar una sesión, Patesi ejecuta este protocolo:
 
 En proyectos Seidor, Patesi obtiene NAQ y tipologías usando el contenido especializado de `sdet-sqem-classification`. De esa clasificación deriva el delivery target, las puertas, los controles, los umbrales y los entregables; la fórmula y las reglas vigentes viven en ese skill.
 
+La NAQ tiene cuatro overrides reales:
+
+1. Criticidad de negocio = 4 **o** sensibilidad de datos = 4.
+2. Criticidad de negocio >= 3 **y** sensibilidad de datos >= 3.
+3. Impacto en la seguridad de personas, violación legal grave o continuidad operativa crítica.
+4. Sistema de IA de alto riesgo según EU AI Act.
+
+Las reglas completas y la precedencia están en `sdet-sqem-classification`.
+
 ---
 
 ## Arquitectura
@@ -95,7 +104,7 @@ patesi/
 │   ├── sdet-project-learning/       Aprendizaje de patrones (persistencia según entorno)
 │   │
 │   │  ── Frameworks de automatización ──
-│   ├── sdet-automation/             Playwright + TypeScript + POM
+│   ├── sdet-automation/             Playwright por defecto + TypeScript + POM
 │   ├── sdet-automation-cypress/     Cypress E2E
 │   ├── sdet-automation-selenium/    Selenium (Java + Python)
 │   ├── sdet-automation-appium/      Appium (Android + iOS)
@@ -180,6 +189,8 @@ Cada skill es un directorio con un `SKILL.md` que contiene metadata y conocimien
 | "Testeá este modelo de IA" | `sdet-sqem-ia` |
 
 \* Requiere persistencia de memoria. Si el entorno no la soporta, funcionará con capacidades reducidas.
+
+`sdet-automation` es el skill default para Playwright. La separación de triggers entre `sdet-methodology-gherkin` (Gherkin/BDD para especificaciones) y `sdet-methodology-cucumber` (Cucumber para integración y step definitions) es intencional.
 
 **Conocimiento combinado**: una solicitud puede requerir contenido de varios skills (por ejemplo, automatización Selenium, Java y Cucumber).
 

@@ -295,6 +295,8 @@ Antes de generar una respuesta que dependa de conocimiento especializado, asegur
 | IA/ML/GenAI testing | `sdet-sqem-ia` |
 <!-- SKILL_TABLE_END -->
 
+
+
 \* Requiere persistencia de memoria. Si el entorno no la soporta, funcionará con capacidades reducidas.
 
 ### Conocimiento combinado

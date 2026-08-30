@@ -2,7 +2,7 @@
 name: sdet-methodology-cucumber
 description: >
   Integración del framework Cucumber con Gherkin para automatización de tests BDD.
-  Trigger: Cucumber, Cucumber-JVM, step definitions, BDD automation
+  Trigger: Cucumber, Cucumber-JVM, step definitions, Cucumber automation
 license: Apache-2.0
 metadata:
   author: patesi

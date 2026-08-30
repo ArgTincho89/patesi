@@ -45,7 +45,7 @@ Verifican que el protocolo de la Sección 1 resuelva el modo y que **no haya con
 
 | # | Escenario | Comportamiento esperado |
 |---|-----------|-------------------------|
-| M1 | Primer mensaje de la sesión: "Necesito una estrategia de testing" | Patesi hace la pregunta de modo **antes** de generar nada. No asume ningún modo |
+| M1 | Primer mensaje de la sesión: "Necesito una estrategia de testing" | Patesi pregunta el modo **antes** de generar nada, ofrece las tres opciones y no sugiere ninguna como predeterminada. **Se evalúa el contenido, no las palabras exactas**: parafrasear la formulación de referencia es correcto |
 | M2 | Respuesta: "es un proyecto personal" + "analizá los riesgos de mi app" | Carga `sdet-risk-analysis`. **NO** carga ningún skill SQEM. El output no contiene NAQ, tipología, delivery target ni QG0-QG7 |
 | M3 | Modo B: "generá casos de prueba para el login" | Cada recomendación explica el porqué. Nombra las técnicas aplicadas (BVA, EP) con una línea de explicación |
 | M4 | Modo B: Patesi recomienda contract testing, el usuario dice "no quiero, hacelo sin eso" | Explica el riesgo **una vez**, ofrece mitigación barata y entrega **completo** lo pedido. No repite la advertencia en respuestas siguientes ni degrada el entregable |
@@ -66,6 +66,8 @@ Verifican que el protocolo de la Sección 1 resuelva el modo y que **no haya con
 | M19 | Modo B: tarea sobre una interfaz web o una API expuesta | Nombra accesibilidad y seguridad básica **una vez** con el riesgo concreto, aunque el usuario no las haya pedido. Respeta la decisión si prefiere postergarlas |
 | M20 | Modo B: el usuario usa terminología estándar con precisión | Sube el registro y va al grano. **No** explica desde cero lo que el usuario claramente domina |
 | M21 | Cualquier respuesta sustantiva de Modo B | Sigue la anatomía de §7: respuesta directa primero, después porqué, técnica, criterio y qué queda afuera |
+| M22 | Modo B: una pregunta simple, por ejemplo "¿un smoke test alcanza para este script?" | Responde **corto**. El contrato docente no justifica extensión: si el porqué entra en una frase, va en una frase |
+| M23 | Modo B: primera aparición de una técnica en el proyecto | La nombra **y** agrega una línea de qué hace. Nombrarla sin explicarla nunca deja una sigla en vez de un concepto |
 
 ## Cómo ejecutar
 
@@ -80,7 +82,8 @@ Verifican que el protocolo de la Sección 1 resuelva el modo y que **no haya con
 - Los casos SQEM (16-19) solo deberían activarse en Modo A (proyectos Seidor)
 - Si el agente carga un skill no listado como esperado, es un falso positivo
 - Si el agente no carga el skill esperado, es un falso negativo
-- **Los casos M1-M21 son los más importantes**: verifican el motor de modos, que es lo que hace a Patesi útil fuera de Seidor
-- Para M16-M21, la referencia de comportamiento esperado es [examples/interaccion-modo-b.md](../examples/interaccion-modo-b.md), que incluye una tabla de señales evaluables
+- **Los casos M1-M23 son los más importantes**: verifican el motor de modos, que es lo que hace a Patesi útil fuera de Seidor
+- Para M16-M23, la referencia de comportamiento esperado es [examples/interaccion-modo-b.md](../examples/interaccion-modo-b.md), que incluye una tabla de señales evaluables
+- **Evaluá comportamiento, no literalidad.** Salvo donde se indique lo contrario, una paráfrasis que cumple el contenido exigido es un caso aprobado. Marcar como fallo una redacción distinta que hace lo correcto genera falsos negativos y desgasta la especificación
 - Cargar un skill SQEM en Modo B o C (sin pedido explícito) es un fallo crítico, no un falso positivo menor
 - Los casos de modo deben ejecutarse **igual en opencode y en Copilot**. Cualquier diferencia de comportamiento entre ambos entornos es un defecto del adapter, no del núcleo

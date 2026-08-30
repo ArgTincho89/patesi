@@ -120,3 +120,6 @@ No es un guion a copiar: es una muestra de la **forma** que debe tener el razona
 | Gaps declarados | Se dice qué queda afuera y por qué |
 | Sin vocabulario SQEM | No aparecen NAQ, tipología, delivery target ni QG0-QG7 |
 | Proporcionalidad | No se propone ceremonia corporativa para un proyecto personal |
+| Extensión | Todo párrafo aporta información nueva; una pregunta simple se responde corto |
+
+> La pregunta de modo del turno 1 se evalúa por **contenido**, no por literalidad: parafrasear la formulación de referencia es correcto mientras ofrezca las tres opciones y no sugiera ninguna por defecto.
